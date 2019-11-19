@@ -28,13 +28,13 @@ public class MadisonHotelApplication
         System.out.println("(3) Edit personal information");
         System.out.println("(0) Back to Login");
         System.out.print("Enter your choice: ");
-        int choice = in.nextInt();
-        while (choice < 0 || choice > 3)
+        int guestChoice = in.nextInt();
+        while (guestChoice < 0 || guestChoice > 3)
         {
             System.out.print("Please select a valid option: ");
-            choice = in.nextInt();
+            guestChoice = in.nextInt();
         }
-        switch(choice)
+        switch(guestChoice)
         {
             case 0: login();
                 break;
@@ -64,13 +64,13 @@ public class MadisonHotelApplication
         System.out.println("(5) Create or edit a room");
         System.out.println("(0) Back to Login");
         System.out.print("Enter your choice: ");
-        int choice = in.nextInt();
-        while (choice < 0 || choice > 5)
+        int employeeChoice = in.nextInt();
+        while (employeeChoice < 0 || employeeChoice > 5)
         {
             System.out.print("Please select a valid option: ");
-            choice = in.nextInt();
+            employeeChoice = in.nextInt();
         }
-        switch(choice)
+        switch(employeeChoice)
         {
             case 0: login();
                 break;
@@ -214,27 +214,26 @@ public class MadisonHotelApplication
         System.out.println("(2) Change guest Name");
         System.out.println("(0) Back to Guest Menu");
         System.out.print("Enter your choice: ");
-        int choice = in.nextInt();
-        while (choice < 0 || choice > 2)
+        int infoChoice = in.nextInt();
+        while (infoChoice < 0 || infoChoice > 2)
         {
             System.out.print("Please select a valid option: ");
-            choice = in.nextInt();
+            infoChoice = in.nextInt();
         }
-        switch(choice)
+        switch(infoChoice)
         {
             case 0: guestMenu(guest);
             case 1: System.out.println("Guest Username: " + Guest.guests[guest].getUsername());
-                editGuestInfo(guest);
                 break;
             case 2: System.out.println("Old Guest Name: " + Guest.guests[guest].getGuestName());
                 System.out.print("New Guest Name: ");
                 String name = in.next();
                 Guest.guests[guest].setGuestName(name);
                 System.out.println("Change confirmed.");
-                editGuestInfo(guest);
                 break;
             default: System.out.println("Please enter a valid option.");
-        }   
+        }
+        guestMenu(guest);
         
     }
     
