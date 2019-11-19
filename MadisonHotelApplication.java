@@ -206,34 +206,35 @@ public class MadisonHotelApplication
         }
         System.out.println("Here are the available rooms with your specifications: ");
         availableRooms(bed, kitch, coffee, accessibility);
+        System.out.print("Which room number would you like? ");
         int roomNumber = in.nextInt();
-
-        Room r = new Room(bed, kitch, coffee, accessibility, roomNumber);
-        Booking b = new Booking(Guest.guests[guest], r, 2019, 20, 20);
-        //System.out.println(r.roomAnalytics());
+        int roomSelected = 0;
+        for (int i = 0; i < Room.nextSpot(); i++)
+        {
+            if (Room.rooms[i].getRoomNumber() == roomNumber);
+            roomSelected = i;
+        }
+        Booking b = new Booking(Guest.guests[guest], Room.rooms[roomSelected], 2019, 20, 40);
+        System.out.println("Room " + roomNumber + " has succesfully been booked");
         guestMenu(guest);
     }
     public static void availableRooms(int bed, int kitch, int coffee, int accessibility)
     {
+        boolean real = true;
         for (int i = 0; i < Room.nextSpot(); i++)
         {
-            for (int j = 0; j < Room.rooms[i].bedOption.length; j++)
+            if ((Room.rooms[i].bedOption == bed) && (Room.rooms[i].kitchenOption == kitch) 
+                    && (Room.rooms[i].coffeeOption == coffee) 
+                    && (Room.rooms[i].accessibleOption == accessibility)
+                    && (!Room.rooms[i].isBooked() == false));
             {
-                for (int x = 0; x < Room.rooms[i].kitchenOption.length; x++)
-                {
-                    if ((Room.rooms[i].bedOption[j] == bed) 
-                            && (Room.rooms[i].kitchenOption[x] == kitch) 
-                            && (Room.rooms[i].coffeeOption[x] == coffee) 
-                            && (Room.rooms[i].accessibleOption[x] == accessibility))
-                    {
-                        System.out.println("Room Number: " + Room.rooms[i].getRoomNumber());
-                    }
-                    else
-                    {
-                        System.out.println("No room currently meets your requirements.");
-                    }
-                }
-            }     
+                System.out.println(Room.rooms[i].getRoomNumber());
+                real = false;
+            }
+        }
+        if (real)
+        {
+            System.out.println("There are currently no rooms with your requirements");
         }
     }
     public static void roomReport(int guest)
