@@ -10,6 +10,9 @@ public class MadisonHotelApplication
         Guest test2 = new Guest("Brendan", "pass", "brendan boyle");
         Guest test3 = new Guest("John", "pass", "johnny guo");
         Employee test4 = new Employee("Isaac", "pass", "isaac gamble");
+        Room test5 = new Room(0, 0, 0, 0, 100);
+        Room test6 = new Room(1, 1, 1, 1, 201);
+        Room test7 = new Room(2, 1, 0, 1, 302);
         
         login();
     }
@@ -192,13 +195,37 @@ public class MadisonHotelApplication
             System.out.print("Please select a valid option: ");
             accessibility = in.nextInt();
         }
-        System.out.println("What is your room number?");
+        System.out.println("Here are the available rooms with your specifications: ");
+        availableRooms(bed, kitch, coffee, accessibility);
         int roomNumber = in.nextInt();
 
         Room r = new Room(bed, kitch, coffee, accessibility, roomNumber);
         Booking b = new Booking(Guest.guests[guest], r, 2019, 20, 20);
         //System.out.println(r.roomAnalytics());
         guestMenu(guest);
+    }
+    public static void availableRooms(int bed, int kitch, int coffee, int accessibility)
+    {
+        for (int i = 0; i < Room.nextSpot(); i++)
+        {
+            for (int j = 0; j < Room.rooms[i].bedOption.length; j++)
+            {
+                for (int x = 0; x < Room.rooms[i].kitchenOption.length; x++)
+                {
+                    if ((Room.rooms[i].bedOption[j] == bed) 
+                            && (Room.rooms[i].kitchenOption[x] == kitch) 
+                            && (Room.rooms[i].coffeeOption[x] == coffee) 
+                            && (Room.rooms[i].accessibleOption[x] == accessibility))
+                    {
+                        System.out.println("Room Number: " + Room.rooms[i].getRoomNumber());
+                    }
+                    else
+                    {
+                        System.out.println("No room currently meets your requirements.");
+                    }
+                }
+            }     
+        }
     }
     public static void roomReport(int guest)
     {
