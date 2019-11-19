@@ -314,7 +314,7 @@ public class MadisonHotelApplication
         ValueGuest g = new ValueGuest(username, password, guestName);
         System.out.println("ValueGuest has been created");
         employeeMenu(employee);
-        
+        }
     }
     public static void createEmployeeAccount(int employee)
     {
