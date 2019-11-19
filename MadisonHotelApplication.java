@@ -241,6 +241,18 @@ public class MadisonHotelApplication
             System.out.println("There are currently no rooms with your specifications");
         }
     }
+    
+    public static boolean availableRoomNumber(int roomnumber) 
+    {
+        boolean available = true;
+        for (int i=0; i<= Room.nextSpot(); i++) {
+        if (Room.rooms[i].roomNumber == roomnumber) {
+            available = false;
+        }
+        }
+        return available;
+    }
+    
     public static void roomReport(int guest)
     {
         
@@ -333,9 +345,53 @@ public class MadisonHotelApplication
         System.out.println("Guest has been created");
         employeeMenu(employee);
     }
+    //in progress by AT
     public static void createOrEditRoom(int employee)
     {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Create or edit room?");
+        print();
+        System.out.print("(1) Create\n");
+        System.out.print("(2) Edit\n");
+        System.out.print("(0) Return to menu");
+        print();
+        int choice;
+        choice = in.nextInt();
+        switch(choice) {
+            case 1: 
+                System.out.print("Enter bed size: \n(0) 1 Queen Bed\n(1) 2 Queen Beds"
+                        + "\n(2) 1 King Bed");
+                print();
+                int bedchoice = in.nextInt();
+                System.out.print("Enter Kitchen Option: \n(0) Microwave \n"
+                        + "(1) Fridge + Microwave");
+                print();
+                int kitchenchoice = in.nextInt();
+                System.out.print("Enter coffee option: \n(0) 1-Cup Std. Coffee Machine"
+                        + "\n(1) Keurig Hot K200 Machine");
+                print();
+                int coffeechoice = in.nextInt();
+                System.out.print("Enter Accessibility Option: \n(0) Standard Room"
+                        + "\n(1) Enhanced Accessibility Room");
+                print();
+                int accesschoice = in.nextInt();
+                System.out.print("Enter room number: ");
+                int roomnumberchoice = in.nextInt();
+                //check to ensure entered room # is available
+                while (!(availableRoomNumber(roomnumberchoice))) {
+                    print();
+                    System.out.print("Sorry, that room number is taken! Enter valid room #");
+                    roomnumberchoice = in.nextInt();
+                }
+                Room newRoom = new Room(bedchoice, kitchenchoice, coffeechoice,
+                accesschoice, roomnumberchoice);
+                System.out.println("Success, room created!");
+                createOrEditRoom(employee);
+                break;
         
+        case 2: 
+            
+        }  
     }
     public static void print()
     {
