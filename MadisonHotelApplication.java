@@ -13,6 +13,7 @@ public class MadisonHotelApplication
         Room test5 = new Room(0, 0, 0, 0, 100);
         Room test6 = new Room(1, 1, 1, 1, 201);
         Room test7 = new Room(2, 1, 0, 1, 302);
+        ValueGuest test8 = new ValueGuest("George", "pass", "george123");
         
         login();
     }
