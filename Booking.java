@@ -28,6 +28,15 @@ public class Booking
     }
 
     // Methods
+    public String describeBooking()
+    {
+        String answer = "";
+        answer += ("Booking Guest: " + this.bookingGuest + "\nBooked Room: " 
+                + this.bookedRoom.roomDescription() + "\nBooking Year: " 
+                + this.bookingYear + "\nCheck in: " + this.checkInDay 
+                + "\nCheck Out: " + this.checkOutDay);
+        return answer;
+    }
     public void endBooking()
     {
         this.bookedRoom.freeThisRoom();
