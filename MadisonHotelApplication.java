@@ -15,6 +15,7 @@ public class MadisonHotelApplication
         Room test7 = new Room(2, 1, 0, 1, 302);
         ValueGuest test8 = new ValueGuest("George", "pass", "george moya");
         Room test9 = new Room(2, 0, 0, 0, 308);
+        Room test10 = new Room(1, 1, 1, 1, 400);
         
         login();
     }
@@ -207,17 +208,21 @@ public class MadisonHotelApplication
             accessibility = in.nextInt();
         }
         System.out.println("Here are the available rooms with your specifications: ");
-        availableRooms(bed, kitch, coffee, accessibility);
-        System.out.print("Which room number would you like? ");
-        int roomNumber = in.nextInt();
-        int roomSelected = 0;
-        for (int i = 0; i < Room.nextSpot(); i++)
+        boolean roomSaver = availableRooms(bed, kitch, coffee, accessibility);
+        if (roomSaver)
         {
-            if (Room.rooms[i].getRoomNumber() == roomNumber);
-            roomSelected = i;
+            System.out.print("Which room number would you like? ");
+            int roomNumber = in.nextInt();
+            for (int i = 0; i <= Room.nextSpot(); i++)
+            {
+                if (Room.rooms[i].getRoomNumber() == roomNumber);
+                {
+                    Room.rooms[i].bookRoom();
+                    Booking b = new Booking(Guest.guests[guest], Room.rooms[i], 2019, i + 10, i + 20);
+                }
+            }
+            System.out.println("Room " + roomNumber + " has succesfully been booked");
         }
-        Booking b = new Booking(Guest.guests[guest], Room.rooms[roomSelected], 2019, 20, 40);
-        System.out.println("Room " + roomNumber + " has succesfully been booked");
         guestMenu(guest);
     }
     public static void availableRooms(int bed, int kitch, int coffee, int accessibility)
@@ -294,7 +299,26 @@ public class MadisonHotelApplication
     // Employee Menu Choices
     public static void bookingReport(int employee)
     {
-        
+        Scanner in = new Scanner(System.in);
+        System.out.println("RUN A BOOKING REPORT");
+        System.out.print("Enter the username of the guest who's account is under the booking: ");
+        String username = in.nextLine();
+        int guestSpot = 0;
+        for (int i = 0; i <= Guest.nextSpot(); i++)
+        {
+            if (Guest.guests[i].getUsername().equalsIgnoreCase(username))
+            {
+                guestSpot = i;
+            }
+        }
+        for (int i = 0; i <= Booking.nextSpot(); i++)
+        {
+            if (Booking.bookings[i].bookingGuest.equals(Guest.guests[guestSpot]))
+            {
+                System.out.println(Booking.bookings[i].describeBooking());
+            }
+        }
+        employeeMenu(employee);
     }
     public static void checkGuestOut(int employee)
     {
