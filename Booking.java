@@ -30,7 +30,7 @@ public class Booking
     // Methods
     public void endBooking()
     {
-        System.out.println("end");
+        this.bookedRoom.freeThisRoom();
     }
     public static int nextSpot()
     {
