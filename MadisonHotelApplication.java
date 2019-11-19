@@ -145,7 +145,16 @@ public class MadisonHotelApplication
                     operator = false;
                     break;
                 }
-            }            
+            }
+            for (int i = 0; i <= ValueGuest.nextSpot(); i++)
+            {
+                if (ValueGuest.valueGuests[i].checkCredentials(username, password))
+                {
+                    guestMenu(i);
+                    operator = false;
+                    break;
+                }
+            }
         }
     }
     
