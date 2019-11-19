@@ -286,6 +286,7 @@ public class MadisonHotelApplication
         String password = in.next();
         Guest g = new Guest(username, password, guestName);
         System.out.println("Guest has been created");
+        employeeMenu(employee);
         
     }
     public static void createEmployeeAccount(int employee)
@@ -299,6 +300,7 @@ public class MadisonHotelApplication
         String password = in.next();
         Employee e = new Employee(username, password, employeeName);
         System.out.println("Guest has been created");
+        employeeMenu(employee);
     }
     public static void createOrEditRoom(int employee)
     {
