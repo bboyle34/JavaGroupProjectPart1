@@ -29,11 +29,22 @@ public class Room
         this.coffeeOption = coffee;
         this.accessibleOption = accessibility;
         this.roomNumber = roomNumber;
+        this.roomBooked = false;
         rooms[nextRoom++] = this;
-        this.bookRoom();
     }
 
     // Methods
+    public boolean isBooked()
+    {
+        if (this.roomBooked)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     public boolean bookRoom()
     {
         if (this.roomBooked == true)
