@@ -285,8 +285,12 @@ public class MadisonHotelApplication
     }
     public static void createGuestAccount(int employee)
     {
+       Scanner in = new Scanner(System.in);
+        System.out.println("Enter 1 if you are a Guest or 2 if you are a ValueGuest");
+        int value = in.nextInt();
         
-        Scanner in = new Scanner(System.in);
+        if(value == 1)
+        {//For regular guest
         System.out.print("What is the guest's name? ");
         String guestName = in.next();
         System.out.print("What is the guest's username? ");
@@ -295,6 +299,19 @@ public class MadisonHotelApplication
         String password = in.next();
         Guest g = new Guest(username, password, guestName);
         System.out.println("Guest has been created");
+        employeeMenu(employee);
+        }
+        
+        else if(value == 2)
+        {//For Valueguest creation
+        System.out.print("What is the guest's name? ");
+        String guestName = in.next();
+        System.out.print("What is the guest's username? ");
+        String username = in.next();
+        System.out.print("What is the guest's password? ");
+        String password = in.next();
+        ValueGuest g = new ValueGuest(username, password, guestName);
+        System.out.println("ValueGuest has been created");
         employeeMenu(employee);
         
     }
