@@ -222,20 +222,22 @@ public class MadisonHotelApplication
     public static void availableRooms(int bed, int kitch, int coffee, int accessibility)
     {
         boolean real = true;
-        for (int i = 0; i < Room.nextSpot(); i++)
+        for (int i = 0; i <= Room.nextSpot(); i++)
         {
-            if ((Room.rooms[i].bedOption == bed) && (Room.rooms[i].kitchenOption == kitch) 
+            if ((Room.rooms[i].bedOption == bed) 
+                    && (Room.rooms[i].kitchenOption == kitch) 
                     && (Room.rooms[i].coffeeOption == coffee) 
                     && (Room.rooms[i].accessibleOption == accessibility)
-                    && (!Room.rooms[i].isBooked() == false));
+                    && (Room.rooms[i].isBooked() == false)
+                    && (Room.rooms[i].getRoomActivity().equalsIgnoreCase("Active")))
             {
                 System.out.println(Room.rooms[i].getRoomNumber());
-                real = false;
-            }
+                real = false;            
+            }          
         }
         if (real)
         {
-            System.out.println("There are currently no rooms with your requirements");
+            System.out.println("There are currently no rooms with your specifications");
         }
     }
     public static void roomReport(int guest)
