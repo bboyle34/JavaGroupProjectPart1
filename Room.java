@@ -5,10 +5,10 @@ package GroupProject1;
 public class Room 
 {
     // Data Fields
-    public int bedOption[] = new int[3];
-    public int kitchenOption[] = new int[2];
-    public int coffeeOption[] = new int[2];
-    public int accessibleOption[] = new int[2];
+    public int bedOption;
+    public int kitchenOption;
+    public int coffeeOption;
+    public int accessibleOption;
     public int roomNumber;
     private int roomID;
     private int roomBookedQuantity;
@@ -24,10 +24,10 @@ public class Room
             int roomNumber)
     {
         this.roomID = nextID++;
-        this.bedOption[bed] = bed;
-        this.kitchenOption[kitch] = kitch;
-        this.coffeeOption[coffee] = coffee;
-        this.accessibleOption[accessibility] = accessibility;
+        this.bedOption = bed;
+        this.kitchenOption = kitch;
+        this.coffeeOption = coffee;
+        this.accessibleOption = accessibility;
         this.roomNumber = roomNumber;
         rooms[nextRoom++] = this;
         this.bookRoom();
