@@ -31,7 +31,7 @@ public class Booking
     public String describeBooking()
     {
         String answer = "";
-        answer += ("Booking Guest: " + this.bookingGuest + "\nBooked Room: " 
+        answer += ("Booking Guest: " + this.bookingGuest.describeGuest() + "\nBooked Room: " 
                 + this.bookedRoom.roomDescription() + "\nBooking Year: " 
                 + this.bookingYear + "\nCheck in: " + this.checkInDay 
                 + "\nCheck Out: " + this.checkOutDay);
