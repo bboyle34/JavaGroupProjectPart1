@@ -1,4 +1,3 @@
-
 package GroupProject1;
 // Class Definition File (CDF)
 
@@ -14,6 +13,7 @@ public class Room
     private int roomBookedQuantity;
     private boolean roomBooked;
     public double roomCostPerNight;
+    private String roomStatus;
     
     public static int nextID = 0;
     public static Room[] rooms = new Room[1000];
@@ -31,9 +31,21 @@ public class Room
         this.roomNumber = roomNumber;
         this.roomBooked = false;
         rooms[nextRoom++] = this;
+        this.roomStatus = "Active";
     }
 
     // Methods
+    public void setRoomActivity(String status)
+    {
+        this.roomStatus = status;
+    } 
+    
+    public String getRoomActivity()
+    {
+        return this.roomStatus;
+    }
+    
+    
     public boolean isBooked()
     {
         if (this.roomBooked)
