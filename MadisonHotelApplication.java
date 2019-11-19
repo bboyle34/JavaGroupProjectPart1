@@ -195,7 +195,8 @@ public class MadisonHotelApplication
         System.out.println("What is your room number?");
         int roomNumber = in.nextInt();
 
-        //Room r = new Room(bed, kitch, coffee, accessibility, roomNumber);
+        Room r = new Room(bed, kitch, coffee, accessibility, roomNumber);
+        Booking b = new Booking(Guest.guests[guest], r, 2019, 20, 20);
         //System.out.println(r.roomAnalytics());
         guestMenu(guest);
     }
@@ -249,10 +250,28 @@ public class MadisonHotelApplication
     public static void createGuestAccount(int employee)
     {
         
+        Scanner in = new Scanner(System.in);
+        System.out.print("What is the guest's name? ");
+        String guestName = in.next();
+        System.out.print("What is the guest's username? ");
+        String username = in.next();
+        System.out.print("What is the guest's password? ");
+        String password = in.next();
+        Guest g = new Guest(username, password, guestName);
+        System.out.println("Guest has been created");
+        
     }
     public static void createEmployeeAccount(int employee)
     {
-        
+        Scanner in = new Scanner(System.in);
+        System.out.print("What is the employee's name? ");
+        String employeeName = in.next();
+        System.out.print("What is the employee's username? ");
+        String username = in.next();
+        System.out.print("What is the guest's password? ");
+        String password = in.next();
+        Employee e = new Employee(username, password, employeeName);
+        System.out.println("Guest has been created");
     }
     public static void createOrEditRoom(int employee)
     {
