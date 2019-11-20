@@ -11,8 +11,6 @@ public class Guest
     private String guestName;
     
     public static int nextID = 0;
-    public static Guest[] guests = new Guest[1000];
-    public static int nextGuest = 0;
 
     // Constructors
     public Guest(String username, String password, String guestName)
@@ -21,7 +19,6 @@ public class Guest
         this.username = username;
         this.password = password;
         this.guestName = guestName;
-        guests[nextGuest++] = this;
     }
 
     // Methods
@@ -62,14 +59,5 @@ public class Guest
         answer += ("Guest Name: " + this.getGuestName() 
                 + ", Guest Username: " + this.getUsername());
         return answer;
-    }
-    public static int nextSpot()
-    {
-        int position = 0;
-        while (guests[position + 1] != null)
-        {
-            position++;
-        }
-        return position;
     }
 }
