@@ -1,5 +1,5 @@
 package GroupProject1;
-import java.util.Scanner;
+import java.util.*;
 
 public class MadisonHotelApplication 
 {
