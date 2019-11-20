@@ -3,18 +3,35 @@ import java.util.Scanner;
 
 public class MadisonHotelApplication 
 {
+    static ArrayList<Employee> employees = new ArrayList<Employee>();
+    static ArrayList<Guest> guests = new ArrayList<Guest>();
+    static ArrayList<ValueGuest> valueGuests = new ArrayList<ValueGuest>();
+    static ArrayList<Booking> bookings = new ArrayList<Booking>();
+    static ArrayList<Room> rooms = new ArrayList<Room>();
+    
     public static void main(String[] args) 
     {
-        Employee test1 = new Employee("Adam", "pass", "adam hitchings");
-        Guest test2 = new Guest("Brendan", "pass", "brendan boyle");
-        Guest test3 = new Guest("John", "pass", "johnny guo");
-        Employee test4 = new Employee("Isaac", "pass", "isaac gamble");
-        Room test5 = new Room(0, 0, 0, 0, 100);
-        Room test6 = new Room(1, 1, 1, 1, 201);
-        Room test7 = new Room(2, 1, 0, 1, 302);
-        ValueGuest test8 = new ValueGuest("George", "pass", "george moya");
-        Room test9 = new Room(2, 0, 0, 0, 308);
-        Room test10 = new Room(1, 1, 1, 1, 400);
+        Employee employee1 = new Employee("Adam", "pass", "adam hitchings");
+        employees.add(employee1);
+        Guest guest1 = new Guest("Brendan", "pass", "brendan boyle");
+        guests.add(guest1);
+        Guest guest2 = new Guest("John", "pass", "johnny guo");
+        guests.add(guest2);
+        Employee employee2 = new Employee("Isaac", "pass", "isaac gamble");
+        employees.add(employee2);
+        Room room1 = new Room(0, 0, 0, 0, 100);
+        rooms.add(room1);
+        Room room2 = new Room(1, 1, 1, 1, 201);
+        rooms.add(room2);
+        Room room3 = new Room(2, 1, 0, 1, 302);
+        rooms.add(room3);
+        ValueGuest valueGuest1 = new ValueGuest("George", "pass", "george moya");
+        valueGuests.add(valueGuest1);
+        Room room4 = new Room(2, 0, 0, 0, 308);
+        rooms.add(room4);
+        Room room5 = new Room(1, 1, 1, 1, 400);
+        rooms.add(room5);
+        
         
         login();
     }
@@ -25,7 +42,7 @@ public class MadisonHotelApplication
         // display information about they account they logged into
         System.out.println("---------------------------------------------");
         System.out.println("\tGUEST MENU");
-        System.out.println(Guest.guests[guest].describeGuest());
+        System.out.println(guests.get(guest).describeGuest());
         Scanner in = new Scanner(System.in);
         print();
         System.out.println("(1) Book a room");
@@ -59,7 +76,7 @@ public class MadisonHotelApplication
         // display informaiton about the account they logged into
         System.out.println("---------------------------------------------");
         System.out.println("\tEMPLOYEE MENU");
-        System.out.println(Employee.employees[employee].describeEmployee());
+        System.out.println(employees.get(employee).describeEmployee());
         Scanner in = new Scanner(System.in);
         print();
         System.out.println("(1) Run booking report");
@@ -130,27 +147,27 @@ public class MadisonHotelApplication
             String username = in.next();
             System.out.print("Please enter password: ");
             String password = in.next();
-            for (int i = 0; i <= Employee.nextSpot(); i++)
+            for (int i = 0; i < employees.size(); i++)
             {
-                if (Employee.employees[i].checkCredentials(username, password))
+                if (employees.get(i).checkCredentials(username, password))
                 {
                     employeeMenu(i);
                     operator = false;
                     break;
                 }
             }
-            for (int i = 0; i <= Guest.nextSpot(); i++)
+            for (int i = 0; i < guests.size(); i++)
             {
-                if (Guest.guests[i].checkCredentials(username, password))
+                if (guests.get(i).checkCredentials(username, password))
                 {
                     guestMenu(i);
                     operator = false;
                     break;
                 }
             }
-            for (int i = 0; i <= ValueGuest.nextSpot(); i++)
+            for (int i = 0; i < valueGuests.size(); i++)
             {
-                if (ValueGuest.valueGuests[i].checkCredentials(username, password))
+                if (valueGuests.get(i).checkCredentials(username, password))
                 {
                     guestMenu(i);
                     operator = false;
@@ -212,12 +229,13 @@ public class MadisonHotelApplication
         {
             System.out.print("Which room number would you like? ");
             int roomNumber = in.nextInt();
-            for (int i = 0; i <= Room.nextSpot(); i++)
+            for (int i = 0; i < rooms.size(); i++)
             {
-                if (Room.rooms[i].getRoomNumber() == roomNumber);
+                if (rooms.get(i).getRoomNumber() == roomNumber);
                 {
-                    Room.rooms[i].bookRoom();
-                    Booking b = new Booking(Guest.guests[guest], Room.rooms[i], 2019, i + 10, i + 20);
+                    rooms.get(i).bookRoom();
+                    Booking b = new Booking(guests.get(guest), rooms.get(i), 2019, i + 10, i + 20);
+                    bookings.add(b);
                 }
             }
             System.out.println("Room " + roomNumber + " has succesfully been booked");
@@ -227,25 +245,29 @@ public class MadisonHotelApplication
     public static void availableRooms(int bed, int kitch, int coffee, int accessibility)
     {
         boolean real = true;
-        for (int i = 0; i <= Room.nextSpot(); i++)
+        for (int i = 0; i < rooms.size(); i++)
         {
-            if ((Room.rooms[i].bedOption == bed) 
-                    && (Room.rooms[i].kitchenOption == kitch) 
-                    && (Room.rooms[i].coffeeOption == coffee) 
-                    && (Room.rooms[i].accessibleOption == accessibility)
-                    && (Room.rooms[i].isBooked() == false)
-                    && (Room.rooms[i].getRoomActivity().equalsIgnoreCase("Active")))
+            if ((rooms.get(i).bedOption == bed) 
+                    && (rooms.get(i).kitchenOption == kitch) 
+                    && (rooms.get(i).coffeeOption == coffee) 
+                    && (rooms.get(i).accessibleOption == accessibility)
+                    && (rooms.get(i).isBooked() == false)
+                    && (rooms.get(i).getRoomActivity().equalsIgnoreCase("Active")))
             {
-                System.out.println(Room.rooms[i].getRoomNumber());
+                System.out.println(rooms.get(i).getRoomNumber());
                 real = false;            
             }          
         }
         if (real)
         {
             System.out.println("There are currently no rooms with your specifications");
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
-    
     public static boolean availableRoomNumber(int roomnumber) 
     {
         boolean available = true;
@@ -255,35 +277,30 @@ public class MadisonHotelApplication
         }
         }
         return available;
-    }
-    
+    }    
     public static void roomReport(int guest)
     {
-        Scanner in = new Scanner(System.in);
+         Scanner in = new Scanner(System.in);
         System.out.println("Select a Room:");
-        
-        for (int i = 0; i < Room.rooms.length; i++)
+
+        for (int i = 0; i < rooms.size(); i++)
         {
-            System.out.println("[" + i + "] " + Room.rooms[i].roomNumber);
+            System.out.println("[" + i + "] " + rooms.get(i).roomNumber);
         }
         System.out.println("Select: ");
         int temp = in.nextInt();
-        
-        if (temp > 0 && temp < Room.rooms.length)
+
+        if (temp > 0 && temp < rooms.size())
         {
-            for (int j = 0; j < Room.rooms.length; j++)
+            for (int j = 0; j < rooms.size(); j++)
             {
                 if (temp == j)
                 {
-                    System.out.println("[" + j + "] " + Room.rooms[j].roomNumber);
+                    System.out.println("[" + j + "] " + rooms.get(j).roomNumber);
                     // trying to figure out how to describe the room
                 }
             }
-            
         }
-        
-        
-        
     }
     public static void editGuestInfo(int guest)
     {
@@ -305,12 +322,12 @@ public class MadisonHotelApplication
         switch(infoChoice)
         {
             case 0: guestMenu(guest);
-            case 1: System.out.println("Guest Username: " + Guest.guests[guest].getUsername());
+            case 1: System.out.println("Guest Username: " + guests.get(guest).getUsername());
                 break;
-            case 2: System.out.println("Old Guest Name: " + Guest.guests[guest].getGuestName());
+            case 2: System.out.println("Old Guest Name: " + guests.get(guest).getGuestName());
                 System.out.print("New Guest Name: ");
                 String name = in.next();
-                Guest.guests[guest].setGuestName(name);
+                guests.get(guest).setGuestName(name);
                 System.out.println("Change confirmed.");
                 break;
             default: System.out.println("Please enter a valid option.");
@@ -318,7 +335,6 @@ public class MadisonHotelApplication
         guestMenu(guest);
         
     }
-    
     // Employee Menu Choices
     public static void bookingReport(int employee)
     {
@@ -327,18 +343,18 @@ public class MadisonHotelApplication
         System.out.print("Enter the username of the guest who's account is under the booking: ");
         String username = in.nextLine();
         int guestSpot = 0;
-        for (int i = 0; i <= Guest.nextSpot(); i++)
+        for (int i = 0; i < guests.size(); i++)
         {
-            if (Guest.guests[i].getUsername().equalsIgnoreCase(username))
+            if (guests.get(i).getUsername().equalsIgnoreCase(username))
             {
                 guestSpot = i;
             }
         }
-        for (int i = 0; i <= Booking.nextSpot(); i++)
+        for (int i = 0; i < bookings.size(); i++)
         {
-            if (Booking.bookings[i].bookingGuest.equals(Guest.guests[guestSpot]))
+            if (bookings.get(i).bookingGuest.equals(guests.get(guestSpot)))
             {
-                System.out.println(Booking.bookings[i].describeBooking());
+                System.out.println(bookings.get(i).describeBooking());
             }
         }
         employeeMenu(employee);
@@ -355,29 +371,31 @@ public class MadisonHotelApplication
         
         if(value == 1)
         {//For regular guest
-        System.out.print("What is the guest's name? ");
-        String guestName = in.next();
-        System.out.print("What is the guest's username? ");
-        String username = in.next();
-        System.out.print("What is the guest's password? ");
-        String password = in.next();
-        Guest g = new Guest(username, password, guestName);
-        System.out.println("Guest has been created");
-        employeeMenu(employee);
+            System.out.print("What is the guest's name? ");
+            String guestName = in.next();
+            System.out.print("What is the guest's username? ");
+            String username = in.next();
+            System.out.print("What is the guest's password? ");
+            String password = in.next();
+            Guest g = new Guest(username, password, guestName);
+            guests.add(g);
+            System.out.println("Guest has been created");
+            employeeMenu(employee);
         }
         
         else if(value == 2)
         {//For Valueguest creation
-        System.out.print("What is the guest's name? ");
-        String guestName = in.next();
-        System.out.print("What is the guest's username? ");
-        String username = in.next();
-        System.out.print("What is the guest's password? ");
-        String password = in.next();
-        ValueGuest g = new ValueGuest(username, password, guestName);
-        System.out.println("ValueGuest has been created");
-        employeeMenu(employee);
-        }
+            System.out.print("What is the guest's name? ");
+            String guestName = in.next();
+            System.out.print("What is the guest's username? ");
+            String username = in.next();
+            System.out.print("What is the guest's password? ");
+            String password = in.next();
+            ValueGuest v = new ValueGuest(username, password, guestName);
+            valueGuests.add(v);
+            System.out.println("ValueGuest has been created");
+            employeeMenu(employee);
+        }        
     }
     public static void createEmployeeAccount(int employee)
     {
@@ -389,6 +407,7 @@ public class MadisonHotelApplication
         System.out.print("What is the guest's password? ");
         String password = in.next();
         Employee e = new Employee(username, password, employeeName);
+        employees.add(e);
         System.out.println("Guest has been created");
         employeeMenu(employee);
     }
