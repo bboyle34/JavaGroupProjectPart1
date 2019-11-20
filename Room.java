@@ -100,13 +100,73 @@ public class Room
                 + "\nIs Room currently booked? " + booked); 
         return answer;
     }
-    public String roomDescription()
+      public String roomDescription()
     {
         String answer = "";
         answer += ("Room Number: " + this.getRoomNumber() 
-                + "");
+                + "\n" + "Bed is: " + this.printBedOption() +"\n"
+                + "Kitchen is: " + this.printKitchOption() + "\n"
+                + "Coffee machine is: " + this.printCoffeeOption() + "\n"
+                + "Accessibility option is: " + this.printAccessOption() + "\n"
+                + "Room booked status: " + this.printRoomBooked() + "\n"
+                + "Room cost per night is: " + this.roomCostPerNight + "\n");    
         return answer;
     }
+    public String printBedOption()
+    {
+        String bed = "";
+        if(this.bedOption == 0)
+            bed += "1 Queen bed";
+        
+        else if(this.bedOption == 1)
+            bed+= "2 Queen beds";
+        
+        else if(this.bedOption == 2)
+            bed+= "1 King bed";
+        
+        return bed;
+    }
+    
+    public String printKitchOption()
+    {
+        String kitch = "";
+        if(this.kitchenOption == 0)
+            kitch += "Microwave";
+        else if(this.kitchenOption == 1)
+            kitch += "Fridge + Microwave";
+        return kitch;
+    }
+    
+    public String printCoffeeOption()
+    {
+        String coffee = "";
+        if(this.coffeeOption == 0)
+            coffee += "1-Cup Std. Coffee Machine";
+        else if(this.coffeeOption == 1)
+            coffee += "Keurig Hot K200 Machine";
+        return coffee;
+    }
+    
+    public String printAccessOption()
+    {
+        String access = "";
+        if(this.accessibleOption == 0)
+            access += "Standard Room";
+        else if(this.accessibleOption == 1)
+            access += "Enhanced Accessibility Room";
+        return access;
+    }
+    
+    public String printRoomBooked()
+    {
+        String check = "";
+        if(roomBooked == false)
+            check += "Room not booked";
+        else if(roomBooked == true)
+            check += "Room is booked";
+        return check;
+    }
+    
     public boolean setRoomNumber(int roomNumber)
     {
         this.roomNumber = roomNumber;
