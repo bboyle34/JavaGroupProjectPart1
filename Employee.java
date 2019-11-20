@@ -11,8 +11,6 @@ public class Employee
     private String employeeName;
     
     public static int nextID = 0;    
-    public static Employee[] employees = new Employee[1000];
-    public static int nextEmployee = 0;
 
     // Constructors
     public Employee(String username, String password, String employeeName)
@@ -21,7 +19,6 @@ public class Employee
         this.username = username;
         this.password = password;
         this.employeeName = employeeName;
-        employees[nextEmployee++] = this;
     }
 
     // Methods
@@ -62,14 +59,5 @@ public class Employee
         answer += ("Employee Name: " + this.getEmployeeName() 
                 + ", Employee Username: " + this.getUsername());
         return answer;
-    }
-    public static int nextSpot()
-    {
-        int position = 0;
-        while (employees[position + 1] != null)
-        {
-            position++;
-        }
-        return position;
     }
 }
