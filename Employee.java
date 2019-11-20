@@ -2,23 +2,23 @@
 package GroupProject1;
 // Class Definition File (CDF)
 
-public class Employee 
+public class Guest 
 {
     // Data Fields
-    private int employeeID;
+    private int guestID;
     private String username;
     private String password;
-    private String employeeName;
+    private String guestName;
     
-    public static int nextID = 0;    
+    public static int nextID = 0;
 
     // Constructors
-    public Employee(String username, String password, String employeeName)
+    public Guest(String username, String password, String guestName)
     {
-        this.employeeID = nextID++;
+        this.guestID = nextID++;
         this.username = username;
         this.password = password;
-        this.employeeName = employeeName;
+        this.guestName = guestName;
     }
 
     // Methods
@@ -33,17 +33,17 @@ public class Employee
             return false;
         }
     }
-    public String getEmployeeName()
+    public String getGuestName()
     {
-        return this.employeeName;
+        return this.guestName;
     }
     public String getUsername()
     {
         return this.username;
     }
-    public void setEmployeeName(String employeeName)
+    public void setGuestName(String guestName)
     {
-        this.employeeName = employeeName;
+        this.guestName = guestName;
     }
     public int setPassword(String oldP, String newP)
     {
@@ -53,11 +53,11 @@ public class Employee
         }
         return 0;
     }
-    public String describeEmployee()
+    public String describeGuest()
     {
         String answer = "";
-        answer += ("Employee Name: " + this.getEmployeeName() 
-                + ", Employee Username: " + this.getUsername());
+        answer += ("Guest Name: " + this.getGuestName() 
+                + ", Guest Username: " + this.getUsername());
         return answer;
     }
 }
