@@ -531,7 +531,7 @@ public class MadisonHotelApplication
                     editRoom(rooms.get(i), employee);
                 }
             }
-            
+            break;
         case 3:
             //Make room inactive -- add check for if room is booked before allowing activation
             System.out.print("Activate or Deactivate a room?\n (1) Deactivate\n (2) Activate"
@@ -584,6 +584,8 @@ public class MadisonHotelApplication
                     System.out.print("Sorry, invalid choice! Returning to previous menu.");
                     createOrEditRoom(employee);
             }
+            createOrEditRoom(employee);
+            break;
         case 0:
             employeeMenu(employee);
             break;
