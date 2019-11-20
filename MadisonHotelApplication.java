@@ -231,11 +231,9 @@ public class MadisonHotelApplication
             int roomNumber = in.nextInt();
             for (int i = 0; i < rooms.size(); i++)
             {
-                Integer temp = new Integer(rooms.get(i).getRoomNumber());
-                Integer roomNum = new Integer(roomNumber);                
-                if (temp.equals(roomNum));
+                int temp = rooms.get(i).getRoomNumber();
+                if (temp == roomNumber)
                 {
-                    System.out.println(rooms.get(i).getRoomNumber() + " = " + roomNumber);
                     rooms.get(i).bookRoom();
                     Booking b = new Booking(guests.get(guest), rooms.get(i), 2019, i + 10, i + 20);
                     bookings.add(b);
