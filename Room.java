@@ -16,8 +16,6 @@ public class Room
     private String roomStatus;
     
     public static int nextID = 0;
-    public static Room[] rooms = new Room[1000];
-    public static int nextRoom = 0;
 
     // Constructors
     public Room(int bed, int kitch, int coffee, int accessibility, 
@@ -30,7 +28,6 @@ public class Room
         this.accessibleOption = accessibility;
         this.roomNumber = roomNumber;
         this.roomBooked = false;
-        rooms[nextRoom++] = this;
         this.roomStatus = "Active";
     }
 
@@ -113,14 +110,5 @@ public class Room
     {
         this.roomNumber = roomNumber;
         return false;
-    }
-    public static int nextSpot()
-    {
-        int position = 0;
-        while (rooms[position + 1] != null)
-        {
-            position++;
-        }
-        return position;
     }
 }
