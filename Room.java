@@ -19,7 +19,7 @@ public class Room
 
     // Constructors
     public Room(int bed, int kitch, int coffee, int accessibility, 
-            int roomNumber)
+            int roomNumber, double roomCostPerNight)
     {
         this.roomID = nextID++;
         this.bedOption = bed;
@@ -29,6 +29,8 @@ public class Room
         this.roomNumber = roomNumber;
         this.roomBooked = false;
         this.roomStatus = "Active";
+        this.roomBookedQuantity = 0;
+        this.roomCostPerNight = roomCostPerNight;
     }
 
     // Methods
