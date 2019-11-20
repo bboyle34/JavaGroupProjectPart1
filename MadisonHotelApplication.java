@@ -287,27 +287,23 @@ public class MadisonHotelApplication
     }    
     public static void roomReport(int guest)
     {
-         Scanner in = new Scanner(System.in);
+        Scanner in = new Scanner(System.in);
         System.out.println("Select a Room:");
 
         for (int i = 0; i < rooms.size(); i++)
         {
-            System.out.println("[" + i + "] " + rooms.get(i).roomNumber);
+            System.out.println(rooms.get(i).roomNumber);
         }
         System.out.println("Select: ");
-        int temp = in.nextInt();
-
-        if (temp > 0 && temp < rooms.size())
+        int roomNumber = in.nextInt();
+        for (int i = 0; i < rooms.size(); i++)
         {
-            for (int j = 0; j < rooms.size(); j++)
+            if (rooms.get(i).getRoomNumber() == roomNumber)
             {
-                if (temp == j)
-                {
-                    System.out.println("[" + j + "] " + rooms.get(j).roomNumber);
-                    // trying to figure out how to describe the room
-                }
+                System.out.println(rooms.get(i).roomDescription());
             }
-        }
+        }        
+        guestMenu(guest);
     }
     public static void editGuestInfo(int guest)
     {
