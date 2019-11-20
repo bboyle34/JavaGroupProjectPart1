@@ -12,8 +12,6 @@ public class Booking
     public int checkOutDay;
     
     public static int nextID = 0;
-    public static Booking[] bookings = new Booking[1000];
-    public static int nextBooking = 0;
 
     // Constructors
     public Booking(Guest bookingGuest, Room bookedRoom, int year, int checkIn, 
@@ -24,7 +22,6 @@ public class Booking
         this.bookingYear = year;
         this.checkInDay = checkIn;
         this.checkOutDay = checkOut;
-        bookings[nextBooking++] = this;
     }
 
     // Methods
@@ -40,14 +37,5 @@ public class Booking
     public void endBooking()
     {
         this.bookedRoom.freeThisRoom();
-    }
-    public static int nextSpot()
-    {
-        int position = 0;
-        while (bookings[position + 1] != null)
-        {
-            position++;
-        }
-        return position;
     }
 }
