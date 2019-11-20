@@ -19,17 +19,17 @@ public class MadisonHotelApplication
         guests.add(guest2);
         Employee employee2 = new Employee("Isaac", "pass", "isaac gamble");
         employees.add(employee2);
-        Room room1 = new Room(0, 0, 0, 0, 100);
+        Room room1 = new Room(0, 0, 0, 0, 100, 200.0);
         rooms.add(room1);
-        Room room2 = new Room(1, 1, 1, 1, 201);
+        Room room2 = new Room(1, 1, 1, 1, 201, 200.0);
         rooms.add(room2);
-        Room room3 = new Room(2, 1, 0, 1, 302);
+        Room room3 = new Room(2, 1, 0, 1, 302, 300.0);
         rooms.add(room3);
         ValueGuest valueGuest1 = new ValueGuest("George", "pass", "george moya");
         valueGuests.add(valueGuest1);
-        Room room4 = new Room(2, 0, 0, 0, 308);
+        Room room4 = new Room(2, 0, 0, 0, 308, 150.0);
         rooms.add(room4);
-        Room room5 = new Room(1, 1, 1, 1, 400);
+        Room room5 = new Room(1, 1, 1, 1, 400, 250.0);
         rooms.add(room5);
         
         
