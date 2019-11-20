@@ -376,7 +376,11 @@ public class MadisonHotelApplication
        Scanner in = new Scanner(System.in);
         System.out.println("Enter 1 if you are a Guest or 2 if you are a ValueGuest");
         int value = in.nextInt();
-        
+           while (value < 1 || value > 2)
+        {
+            System.out.print("Please select a valid option: ");
+            value = in.nextInt();
+        }
         if(value == 1)
         {//For regular guest
             System.out.print("What is the guest's name? ");
