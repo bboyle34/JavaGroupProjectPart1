@@ -243,7 +243,7 @@ public class MadisonHotelApplication
         }
         guestMenu(guest);
     }
-    public static void availableRooms(int bed, int kitch, int coffee, int accessibility)
+    public static boolean availableRooms(int bed, int kitch, int coffee, int accessibility)
     {
         boolean real = true;
         for (int i = 0; i < rooms.size(); i++)
