@@ -231,8 +231,11 @@ public class MadisonHotelApplication
             int roomNumber = in.nextInt();
             for (int i = 0; i < rooms.size(); i++)
             {
-                if (rooms.get(i).getRoomNumber() == roomNumber);
+                Integer temp = new Integer(rooms.get(i).getRoomNumber());
+                Integer roomNum = new Integer(roomNumber);                
+                if (temp.equals(roomNum));
                 {
+                    System.out.println(rooms.get(i).getRoomNumber() + " = " + roomNumber);
                     rooms.get(i).bookRoom();
                     Booking b = new Booking(guests.get(guest), rooms.get(i), 2019, i + 10, i + 20);
                     bookings.add(b);
@@ -361,7 +364,14 @@ public class MadisonHotelApplication
     }
     public static void checkGuestOut(int employee)
     {
+        Scanner in = new Scanner(System.in);
+        System.out.print("Please enter the username of the guest you would like to check out: ");
+        String username = in.next();
+        System.out.print("Please enter the room number they are checking out of: ");
+        int roomNumber = in.nextInt();
+        //double for loop
         
+        employeeMenu(employee);
     }
     public static void createGuestAccount(int employee)
     {
