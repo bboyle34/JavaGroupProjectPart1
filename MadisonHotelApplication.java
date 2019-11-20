@@ -1,4 +1,3 @@
-
 package GroupProject1;
 import java.util.Scanner;
 
@@ -260,6 +259,30 @@ public class MadisonHotelApplication
     
     public static void roomReport(int guest)
     {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Select a Room:");
+        
+        for (int i = 0; i < Room.rooms.length; i++)
+        {
+            System.out.println("[" + i + "] " + Room.rooms[i].roomNumber);
+        }
+        System.out.println("Select: ");
+        int temp = in.nextInt();
+        
+        if (temp > 0 && temp < Room.rooms.length)
+        {
+            for (int j = 0; j < Room.rooms.length; j++)
+            {
+                if (temp == j)
+                {
+                    System.out.println("[" + j + "] " + Room.rooms[j].roomNumber);
+                    // trying to figure out how to describe the room
+                }
+            }
+            
+        }
+        
+        
         
     }
     public static void editGuestInfo(int guest)
