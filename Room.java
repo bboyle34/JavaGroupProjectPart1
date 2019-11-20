@@ -97,8 +97,7 @@ public class Room
         {
             booked = "No";
         }
-        answer += ("Room Number: " + this.getRoomNumber() 
-                + "\nNumber of times booked: " + this.getRoomBookedQuantity()
+        answer += ("Number of times booked: " + this.getRoomBookedQuantity()
                 + "\nIs Room currently booked? " + booked); 
         return answer;
     }
@@ -111,7 +110,8 @@ public class Room
                 + "Coffee machine is: " + this.printCoffeeOption() + "\n"
                 + "Accessibility option is: " + this.printAccessOption() + "\n"
                 + "Room booked status: " + this.printRoomBooked() + "\n"
-                + "Room cost per night is: " + this.roomCostPerNight + "\n");    
+                + "Room cost per night is: " + this.roomCostPerNight + "\n"); 
+          answer += this.roomAnalytics();
         return answer;
     }
     public String printBedOption()
