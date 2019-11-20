@@ -367,8 +367,31 @@ public class MadisonHotelApplication
         String username = in.next();
         System.out.print("Please enter the room number they are checking out of: ");
         int roomNumber = in.nextInt();
-        //double for loop
-        
+        int guestSpot = 0;
+        for (int i = 0; i < guests.size(); i++)
+        {
+            if (guests.get(i).getUsername().equalsIgnoreCase(username))
+            {
+                guestSpot = i;
+            }
+        }
+        int roomSpot = 0;
+        for (int i = 0; i < rooms.size(); i++)
+        {
+            if (rooms.get(i).getRoomNumber() == roomNumber)
+            {
+                roomSpot = i;
+            }
+        }
+        for (int i = 0; i < bookings.size(); i++)
+        {
+            if (bookings.get(i).bookingGuest.equals(guests.get(guestSpot))
+                    && bookings.get(i).bookedRoom.equals(rooms.get(roomSpot)))
+            {
+                rooms.get(roomSpot).freeThisRoom();
+                bookings.remove(i);
+            }
+        }        
         employeeMenu(employee);
     }
     public static void createGuestAccount(int employee)
