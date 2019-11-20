@@ -174,6 +174,12 @@ public class MadisonHotelApplication
                     break;
                 }
             }
+            if (operator)
+            {
+                print();
+                System.out.println("Please enter a valid guest "
+                        + "or employee username and password.");
+            }
         }
     }
     
