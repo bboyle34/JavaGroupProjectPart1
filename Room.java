@@ -63,6 +63,7 @@ public class Room
         else
         {
             this.roomBooked = true;
+            this.roomBookedQuantity++;
             return this.roomBooked;
         }
     }
