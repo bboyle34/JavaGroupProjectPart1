@@ -476,6 +476,7 @@ public class MadisonHotelApplication
             guests.add(g);
             print();
             System.out.println("Guest has been created");
+            print();
             employeeMenu(employee);
         }       
         else if(value == 2)
@@ -492,6 +493,7 @@ public class MadisonHotelApplication
             ValueGuest v = new ValueGuest(username, password, guestName);
             valueGuests.add(v);
             System.out.println("ValueGuest has been created");
+            print();
             employeeMenu(employee);
         }        
     }
