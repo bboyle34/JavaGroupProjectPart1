@@ -399,7 +399,7 @@ public class MadisonHotelApplication
             System.out.println("Please select one of the Guest's rooms to run a booking report on: ");
             for (int i = 0; i < bookings.size(); i++)
             {
-                if (bookings.get(i).bookingGuest.equals(Guest.guests.get(username)))
+                if (bookings.get(i).bookingGuest.equals(guests.get(username)))
                 {
                     System.out.println("[" + i + "] " + bookings.get(i).bookedRoom.getRoomNumber());
                 }
@@ -442,16 +442,17 @@ public class MadisonHotelApplication
         }
         room = in.nextInt();
         int book = 0;
-        for (int i = 0; i < Booking.bookings.size(); i++)
+        for (int i = 0; i < bookings.size(); i++)
         {
             if (bookings.get(i).bookingGuest.equals(guests.get(username))
                     && bookings.get(i).bookedRoom.equals(rooms.get(room)))
             {
                 bookings.get(i).endBooking();
+                bookings.remove(i);
                 book = i;
             }
         } 
-        System.out.println(bookings.get(book).bookingGuest.getUsername() 
+        System.out.println(bookings.get(book).bookingGuest.getUsername()
                 + " has been checked out of " + bookings.get(book).bookedRoom.getRoomNumber());
         employeeMenu(employee);
     }
