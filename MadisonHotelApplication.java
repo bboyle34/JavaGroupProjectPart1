@@ -415,42 +415,32 @@ public class MadisonHotelApplication
         System.out.println("CHECK GUEST OUT");
         System.out.println("---------------------------------------------");
         print();
-        System.out.print("Please enter the username of the guest you would like to check out: ");
-        String username = in.next();
-        System.out.print("Please enter the room number they are checking out of: ");
-        int roomNumber = in.nextInt();
-        print();
-        int guestSpot = 0;
+        int username = 0;
+        System.out.println("Please select one of the Guest's usernames below: ");
         for (int i = 0; i < guests.size(); i++)
         {
-            if (guests.get(i).getUsername().equalsIgnoreCase(username))
-            {
-                guestSpot = i;
-            }
-            else 
-            {
-                System.out.println("Sorry, the user you selected is not in the "
-                    + "room you specified.");
-                print();
-            }
-        }
-        int roomSpot = 0;
-        for (int i = 0; i < rooms.size(); i++)
-        {
-            if (rooms.get(i).getRoomNumber() == roomNumber)
-            {
-                roomSpot = i;
-            }
-        }
+            System.out.println("[" + i + "] " + guests.get(i).getUsername());
+        }             
+        int room = 0;
+        System.out.println("Please select one of the Guest's rooms to check out:  ");
         for (int i = 0; i < bookings.size(); i++)
         {
-            if (bookings.get(i).bookingGuest.equals(guests.get(guestSpot))
-                    && bookings.get(i).bookedRoom.equals(rooms.get(roomSpot)))
+            if (bookings.get(i).bookingGuest.equals(guests.get(username)))
             {
-                rooms.get(roomSpot).freeThisRoom();
+                System.out.println("[" + i + "] " + bookings.get(i).bookedRoom.getRoomNumber());
+            }
+        }
+        room = in.nextInt();
+        for (int i = 0; i < bookings.size(); i++)
+        {
+            if (bookings.get(i).bookingGuest.equals(guests.get(username))
+                    && bookings.get(i).bookedRoom.equals(rooms.get(room)))
+            {
+                rooms.get(room).freeThisRoom();
                 bookings.remove(i);
             }
-        }        
+        } 
+        System.out.println(guests.get(username).getUsername() + " has been check out of " + rooms.get(room).getRoomNumber());
         employeeMenu(employee);
     }
     public static void createGuestAccount(int employee)
@@ -518,6 +508,7 @@ public class MadisonHotelApplication
         employeeMenu(employee);
     }
     //added input validation
+    // ROOM CANNOT ALREADY EXIST WHEN CREATING A NEW ROOM
     public static void createOrEditRoom(int employee)
     {
         Scanner in = new Scanner(System.in);
@@ -688,8 +679,7 @@ public class MadisonHotelApplication
             System.out.print("Sorry, invalid choice!");
             createOrEditRoom(employee);
         } 
-    }
-    
+    }    
     public static void editRoom(Room room, int employee) 
     {
         Scanner in = new Scanner(System.in);
@@ -789,8 +779,7 @@ public class MadisonHotelApplication
                 System.out.print("Sorry, invalid option entered!");
                 editRoom(room, employee);
                 break;
-        }
-        
+        }       
     }
     public static void print()
     {
