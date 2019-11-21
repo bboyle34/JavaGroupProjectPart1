@@ -22,6 +22,7 @@ public class Booking
         this.bookingYear = year;
         this.checkInDay = checkIn;
         this.checkOutDay = checkOut;
+        this.bookedRoom.bookRoom();
     }
 
     // Methods
