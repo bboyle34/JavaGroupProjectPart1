@@ -383,6 +383,7 @@ public class MadisonHotelApplication
     // Employee Menu Choices
     public static void bookingReport(int employee)
     {
+        //WE SHOULD BE HAVE THE CHOICE TO RUN A BOOKING REPORT ON ALL BOOKINGS
         Scanner in = new Scanner(System.in);
         System.out.println("---------------------------------------------");
         System.out.println("RUN A BOOKING REPORT");
