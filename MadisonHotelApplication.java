@@ -528,6 +528,7 @@ public class MadisonHotelApplication
         System.out.print("Enter your choice: ");
         int choice;
         choice = in.nextInt();
+        print();
         switch(choice) 
         {
             case 1: 
