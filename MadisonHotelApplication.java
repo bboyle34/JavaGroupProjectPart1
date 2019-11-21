@@ -261,7 +261,8 @@ public class MadisonHotelApplication
                     && (rooms.get(i).isBooked() == false)
                     && (rooms.get(i).getRoomActivity().equalsIgnoreCase("Active")))
             {
-                System.out.println(rooms.get(i).getRoomNumber());
+                System.out.println("Room " + rooms.get(i).getRoomNumber() +
+                " for $" + rooms.get(i).roomCostPerNight + " per night");
                 real = false;            
             }          
         }
