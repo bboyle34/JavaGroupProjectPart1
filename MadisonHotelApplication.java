@@ -460,12 +460,14 @@ public class MadisonHotelApplication
         System.out.println("CREATE A GUEST ACCOUNT");
        System.out.println("---------------------------------------------");
         print();
-        System.out.println("Enter 1 if you are a Guest or 2 if you are a ValueGuest");
+        System.out.print("Enter 1 if you are a Guest or 2 if you are a ValueGuest: ");
         int value = in.nextInt();
+        print();
            while (value < 1 || value > 2)
         {
             System.out.print("Please select a valid option: ");
             value = in.nextInt();
+            print();
         }
         if(value == 1)
         {//For regular guest
@@ -473,6 +475,7 @@ public class MadisonHotelApplication
             String guestName = in.next();
             System.out.print("What is the guest's username? ");
             String username = in.next();
+            print();
             System.out.print("What is the guest's password? ");
             String password = in.next();
             Guest g = new Guest(username, password, guestName);
