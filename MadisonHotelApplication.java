@@ -317,17 +317,23 @@ public class MadisonHotelApplication
         print();
         for (int i = 0; i < rooms.size(); i++)
         {
-            System.out.println("{" + i +"] " + rooms.get(i).roomNumber);
+            System.out.println(" - " + rooms.get(i).roomNumber);
         }
         print();
         System.out.println("Enter Room Number Selection: ");
-        int room = in.nextInt();
+        int roomNumber = in.nextInt();
         print();
-        System.out.println("---------------------------------------------");
-        System.out.println("ROOM DESCRIPTION FOR ROOM NUMBER: " + rooms.get(room).getRoomNumber());
-        System.out.println("---------------------------------------------");
-        print();
-        System.out.println(rooms.get(room).roomDescription());      
+        for (int i = 0; i < rooms.size(); i++)
+        {
+            if (rooms.get(i).getRoomNumber() == roomNumber)
+            {
+                System.out.println("---------------------------------------------");
+                System.out.println("ROOM DESCRIPTION FOR ROOM NUMBER: " + roomNumber);
+                System.out.println("---------------------------------------------");
+                print();
+                System.out.println(rooms.get(i).roomDescription());
+            }
+        }        
         guestMenu(guest);
     }
     public static void editGuestInfo(int guest)
@@ -383,38 +389,24 @@ public class MadisonHotelApplication
         System.out.println("RUN A BOOKING REPORT");
         System.out.println("---------------------------------------------");
         print();
-        System.out.println("For a specific Guest's Booking report, Enter 1.");
-        System.out.println("For all booking reports, Enter 2.");
+        //System.out.print("Enter the username of the guest who's account is under the booking: ");
         System.out.println("Please select one of the Guest's usernames below: ");
-        int choice = in.nextInt();
-        if (choice == 1)
+        for (int i = 0; i < guests.size(); i++)
         {
-            System.out.println("Please select one of the Guest's usernames below: ");
-            for (int i = 0; i < guests.size(); i++)
-            {
-                System.out.println("[" + i + "] " + guests.get(i).getUsername());
-            }
-            int username = in.nextInt();
-            int room = 0;
-            System.out.println("Please select one of the Guest's rooms to run a booking report on: ");
-            for (int i = 0; i < bookings.size(); i++)
-            {
-                if (bookings.get(i).bookingGuest.equals(guests.get(username)))
-                {
-                    System.out.println("[" + i + "] " + bookings.get(i).bookedRoom.getRoomNumber());
-                }
-            }
-            room = in.nextInt();
-            System.out.println(bookings.get(room).describeBooking());
+            System.out.println("[" + i + "] " + guests.get(i).getUsername());
         }
-        else if (choice == 2)
+        int username = in.nextInt();
+        int room = 0;
+        System.out.println("Please select one of the Guest's rooms to run a booking report on: ");
+        for (int i = 0; i < bookings.size(); i++)
         {
-            for (int i = 0; i < bookings.size(); i++)
+            if (bookings.get(i).bookingGuest.equals(guests.get(username)))
             {
-                System.out.println(bookings.get(i).describeBooking());
+                System.out.println("[" + i + "] " + bookings.get(i).bookedRoom.getRoomNumber());
             }
-            print();
         }
+        room = in.nextInt();
+        System.out.println(bookings.get(room).describeBooking());
         employeeMenu(employee);
     }
     public static void checkGuestOut(int employee)
@@ -431,7 +423,6 @@ public class MadisonHotelApplication
             System.out.println("[" + i + "] " + guests.get(i).getUsername());
         }             
         int room = 0;
-        username = in.nextInt();
         System.out.println("Please select one of the Guest's rooms to check out:  ");
         for (int i = 0; i < bookings.size(); i++)
         {
@@ -441,19 +432,16 @@ public class MadisonHotelApplication
             }
         }
         room = in.nextInt();
-        int book = 0;
         for (int i = 0; i < bookings.size(); i++)
         {
             if (bookings.get(i).bookingGuest.equals(guests.get(username))
                     && bookings.get(i).bookedRoom.equals(rooms.get(room)))
             {
-                bookings.get(i).endBooking();
+                rooms.get(room).freeThisRoom();
                 bookings.remove(i);
-                book = i;
             }
         } 
-        System.out.println(bookings.get(book).bookingGuest.getUsername()
-                + " has been checked out of " + bookings.get(book).bookedRoom.getRoomNumber());
+        System.out.println(guests.get(username).getUsername() + " has been check out of " + rooms.get(room).getRoomNumber());
         employeeMenu(employee);
     }
     public static void createGuestAccount(int employee)
@@ -484,6 +472,7 @@ public class MadisonHotelApplication
             String password = in.next();
             Guest g = new Guest(username, password, guestName);
             guests.add(g);
+            print();
             System.out.println("Guest has been created");
             employeeMenu(employee);
         }       
@@ -513,7 +502,7 @@ public class MadisonHotelApplication
         String employeeName = in.next();
         System.out.print("What is the employee's username? ");
         String username = in.next();
-        System.out.print("What is the guest's password? ");
+        System.out.print("What is the employee's password? ");
         String password = in.next();
         Employee e = new Employee(username, password, employeeName);
         employees.add(e);
@@ -535,13 +524,14 @@ public class MadisonHotelApplication
         System.out.print("(2) Edit Room\n");
         System.out.print("(3) Set Room Active or Inactive\n");
         System.out.print("(0) Return to menu\n");
+        print();
         System.out.print("Enter your choice: ");
         int choice;
         choice = in.nextInt();
         switch(choice) 
         {
             case 1: 
-                System.out.print(" - Enter bed size: \n(0) 1 Queen Bed\n(1) 2 Queen Beds"
+                System.out.print(" - Enter bed size: " + "\n" + "\n" + "(0) 1 Queen Bed\n(1) 2 Queen Beds"
                         + "\n(2) 1 King Bed");
                 print();
                 int bedchoice = in.nextInt();
@@ -549,8 +539,9 @@ public class MadisonHotelApplication
                 {
                     System.out.print("Sorry, invalid choice! Enter valid option: ");
                     bedchoice = in.nextInt();
+                    print();
                 }
-                System.out.print(" - Enter Kitchen Option: \n(0) Microwave \n"
+                System.out.print(" - Enter Kitchen Option: " + "\n" + "\n" + "(0) Microwave \n"
                         + "(1) Fridge + Microwave");
                 print();
                 int kitchenchoice = in.nextInt();
@@ -558,8 +549,9 @@ public class MadisonHotelApplication
                 {
                     System.out.print("Sorry, invalid choice! Enter valid option: ");
                     kitchenchoice = in.nextInt();
+                    print();
                 }
-                System.out.print(" - Enter coffee option: \n(0) 1-Cup Std. Coffee Machine"
+                System.out.print(" - Enter coffee option: " + "\n" + "\n" + "(0) 1-Cup Std. Coffee Machine"
                         + "\n(1) Keurig Hot K200 Machine");
                 print();
                 int coffeechoice = in.nextInt();
@@ -567,8 +559,9 @@ public class MadisonHotelApplication
                 {
                     System.out.print("Sorry, invalid choice! Enter valid option: ");
                     coffeechoice = in.nextInt();
+                    print();
                 }
-                System.out.print(" - Enter Accessibility Option: \n(0) Standard Room"
+                System.out.print(" - Enter Accessibility Option: " + "\n" + "\n" + "(0) Standard Room"
                         + "\n(1) Enhanced Accessibility Room");
                 print();
                 int accesschoice = in.nextInt();
@@ -576,6 +569,7 @@ public class MadisonHotelApplication
                 {
                     System.out.print("Sorry, invalid choice! Enter valid option: ");
                     accesschoice = in.nextInt();
+                    print();
                 }
                 System.out.print(" - Enter room number: ");
                 int roomnumberchoice = in.nextInt();
@@ -597,6 +591,7 @@ public class MadisonHotelApplication
                 accesschoice, roomnumberchoice, roomCostEntry);
                 rooms.add(newRoom);
                 System.out.println("Success, room created!");
+                print();
                 createOrEditRoom(employee);
                 break;
         
@@ -607,8 +602,10 @@ public class MadisonHotelApplication
             {
                 System.out.println("("+rooms.get(i).getRoomID()+") " + rooms.get(i).roomNumber);
             }
+            print();
             System.out.print("Enter choice: ");
             int editChoice = in.nextInt();
+            print();
             while (!(editChoice <=rooms.size() - 1)) 
             {
                 System.out.print("Sorry, invalid room selected! Please enter valid choice : ");
@@ -626,6 +623,7 @@ public class MadisonHotelApplication
             //Make room inactive -- add check for if room is booked before allowing activation
             System.out.print("Activate or Deactivate a room?\n (1) Deactivate\n (2) Activate"
                     + "\n (0) Return to previous menu\n");
+            print();
             System.out.print("Enter your choice: ");
             int activateOrDeactivate = in.nextInt();
             switch (activateOrDeactivate) 
@@ -633,12 +631,14 @@ public class MadisonHotelApplication
                 case 1:
                     print();
                     System.out.print("Choose room to set inactive:\n");
+                    print();
                     for (int i=0; i<rooms.size(); i++) 
                     {
                         System.out.println("(" +rooms.get(i).getRoomID() + ") " + rooms.get(i).roomNumber);
                     }
                     System.out.print("Enter your choice: ");
                     int inactiveChoice = in.nextInt();
+                    print();
                     while (!(inactiveChoice <= rooms.size() - 1)) 
                     {
                         System.out.print("Sorry, invalid room selected! Please select valid room: ");
@@ -656,6 +656,7 @@ public class MadisonHotelApplication
                 case 2:
                     print();
                     System.out.print("Choose room to activate:\n");
+                    print();
                     for (int i=0; i<rooms.size(); i++) 
                     {
                         System.out.println("(" +rooms.get(i).getRoomID() + ") " + rooms.get(i).roomNumber);
