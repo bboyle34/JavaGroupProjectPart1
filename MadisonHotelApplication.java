@@ -464,7 +464,9 @@ public class MadisonHotelApplication
         {
             //For regular guest
             System.out.print("What is the guest's name? ");
-            String guestName = in.next();
+            String firstName = in.next();
+            String lastName = in.next();
+            String guestName = firstName + " " + lastName;
             System.out.print("What is the guest's username? ");
             String username = in.next();
             print();
@@ -480,7 +482,9 @@ public class MadisonHotelApplication
         {
             //For Valueguest creation
             System.out.print("What is the guest's name? ");
-            String guestName = in.next();
+            String firstName = in.next();
+            String lastName = in.next();
+            String guestName = firstName + " " + lastName;
             System.out.print("What is the guest's username? ");
             String username = in.next();
             System.out.print("What is the guest's password? ");
@@ -499,7 +503,9 @@ public class MadisonHotelApplication
         System.out.println("---------------------------------------------");
         print();
         System.out.print("What is the employee's name? ");
-        String employeeName = in.next();
+        String firstName = in.next();
+        String lastName = in.next();
+        String employeeName = firstName + " " + lastName;
         System.out.print("What is the employee's username? ");
         String username = in.next();
         System.out.print("What is the employee's password? ");
