@@ -317,23 +317,17 @@ public class MadisonHotelApplication
         print();
         for (int i = 0; i < rooms.size(); i++)
         {
-            System.out.println(" - " + rooms.get(i).roomNumber);
+            System.out.println("{" + i +"] " + rooms.get(i).roomNumber);
         }
         print();
         System.out.println("Enter Room Number Selection: ");
-        int roomNumber = in.nextInt();
+        int room = in.nextInt();
         print();
-        for (int i = 0; i < rooms.size(); i++)
-        {
-            if (rooms.get(i).getRoomNumber() == roomNumber)
-            {
-                System.out.println("---------------------------------------------");
-                System.out.println("ROOM DESCRIPTION FOR ROOM NUMBER: " + roomNumber);
-                System.out.println("---------------------------------------------");
-                print();
-                System.out.println(rooms.get(i).roomDescription());
-            }
-        }        
+        System.out.println("---------------------------------------------");
+        System.out.println("ROOM DESCRIPTION FOR ROOM NUMBER: " + rooms.get(room).getRoomNumber());
+        System.out.println("---------------------------------------------");
+        print();
+        System.out.println(rooms.get(room).roomDescription());      
         guestMenu(guest);
     }
     public static void editGuestInfo(int guest)
@@ -389,24 +383,38 @@ public class MadisonHotelApplication
         System.out.println("RUN A BOOKING REPORT");
         System.out.println("---------------------------------------------");
         print();
-        //System.out.print("Enter the username of the guest who's account is under the booking: ");
+        System.out.println("For a specific Guest's Booking report, Enter 1.");
+        System.out.println("For all booking reports, Enter 2.");
         System.out.println("Please select one of the Guest's usernames below: ");
-        for (int i = 0; i < guests.size(); i++)
+        int choice = in.nextInt();
+        if (choice == 1)
         {
-            System.out.println("[" + i + "] " + guests.get(i).getUsername());
-        }
-        int username = in.nextInt();
-        int room = 0;
-        System.out.println("Please select one of the Guest's rooms to run a booking report on: ");
-        for (int i = 0; i < bookings.size(); i++)
-        {
-            if (bookings.get(i).bookingGuest.equals(guests.get(username)))
+            System.out.println("Please select one of the Guest's usernames below: ");
+            for (int i = 0; i < guests.size(); i++)
             {
-                System.out.println("[" + i + "] " + bookings.get(i).bookedRoom.getRoomNumber());
+                System.out.println("[" + i + "] " + guests.get(i).getUsername());
             }
+            int username = in.nextInt();
+            int room = 0;
+            System.out.println("Please select one of the Guest's rooms to run a booking report on: ");
+            for (int i = 0; i < bookings.size(); i++)
+            {
+                if (bookings.get(i).bookingGuest.equals(Guest.guests.get(username)))
+                {
+                    System.out.println("[" + i + "] " + bookings.get(i).bookedRoom.getRoomNumber());
+                }
+            }
+            room = in.nextInt();
+            System.out.println(bookings.get(room).describeBooking());
         }
-        room = in.nextInt();
-        System.out.println(bookings.get(room).describeBooking());
+        else if (choice == 2)
+        {
+            for (int i = 0; i < bookings.size(); i++)
+            {
+                System.out.println(bookings.get(i).describeBooking());
+            }
+            print();
+        }
         employeeMenu(employee);
     }
     public static void checkGuestOut(int employee)
@@ -423,6 +431,7 @@ public class MadisonHotelApplication
             System.out.println("[" + i + "] " + guests.get(i).getUsername());
         }             
         int room = 0;
+        username = in.nextInt();
         System.out.println("Please select one of the Guest's rooms to check out:  ");
         for (int i = 0; i < bookings.size(); i++)
         {
@@ -432,16 +441,18 @@ public class MadisonHotelApplication
             }
         }
         room = in.nextInt();
-        for (int i = 0; i < bookings.size(); i++)
+        int book = 0;
+        for (int i = 0; i < Booking.bookings.size(); i++)
         {
             if (bookings.get(i).bookingGuest.equals(guests.get(username))
                     && bookings.get(i).bookedRoom.equals(rooms.get(room)))
             {
-                rooms.get(room).freeThisRoom();
-                bookings.remove(i);
+                bookings.get(i).endBooking();
+                book = i;
             }
         } 
-        System.out.println(guests.get(username).getUsername() + " has been check out of " + rooms.get(room).getRoomNumber());
+        System.out.println(bookings.get(book).bookedRoom.getUsername() 
+                + " has been checked out of " + bookings.get(book).bookedRoom.getRoomNumber());
         employeeMenu(employee);
     }
     public static void createGuestAccount(int employee)
