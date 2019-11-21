@@ -451,7 +451,7 @@ public class MadisonHotelApplication
                 book = i;
             }
         } 
-        System.out.println(bookings.get(book).bookedRoom.getUsername() 
+        System.out.println(bookings.get(book).bookingGuest.getUsername() 
                 + " has been checked out of " + bookings.get(book).bookedRoom.getRoomNumber());
         employeeMenu(employee);
     }
