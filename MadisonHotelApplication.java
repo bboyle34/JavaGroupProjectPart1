@@ -42,6 +42,8 @@ public class MadisonHotelApplication
         // display information about they account they logged into
         System.out.println("---------------------------------------------");
         System.out.println("\tGUEST MENU");
+        System.out.println("---------------------------------------------");
+        print();
         System.out.println(guests.get(guest).describeGuest());
         Scanner in = new Scanner(System.in);
         print();
@@ -76,6 +78,8 @@ public class MadisonHotelApplication
         // display informaiton about the account they logged into
         System.out.println("---------------------------------------------");
         System.out.println("\tEMPLOYEE MENU");
+        System.out.println("---------------------------------------------");
+        print();
         System.out.println(employees.get(employee).describeEmployee());
         Scanner in = new Scanner(System.in);
         print();
@@ -142,6 +146,7 @@ public class MadisonHotelApplication
         {
             System.out.println("---------------------------------------------");
             System.out.println("\tGUEST AND EMPLOYEE LOGIN");
+            System.out.println("---------------------------------------------");
             print();
             System.out.print("Please enter username: ");
             String username = in.next();
