@@ -82,7 +82,7 @@ public class MadisonHotelApplication
         System.out.println("(1) Run booking report");
         System.out.println("(2) Check guest out");
         System.out.println("(3) Create a guest account");
-        System.out.println("(4) Create new employee acount");
+        System.out.println("(4) Create new employee account");
         System.out.println("(5) Create or edit a room");
         System.out.println("(0) Back to Login");
         System.out.print("Enter your choice: ");
@@ -117,7 +117,7 @@ public class MadisonHotelApplication
         boolean operator = true;
         while (operator)
         {
-            System.out.println("Login? (y/n)");
+            System.out.println("Login? (y/n): ");
             String login  = in.next();
             if (login.equalsIgnoreCase("y"))
             {
@@ -342,7 +342,9 @@ public class MadisonHotelApplication
     public static void bookingReport(int employee)
     {
         Scanner in = new Scanner(System.in);
+        print();
         System.out.println("RUN A BOOKING REPORT");
+        System.out.println("---------------------------------------------");
         System.out.print("Enter the username of the guest who's account is under the booking: ");
         String username = in.nextLine();
         int guestSpot = 0;
@@ -365,7 +367,11 @@ public class MadisonHotelApplication
     public static void checkGuestOut(int employee)
     {
         Scanner in = new Scanner(System.in);
+        print();
+        System.out.println("CHECK GUEST OUT");
+        System.out.println("---------------------------------------------");
         System.out.print("Please enter the username of the guest you would like to check out: ");
+        
         String username = in.next();
         System.out.print("Please enter the room number they are checking out of: ");
         int roomNumber = in.nextInt();
@@ -399,6 +405,9 @@ public class MadisonHotelApplication
     public static void createGuestAccount(int employee)
     {
        Scanner in = new Scanner(System.in);
+        print();
+        System.out.println("CREATE A GUEST ACCOUNT");
+       System.out.println("---------------------------------------------");
         System.out.println("Enter 1 if you are a Guest or 2 if you are a ValueGuest");
         int value = in.nextInt();
            while (value < 1 || value > 2)
@@ -437,6 +446,9 @@ public class MadisonHotelApplication
     public static void createEmployeeAccount(int employee)
     {
         Scanner in = new Scanner(System.in);
+        print();
+        System.out.println("CREATE A NEW EMPLOYEE ACCOUNT");
+        System.out.println("---------------------------------------------");
         System.out.print("What is the employee's name? ");
         String employeeName = in.next();
         System.out.print("What is the employee's username? ");
@@ -452,7 +464,10 @@ public class MadisonHotelApplication
     public static void createOrEditRoom(int employee)
     {
         Scanner in = new Scanner(System.in);
-        System.out.print("Please choose an option: ");
+        print();
+     System.out.println("CREATE OR EDIT A ROOM");
+     System.out.println("---------------------------------------------");
+        System.out.println("Please choose an option: ");
         print();
         System.out.print("(1) Create Room\n");
         System.out.print("(2) Edit Room\n");
@@ -463,7 +478,7 @@ public class MadisonHotelApplication
         choice = in.nextInt();
         switch(choice) {
             case 1: 
-                System.out.print("Enter bed size: \n(0) 1 Queen Bed\n(1) 2 Queen Beds"
+                System.out.print(" - Enter bed size: \n(0) 1 Queen Bed\n(1) 2 Queen Beds"
                         + "\n(2) 1 King Bed");
                 print();
                 int bedchoice = in.nextInt();
@@ -471,7 +486,7 @@ public class MadisonHotelApplication
                     System.out.print("Sorry, invalid choice! Enter valid option: ");
                     bedchoice = in.nextInt();
                 }
-                System.out.print("Enter Kitchen Option: \n(0) Microwave \n"
+                System.out.print(" - Enter Kitchen Option: \n(0) Microwave \n"
                         + "(1) Fridge + Microwave");
                 print();
                 int kitchenchoice = in.nextInt();
@@ -479,7 +494,7 @@ public class MadisonHotelApplication
                     System.out.print("Sorry, invalid choice! Enter valid option: ");
                     kitchenchoice = in.nextInt();
                 }
-                System.out.print("Enter coffee option: \n(0) 1-Cup Std. Coffee Machine"
+                System.out.print(" - Enter coffee option: \n(0) 1-Cup Std. Coffee Machine"
                         + "\n(1) Keurig Hot K200 Machine");
                 print();
                 int coffeechoice = in.nextInt();
@@ -487,7 +502,7 @@ public class MadisonHotelApplication
                     System.out.print("Sorry, invalid choice! Enter valid option: ");
                     coffeechoice = in.nextInt();
                 }
-                System.out.print("Enter Accessibility Option: \n(0) Standard Room"
+                System.out.print(" - Enter Accessibility Option: \n(0) Standard Room"
                         + "\n(1) Enhanced Accessibility Room");
                 print();
                 int accesschoice = in.nextInt();
@@ -495,7 +510,7 @@ public class MadisonHotelApplication
                     System.out.print("Sorry, invalid choice! Enter valid option: ");
                     accesschoice = in.nextInt();
                 }
-                System.out.print("Enter room number: ");
+                System.out.print(" - Enter room number: ");
                 int roomnumberchoice = in.nextInt();
                 //check to ensure entered room # is available
                 while (!(availableRoomNumber(roomnumberchoice))) {
@@ -503,7 +518,7 @@ public class MadisonHotelApplication
                     System.out.print("Sorry, that room number is taken! Enter valid room #: ");
                     roomnumberchoice = in.nextInt();
                 }
-                System.out.print("Enter room cost per night (e.g. 125.99): ");
+                System.out.print(" - Enter room cost per night (e.g. 125.99): ");
                 double roomCostEntry = in.nextDouble();
                 while (roomCostEntry < 0) {
                     System.out.print("Sorry, room cannot have negative cost! Enter valid cost: ");
@@ -517,7 +532,7 @@ public class MadisonHotelApplication
                 break;
         
         case 2: 
-            System.out.print("Please select room you would like to edit");
+            System.out.println("Please select which room you would like to edit: ");
             print();
             for (int i=0; i< rooms.size(); i++) {
                 System.out.println("("+rooms.get(i).getRoomID()+") " + rooms.get(i).roomNumber);
@@ -606,7 +621,7 @@ public class MadisonHotelApplication
         choice = in.nextInt();
         switch (choice) {
             case 1: 
-                System.out.print("Enter new bed size: \n(0) 1 Queen Bed\n(1) 2 Queen Beds"
+                System.out.print("Enter new bed size: " + "\n" + "\n" + "(0) 1 Queen Bed\n(1) 2 Queen Beds"
                         + "\n(2) 1 King Bed");
                 print();
                 int bedchoice = in.nextInt();
@@ -619,7 +634,7 @@ public class MadisonHotelApplication
                 editRoom(room, employee);
                 break;
             case 2:
-                System.out.print("Enter new Kitchen Option: \n(0) Microwave \n"
+                System.out.print("Enter new Kitchen Option: " + "\n" + "\n" + "(0) Microwave \n"
                         + "(1) Fridge + Microwave");
                 print();
                 int kitchenchoice = in.nextInt();
@@ -632,7 +647,7 @@ public class MadisonHotelApplication
                 editRoom(room, employee);
                 break;
             case 3: 
-                System.out.print("Enter new coffee option: \n(0) 1-Cup Std. Coffee Machine"
+                System.out.print("Enter new coffee option: " + "\n" + "\n" + "(0) 1-Cup Std. Coffee Machine"
                         + "\n(1) Keurig Hot K200 Machine");
                 print();
                 int coffeechoice = in.nextInt();
@@ -645,7 +660,7 @@ public class MadisonHotelApplication
                 editRoom(room, employee);
                 break;
             case 4: 
-                System.out.print("Enter new Accessibility Option: \n(0) Standard Room"
+                System.out.print("Enter new Accessibility Option: " + "\n" + "\n" + "(0) Standard Room"
                         + "\n(1) Enhanced Accessibility Room");
                 print();
                 int accesschoice = in.nextInt();
