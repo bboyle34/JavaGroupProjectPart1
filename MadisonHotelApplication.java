@@ -250,12 +250,12 @@ public class MadisonHotelApplication
             accessibility = in.nextInt();
             print();
         }
-        System.out.print("Here are the available rooms with your specifications: ");
+        System.out.println("Here are the available rooms with your specifications: ");
         boolean roomSaver = availableRooms(bed, kitch, coffee, accessibility);
         print();
         if (roomSaver)
         {
-            System.out.print("Which room number would you like? ");
+            System.out.println("Which room number would you like? ");
             int roomNumber = in.nextInt();
             for (int i = 0; i < rooms.size(); i++)
             {
@@ -388,29 +388,24 @@ public class MadisonHotelApplication
         System.out.println("RUN A BOOKING REPORT");
         System.out.println("---------------------------------------------");
         print();
-        System.out.print("Enter the username of the guest who's account is under the booking: ");
-        String username = in.nextLine();
-        print();
-        int guestSpot = 0;
+        //System.out.print("Enter the username of the guest who's account is under the booking: ");
+        System.out.println("Please select one of the Guest's usernames below: ");
         for (int i = 0; i < guests.size(); i++)
         {
-            if (guests.get(i).getUsername().equalsIgnoreCase(username))
-            {
-                guestSpot = i;
-            }
-            else 
-            {
-                System.out.println("Sorry, the user you selected has not booked a room.");
-                print();
-            } 
+            System.out.println("[" + i + "] " + guests.get(i).getUsername());
         }
+        int username = in.nextInt();
+        int room = 0;
+        System.out.println("Please select one of the Guest's rooms to run a booking report on: ");
         for (int i = 0; i < bookings.size(); i++)
         {
-            if (bookings.get(i).bookingGuest.equals(guests.get(guestSpot)))
+            if (bookings.get(i).bookingGuest.equals(guests.get(username)))
             {
-                System.out.println(bookings.get(i).describeBooking());
+                System.out.println("[" + i + "] " + bookings.get(i).bookedRoom.getRoomNumber());
             }
         }
+        room = in.nextInt();
+        System.out.println(bookings.get(room).describeBooking());
         employeeMenu(employee);
     }
     public static void checkGuestOut(int employee)
