@@ -698,8 +698,9 @@ public class MadisonHotelApplication
     public static void editRoom(Room room, int employee) 
     {
         Scanner in = new Scanner(System.in);
-        System.out.println("Editing room #" + room.roomNumber + " . What would you like to change?");
+        System.out.println("Editing room #" + room.roomNumber + ". What would you like to change?");
         int choice;
+        print();
         System.out.print(" (1) Bed \n (2) Kitchen\n (3) Coffee\n (4) Accessibility\n "
                 + "(5) Room Number \n (6) Room cost per night \n (0) Done editing, return to previous menu\n");
         choice = in.nextInt();
