@@ -255,6 +255,7 @@ public class MadisonHotelApplication
             print();
         }
         System.out.println("Here are the available rooms with your specifications: ");
+        print();
         boolean roomSaver = availableRooms(bed, kitch, coffee, accessibility);
         print();
         if (roomSaver)
@@ -318,6 +319,7 @@ public class MadisonHotelApplication
     {
         Scanner in = new Scanner(System.in);
         System.out.print("Select a Room:");
+        print();
         print();
         for (int i = 0; i < rooms.size(); i++)
         {
