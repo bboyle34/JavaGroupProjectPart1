@@ -30,6 +30,7 @@ public class Booking
     }
 
     // Methods
+    //Returns a string with a description of a specific booking
     public String describeBooking()
     {
         String answer = "";
@@ -39,6 +40,7 @@ public class Booking
                 + "\nCheck Out: " + this.checkOutDay);
         return answer;
     }
+    //ends booking - which frees the room associated with the booking
     public void endBooking()
     {
         this.bookedRoom.freeThisRoom();
