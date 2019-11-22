@@ -303,6 +303,10 @@ public class MadisonHotelApplication
             return true;
         }
     }
+    
+    //a method that checks whether or not a room number (Taken in as parameter)
+    //is already taken by a specific room object
+    //Contributed by Andrew Taylor
     public static boolean availableRoomNumber(int roomnumber) 
     {
         boolean available = true;
@@ -543,8 +547,10 @@ public class MadisonHotelApplication
         System.out.println("Employee Account has been created.");
         employeeMenu(employee);
     }
-    //added input validation
-    // ROOM CANNOT ALREADY EXIST WHEN CREATING A NEW ROOM
+    //method which allows employees to create or edit a room, asks for various specifications
+    //for the room upon creation and gives the same options for editing. Also allows making the room
+    //active or inactive. parameter employee specifies which employee is editing/creating room
+    //Contributed by Andrew Taylor
     public static void createOrEditRoom(int employee)
     {
         Scanner in = new Scanner(System.in);
@@ -724,6 +730,10 @@ public class MadisonHotelApplication
             createOrEditRoom(employee);
         } 
     }    
+    
+    //method to simplify room editing code, called from within createOrEditRoom method above.
+    //takes in the employee that is editing the room as well as the specific room they are editing
+    //Contributed by Andrew Taylor
     public static void editRoom(Room room, int employee) 
     {
         Scanner in = new Scanner(System.in);
