@@ -218,7 +218,7 @@ public class MadisonHotelApplication
             bed = in.nextInt();
             print();
         }
-        System.out.print(" - Kitchen Options"
+        System.out.print(" - Kitchen Options"+ "\n"
                 + "\n\t(0) Microwave"
                 + "\n\t(1) Fridge and Microwave"
                 + "\n" + "\n" + "What is your Kitchen Choice? ");
@@ -399,6 +399,7 @@ public class MadisonHotelApplication
                 System.out.println("[" + i + "] " + guests.get(i).getUsername());
             }
             int username = in.nextInt();
+            print();
             int room = 0;
             System.out.println("Please select one of the Guest's rooms to run a booking report on: ");
             for (int i = 0; i < bookings.size(); i++)
@@ -409,6 +410,7 @@ public class MadisonHotelApplication
                 }
             }
             room = in.nextInt();
+            print();
             System.out.println(bookings.get(room).describeBooking());
         }
         else if (choice == 2)
@@ -496,7 +498,8 @@ public class MadisonHotelApplication
             String password = in.next();
             Guest g = new Guest(username, password, guestName);
             guests.add(g);
-            System.out.println("Guest has been created");
+            print();
+            System.out.println("Guest Account has been created.");
             employeeMenu(employee);
         }       
         else if(value == 2)
@@ -512,7 +515,8 @@ public class MadisonHotelApplication
             String password = in.next();
             ValueGuest v = new ValueGuest(username, password, guestName);
             valueGuests.add(v);
-            System.out.println("ValueGuest has been created");
+            print();
+            System.out.println("ValueGuest Account has been created.");
             employeeMenu(employee);
         }        
     }
@@ -529,11 +533,12 @@ public class MadisonHotelApplication
         String employeeName = firstname + " " + lastname;
         System.out.print("What is the employee's username? ");
         String username = in.next();
-        System.out.print("What is the guest's password? ");
+        System.out.print("What is the employee's password? ");
         String password = in.next();
         Employee e = new Employee(username, password, employeeName);
         employees.add(e);
-        System.out.println("Guest has been created");
+        print();
+        System.out.println("Employee Account has been created.");
         employeeMenu(employee);
     }
     //added input validation
@@ -551,9 +556,11 @@ public class MadisonHotelApplication
         System.out.print("(2) Edit Room\n");
         System.out.print("(3) Set Room Active or Inactive\n");
         System.out.print("(0) Return to menu\n");
+        print();
         System.out.print("Enter your choice: ");
         int choice;
         choice = in.nextInt();
+        print();
         switch(choice) 
         {
             case 1: 
@@ -623,6 +630,7 @@ public class MadisonHotelApplication
             {
                 System.out.println("("+rooms.get(i).getRoomID()+") " + rooms.get(i).roomNumber);
             }
+            print();
             System.out.print("Enter choice: ");
             int editChoice = in.nextInt();
             while (!(editChoice <=rooms.size() - 1)) 
@@ -640,8 +648,9 @@ public class MadisonHotelApplication
             break;
         case 3:
             //Make room inactive -- add check for if room is booked before allowing activation
-            System.out.print("Activate or Deactivate a room?\n (1) Deactivate\n (2) Activate"
+            System.out.print("Activate or Deactivate a room?" + "\n" + "\n" + " (1) Deactivate\n (2) Activate"
                     + "\n (0) Return to previous menu\n");
+            print();
             System.out.print("Enter your choice: ");
             int activateOrDeactivate = in.nextInt();
             switch (activateOrDeactivate) 
@@ -649,10 +658,12 @@ public class MadisonHotelApplication
                 case 1:
                     print();
                     System.out.print("Choose room to set inactive:\n");
+                    print();
                     for (int i=0; i<rooms.size(); i++) 
                     {
                         System.out.println("(" +rooms.get(i).getRoomID() + ") " + rooms.get(i).roomNumber);
                     }
+                    print();
                     System.out.print("Enter your choice: ");
                     int inactiveChoice = in.nextInt();
                     while (!(inactiveChoice <= rooms.size() - 1)) 
@@ -672,10 +683,12 @@ public class MadisonHotelApplication
                 case 2:
                     print();
                     System.out.print("Choose room to activate:\n");
+                    print();
                     for (int i=0; i<rooms.size(); i++) 
                     {
                         System.out.println("(" +rooms.get(i).getRoomID() + ") " + rooms.get(i).roomNumber);
                     }
+                    print();
                     System.out.print("Enter your choice: ");
                     int activateChoice = in.nextInt();
                     while (!(activateChoice <= rooms.size() - 1)) 
@@ -714,9 +727,11 @@ public class MadisonHotelApplication
         Scanner in = new Scanner(System.in);
         System.out.println("Editing room #" + room.roomNumber + " . What would you like to change?");
         int choice;
+        print();
         System.out.print(" (1) Bed \n (2) Kitchen\n (3) Coffee\n (4) Accessibility\n "
                 + "(5) Room Number \n (6) Room cost per night \n (0) Done editing, return to previous menu\n");
         choice = in.nextInt();
+        print();
         switch (choice) 
         {
             case 1: 
