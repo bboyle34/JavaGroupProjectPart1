@@ -1,6 +1,9 @@
 package GroupProject1;
 // Class Definition File (CDF)
 
+//Description: A class that has details and member methods for specific rooms in the hotel. Objects are instantiated with 
+//a variety of options and details about the specific room, as well as whether or not the room is booked.
+//Contributed by Brendan Boyle and Andrew Taylor
 public class Room 
 {
     // Data Fields
@@ -34,17 +37,20 @@ public class Room
     }
 
     // Methods
+    //setter for room activity ("Active" or "Inactive")
     public void setRoomActivity(String status)
     {
         this.roomStatus = status;
     } 
     
+    //getter for room activity ("Active" or "Inactive")
     public String getRoomActivity()
     {
         return this.roomStatus;
     }
     
-    
+    //member method which returns a boolean true if the room is currently booked,
+    //false if it is not booked
     public boolean isBooked()
     {
         if (this.roomBooked)
@@ -56,6 +62,10 @@ public class Room
             return false;
         }
     }
+    
+    //method that sets roomBooked data field as true and increments the roomBookedQuantity.
+    //returns false and does neither if room is already booked. Returns roomBooked boolean
+    //data field
     public boolean bookRoom()
     {
         if (this.roomBooked == true)
@@ -69,22 +79,32 @@ public class Room
             return this.roomBooked;
         }
     }
+    
+    //unbooks room/sets room to unbooked
     public void freeThisRoom()
     {
         this.roomBooked = false;
     }
+    
+    //getter for amount of times a specific room instance object has been booked
     public int getRoomBookedQuantity()
     {
         return this.roomBookedQuantity;
     }
+    //getter for room ID
     public int getRoomID()
     {
         return this.roomID;
     }
+    
+    //getter for room number
     public int getRoomNumber()
     {
         return this.roomNumber;
     }
+    
+    //returns a string containing the total number of times a specific room object
+    //has been booked as well as whether or not the room is currently booked
     public String roomAnalytics()
     {
         String answer = "";
@@ -101,7 +121,10 @@ public class Room
                 + "\nIs Room currently booked? " + booked); 
         return answer;
     }
-      public String roomDescription()
+    
+    //returns a string containing details about room specifications as well as information from
+    //room analytics method above
+    public String roomDescription()
     {
         String answer = "";
         answer += ("Room Number: " + this.getRoomNumber() 
@@ -114,6 +137,8 @@ public class Room
           answer += this.roomAnalytics();
         return answer;
     }
+    
+    //returns a string containing the bed option for a specific room object
     public String printBedOption()
     {
         String bed = "";
@@ -129,6 +154,7 @@ public class Room
         return bed;
     }
     
+    //returns a string containing the kitchen option for a specific room object
     public String printKitchOption()
     {
         String kitch = "";
@@ -139,6 +165,7 @@ public class Room
         return kitch;
     }
     
+    //returns a string containing the coffee option for a specific room object
     public String printCoffeeOption()
     {
         String coffee = "";
@@ -149,6 +176,7 @@ public class Room
         return coffee;
     }
     
+    //returns a string containing the accessibility option for a specific room object
     public String printAccessOption()
     {
         String access = "";
@@ -159,6 +187,7 @@ public class Room
         return access;
     }
     
+    //returns a string containing whether or not the room is booked
     public String printRoomBooked()
     {
         String check = "";
@@ -169,6 +198,7 @@ public class Room
         return check;
     }
     
+    //setter for room number
     public boolean setRoomNumber(int roomNumber)
     {
         this.roomNumber = roomNumber;
