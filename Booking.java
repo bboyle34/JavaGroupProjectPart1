@@ -2,6 +2,10 @@
 package GroupProject1;
 // Class Definition File (CDF)
 
+
+//A class which defines Booking objects. A booking is instantiated with several details about each specific booking,
+//as well as an object from the room class assigning a specific Room object to each booking object.
+//Contributed by Brendan Boyle and Andrew Taylor
 public class Booking 
 {
     // Data Fields
