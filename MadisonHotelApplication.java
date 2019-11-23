@@ -476,6 +476,10 @@ public class MadisonHotelApplication
         }
     }
     public static void createGuestAccount(int employee)
+    //Mark Kilgore - This method creates a new guest account by
+    //accepting user input for both the first and/or last name of the 
+    //guest along with the username and password, then concatening 
+    //them both to be created as an object.
     {
         Scanner in = new Scanner(System.in);
         System.out.println("---------------------------------------------");
@@ -526,6 +530,11 @@ public class MadisonHotelApplication
             employeeMenu(employee);
         }        
     }
+    
+    //Mark Kilgore - This method creates a new employee account by
+    //accepting user input for both the first and/or last name of the 
+    //employee along with the username and password, then concatening 
+    //them both to be created as an object.
     public static void createEmployeeAccount(int employee)
     {
         Scanner in = new Scanner(System.in);
