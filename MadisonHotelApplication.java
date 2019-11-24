@@ -44,6 +44,7 @@ public class MadisonHotelApplication
         // give guests all options for their login and use switch case to 
         //direct them towards their choice
         // display information about they account they logged into
+        //Contributed by George Moya
         System.out.println("---------------------------------------------");
         System.out.println("\tGUEST MENU");
         System.out.println("---------------------------------------------");
@@ -83,6 +84,7 @@ public class MadisonHotelApplication
         // give employees all options for their login and use switch case
         //to direct them towards their choice
         // display informaiton about the account they logged into
+        //Contributed by George Moya
         System.out.println("---------------------------------------------");
         System.out.println("\tEMPLOYEE MENU");
         System.out.println("---------------------------------------------");
@@ -127,6 +129,7 @@ public class MadisonHotelApplication
     {
         // ask if they want to login
         // use data validation to make sure they either put y or n
+        //contributed by Dylan Vetter
         Scanner in = new Scanner(System.in);
         boolean operator = true;
         while (operator)
@@ -201,6 +204,9 @@ public class MadisonHotelApplication
     }
     
     // Guest Menu Choices
+    //Allows a guest to book a room. Asks for a variety of specifications for the room and 
+    //checks to find rooms with those properties by calling the availableRooms method below.
+    //contributed by Brendan Boyle
     public static void bookRoom(int guest)
     {
         Scanner in = new Scanner(System.in);
@@ -276,6 +282,9 @@ public class MadisonHotelApplication
         }
         guestMenu(guest);
     }
+    //checks specific room specifications sent in from method above to find rooms that have those
+    //specific characteristics. Prints which rooms have all matching specifications.
+    //Contributed by Brendan Boyle
     public static boolean availableRooms(int bed, int kitch, int coffee, int accessibility)
     {
         boolean real = true;
@@ -386,6 +395,10 @@ public class MadisonHotelApplication
         }
     }
     // Employee Menu Choices
+    //Gives employee choice of printing report for 1 room or all reports for all rooms.
+    //calls describe booking method from booking class to print details about the booking for 
+    //a room.
+    //Contributed by Brendan Boyle
     public static void bookingReport(int employee)
     {
         //WE SHOULD BE HAVE THE CHOICE TO RUN A BOOKING REPORT ON ALL BOOKINGS
@@ -430,6 +443,9 @@ public class MadisonHotelApplication
         }
         employeeMenu(employee);
     }
+    //Method used to check a guest out. Asks employee to select a guest, prints all that guests'
+    //rooms they have, and has them select a room to check out. 
+    //Contributed by Brendan Boyle
     public static void checkGuestOut(int employee)
     {
         Scanner in = new Scanner(System.in);
