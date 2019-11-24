@@ -350,6 +350,10 @@ public class MadisonHotelApplication
         print();
         guestMenu(guest);
     }
+    //allows information of a guest at a specified index (sent in as a parameter) to be edited.
+    //allows guest to change their name and view their information using the describeGuest method
+    //from the Guest class
+    //Contributed by Brendan Boyle
     public static void editGuestInfo(int guest)
     {
         Scanner in = new Scanner(System.in);
