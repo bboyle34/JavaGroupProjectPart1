@@ -1,41 +1,177 @@
 
 package GroupProject1;
 
+import java.util.*;
 import javafx.application.Application;
 import javafx.event.*;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.collections.*;
 
 public class MadisonHotelJavaFX extends Application
 {
-    public void start(Stage primaryStage) 
+    static ArrayList<Employee> employees = new ArrayList<Employee>();
+    static ArrayList<Guest> guests = new ArrayList<Guest>();
+    static ArrayList<ValueGuest> valueGuests = new ArrayList<ValueGuest>();
+    static ArrayList<Booking> bookings = new ArrayList<Booking>();
+    static ArrayList<Room> rooms = new ArrayList<Room>();
+    
+    public void start(Stage loginStage) 
     {
+        // Controls
         Label lblUsername = new Label("Username: ");
         Label lblPassword = new Label("Password: ");
         Button btnLogin = new Button("Login ->");
         TextField txtUsername = new TextField();
-        TextField txtPassword = new TextField();
+        TextField txtPassword = new TextField();        
+        String[] users = {"Guest", "Employee"};
+        ComboBox userCombo = new ComboBox(FXCollections.observableArrayList(users));        
+        btnLogin.setOnAction(e ->
+        {
+            
+            if (userCombo.getValue().equals(FXCollections.observableArrayList(users[1])))
+            {
+                for (int i = 0; i < employees.size(); i++)
+                {
+                    if (employees.get(i).checkCredentials(txtUsername.getText(), txtPassword.getText()))
+                    {
+                        Stage employeeStage = new Stage();
+                        employee(employeeStage);
+                        break;
+                    }
+                }
+            }
+            else if (userCombo.getValue().equals(FXCollections.observableArrayList(users[0])))
+            {    
+                for (int i = 0; i < guests.size(); i++)
+                {
+                    if (guests.get(i).checkCredentials(txtUsername.getText(), txtPassword.getText()))
+                    {
+                        Stage guestStage = new Stage();
+                        guest(guestStage);
+                        break;
+                    }
+                }
+            }
+            else if (userCombo.getValue().equals(FXCollections.observableArrayList(users[0])))
+            {
+                for (int i = 0; i < valueGuests.size(); i++)
+                {
+                    if (valueGuests.get(i).checkCredentials(txtUsername.getText(), txtPassword.getText()))
+                    {
+                        Stage valueGuestStage = new Stage();
+                        guest(valueGuestStage);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                System.out.println("Please enter a valid username and password login.");
+            }
+        });               
+                
+        // Pane
+        GridPane loginPane = new GridPane();
+        loginPane.setAlignment(Pos.CENTER);
+        loginPane.setVgap(10);
+        loginPane.setHgap(10);
+        loginPane.add(lblUsername, 0, 0);
+        loginPane.add(lblPassword, 0, 1);
+        loginPane.add(txtUsername, 1, 0);
+        loginPane.add(txtPassword, 1, 1);
+        loginPane.add(btnLogin, 1, 3);
+        loginPane.add(userCombo, 1, 2);             
         
-//        ObservableList<String> options = 
-//                FXCollections.observalebArrayList(
-//                "Employee",
-//                "Guest"
-//                );
-
-        //ComboBox cmbLoginType = new ComboBox(options);
+        // Scene
+        Scene loginScene = new Scene(loginPane, 500, 300);
         
-        GridPane primaryPane = new GridPane();
-        Scene primaryScene = new Scene(primaryPane);
-        primaryStage.setTitle("Madison Hotel");
-        primaryStage.setScene(primaryScene);
-        primaryStage.show();
+        // Stage
+        loginStage.setTitle("Madison Hotel - Login");
+        loginStage.setScene(loginScene);
+        loginStage.show();     
+        
 
+    }
+    public void guest(Stage guestStage)
+    {
+        // Controls
+        Label guestMenu1 = new Label("guestMenu option 1");
+        
+        // Pane
+        GridPane guestPane = new GridPane();
+        guestPane.setVgap(10);
+        guestPane.setHgap(10);
+        
+        // Scene
+        Scene guestScene = new Scene(guestPane, 1000, 1000);
+
+        
+        // Stage
+        guestStage.setTitle("Madison Hotel - Guest Menu");
+        guestStage.setScene(guestScene);
+        guestStage.show();
+    }
+    public void employee(Stage employeeStage)
+    {
+        // Controls
+        Label employee1 = new Label("guestMenu option 1");
+        
+        // Pane
+        GridPane employeePane = new GridPane();
+        employeePane.setVgap(10);
+        employeePane.setHgap(10);
+        
+        // Scene
+        Scene employeeScene = new Scene(employeePane, 1000, 1000);
+
+
+        
+        // Stage
+        employeeStage.setTitle("Madison Hotel - Employee Menu");
+        employeeStage.setScene(employeeScene);
+        employeeStage.show();
+    }
+    public void stop()
+    {
+        //this will run before any program ends
+        //code in here is guaranteed to run before the program closes
+        //cleanup method
     }
     public static void main(String args[])
     {
+        Employee employee1 = new Employee("Adam", "pass", "adam hitchings");
+        employees.add(employee1);
+        Guest guest1 = new Guest("Brendan", "pass", "brendan boyle");
+        guests.add(guest1);
+        Guest guest2 = new Guest("John", "pass", "johnny guo");
+        guests.add(guest2);
+        Employee employee2 = new Employee("Isaac", "pass", "isaac gamble");
+        employees.add(employee2);
+        Room room1 = new Room(0, 0, 0, 0, 100, 200.0);
+        rooms.add(room1);
+        Room room2 = new Room(1, 1, 1, 1, 201, 200.0);
+        rooms.add(room2);
+        Room room3 = new Room(2, 1, 0, 1, 302, 300.0);
+        rooms.add(room3);
+        ValueGuest valueGuest1 = new ValueGuest("George", "pass", "george moya");
+        valueGuests.add(valueGuest1);
+        Room room4 = new Room(2, 0, 0, 0, 308, 150.0);
+        rooms.add(room4);
+        Room room5 = new Room(1, 1, 1, 1, 400, 250.0);
+        rooms.add(room5);
+        Booking book1 = new Booking(guest1, room3, 2005, 1, 4);
+        bookings.add(book1);
+        Booking book2 = new Booking(guest1, room4, 2005, 1, 4);
+        bookings.add(book2);
+        
         Application.launch(args);
     }
-
+    public static void print()
+    {
+        System.out.println(" ");
+    }
 }
