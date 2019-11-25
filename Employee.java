@@ -1,6 +1,6 @@
 
 package GroupProject1;
-// Class Definition File (CDF) - Mark Kilgore
+// Class Definition File (CDF) - Mark Kilgore and George Moya
 
 public class Employee 
 {
