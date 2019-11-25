@@ -2,7 +2,7 @@
 //Description: A class which defines ValueGuest objects which extends class Guest.
 //value guests are returning guests and have some special characteristics like number
 //of bookings and total spent with the hotel
-//contributed by Brendan Boyle
+//contributed by Dylan Vetter
 package GroupProject1;
 // Class Definition File (CDF)
 
