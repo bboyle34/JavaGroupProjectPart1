@@ -181,7 +181,7 @@ public class Room
     }
     
     //returns a string containing the accessibility option for a specific room object
-    //George Moya
+    //Contributed by George Moya
     public String printAccessOption()
     {
         String access = "";
@@ -193,6 +193,7 @@ public class Room
     }
     
     //returns a string containing whether or not the room is booked
+    //Contributed by Dylan Vetter
     public String printRoomBooked()
     {
         String check = "";
@@ -204,6 +205,7 @@ public class Room
     }
     
     //setter for room number
+    //Contributed by Dylan Vetter
     public boolean setRoomNumber(int roomNumber)
     {
         this.roomNumber = roomNumber;
