@@ -3,7 +3,7 @@ package GroupProject1;
 
 //Description: A class that has details and member methods for specific rooms in the hotel. Objects are instantiated with 
 //a variety of options and details about the specific room, as well as whether or not the room is booked.
-//Contributed by Brendan Boyle and Andrew Taylor
+//Contributed by Brendan Boyle, Andrew Taylor, and George Moya
 public class Room 
 {
     // Data Fields
@@ -124,6 +124,7 @@ public class Room
     
     //returns a string containing details about room specifications as well as information from
     //room analytics method above
+    //Contributed by George Moya
     public String roomDescription()
     {
         String answer = "";
@@ -139,6 +140,7 @@ public class Room
     }
     
     //returns a string containing the bed option for a specific room object
+    //Contributed by George Moya
     public String printBedOption()
     {
         String bed = "";
@@ -155,6 +157,7 @@ public class Room
     }
     
     //returns a string containing the kitchen option for a specific room object
+    //Conributed by George Moya
     public String printKitchOption()
     {
         String kitch = "";
@@ -166,6 +169,7 @@ public class Room
     }
     
     //returns a string containing the coffee option for a specific room object
+    //Contributed by George Moya
     public String printCoffeeOption()
     {
         String coffee = "";
@@ -177,6 +181,7 @@ public class Room
     }
     
     //returns a string containing the accessibility option for a specific room object
+    //George Moya
     public String printAccessOption()
     {
         String access = "";
