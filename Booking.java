@@ -1,5 +1,6 @@
 
 package GroupProject1;
+import java.util.*;
 // Class Definition File (CDF)
 
 
@@ -14,6 +15,7 @@ public class Booking
     public int bookingYear;
     public int checkInDay;
     public int checkOutDay;
+    public ArrayList<RoomService> roomServices = new ArrayList<RoomService>();
     
     public static int nextID = 0;
 
@@ -30,6 +32,10 @@ public class Booking
     }
 
     // Methods
+    public void addRoomService(RoomService r)
+    {
+        this.roomServices.add(r);
+    }
     //Returns a string with a description of a specific booking
     public String describeBooking()
     {
