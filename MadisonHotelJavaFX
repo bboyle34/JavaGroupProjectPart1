@@ -28,51 +28,66 @@ public class MadisonHotelJavaFX extends Application
         TextField txtUsername = new TextField();
         TextField txtPassword = new TextField();        
         String[] users = {"Guest", "Employee"};
-        ComboBox userCombo = new ComboBox(FXCollections.observableArrayList(users));        
+        ComboBox userCombo = new ComboBox();
+        userCombo.getItems().add("Guest");
+        userCombo.getItems().add("Employee");
+        Button btnExit = new Button("Exit Program");
+        
         btnLogin.setOnAction(e ->
         {
-            
-            if (userCombo.getValue().equals(FXCollections.observableArrayList(users[1])))
+            String choice = (String) userCombo.getValue();
+            if (choice.equalsIgnoreCase("Employee"))
             {
                 for (int i = 0; i < employees.size(); i++)
                 {
-                    if (employees.get(i).checkCredentials(txtUsername.getText(), txtPassword.getText()))
+                    if (employees.get(i).checkCredentials(txtUsername.getText(), 
+                            txtPassword.getText()))
                     {
+                        loginStage.hide();
                         Stage employeeStage = new Stage();
                         employee(employeeStage);
                         break;
                     }
                 }
             }
-            else if (userCombo.getValue().equals(FXCollections.observableArrayList(users[0])))
+            else if (choice.equalsIgnoreCase("Guest"))
             {    
                 for (int i = 0; i < guests.size(); i++)
                 {
-                    if (guests.get(i).checkCredentials(txtUsername.getText(), txtPassword.getText()))
+                    if (guests.get(i).checkCredentials(txtUsername.getText(), 
+                            txtPassword.getText()))
                     {
+                        loginStage.hide();
                         Stage guestStage = new Stage();
                         guest(guestStage);
                         break;
                     }
                 }
             }
-            else if (userCombo.getValue().equals(FXCollections.observableArrayList(users[0])))
-            {
-                for (int i = 0; i < valueGuests.size(); i++)
-                {
-                    if (valueGuests.get(i).checkCredentials(txtUsername.getText(), txtPassword.getText()))
-                    {
-                        Stage valueGuestStage = new Stage();
-                        guest(valueGuestStage);
-                        break;
-                    }
-                }
-            }
+//            else if (choice.equalsIgnoreCase("Guest"))
+//            {
+//                for (int i = 0; i < valueGuests.size(); i++)
+//                {
+//                    if (valueGuests.get(i).checkCredentials(txtUsername.getText(), 
+//                          txtPassword.getText()))
+//                    {
+//                        loginStage.hide();
+//                        Stage valueGuestStage = new Stage();
+//                        guest(valueGuestStage);
+//                        break;
+//                    }
+//                }
+//            }
             else
             {
-                System.out.println("Please enter a valid username and password login.");
+                System.out.println("Please enter a valid username "
+                        + "and password login.");
             }
-        });               
+        });
+        btnExit.setOnAction(e ->
+        {
+           loginStage.close(); 
+        });
                 
         // Pane
         GridPane loginPane = new GridPane();
@@ -84,7 +99,8 @@ public class MadisonHotelJavaFX extends Application
         loginPane.add(txtUsername, 1, 0);
         loginPane.add(txtPassword, 1, 1);
         loginPane.add(btnLogin, 1, 3);
-        loginPane.add(userCombo, 1, 2);             
+        loginPane.add(userCombo, 1, 2);
+        loginPane.add(btnExit, 1, 4);
         
         // Scene
         Scene loginScene = new Scene(loginPane, 500, 300);
@@ -99,16 +115,28 @@ public class MadisonHotelJavaFX extends Application
     public void guest(Stage guestStage)
     {
         // Controls
-        Label guestMenu1 = new Label("guestMenu option 1");
+        
         
         // Pane
-        GridPane guestPane = new GridPane();
-        guestPane.setVgap(10);
-        guestPane.setHgap(10);
+        TabPane guestTabs = new TabPane();
+        GridPane bookRoomPane = new GridPane();
+        GridPane roomReportPane = new GridPane();
+        GridPane personalInfoPane = new GridPane();
+        
+        Tab bookRoomTab = new Tab("Book Room");
+        bookRoomTab.setContent(bookRoomPane);
+        guestTabs.getTabs().add(bookRoomTab);
+        
+        Tab roomReportTab = new Tab("Room Report");
+        roomReportTab.setContent(roomReportPane);
+        guestTabs.getTabs().add(roomReportTab);
+        
+        Tab personalInfoTab = new Tab("Personal Information");
+        personalInfoTab.setContent(personalInfoPane);
+        guestTabs.getTabs().add(personalInfoTab);
         
         // Scene
-        Scene guestScene = new Scene(guestPane, 1000, 1000);
-
+        Scene guestScene = new Scene(guestTabs, 500, 600);
         
         // Stage
         guestStage.setTitle("Madison Hotel - Guest Menu");
@@ -118,22 +146,218 @@ public class MadisonHotelJavaFX extends Application
     public void employee(Stage employeeStage)
     {
         // Controls
-        Label employee1 = new Label("guestMenu option 1");
-        
+        Button btnCreateRoom = new Button("Create a new Room");
+        Button btnEditRoom = new Button("Edit a Room");
+        Button btnActive = new Button("Set a Room Active/Inactive");
+        Button btnLogout = new Button("Logout ->");
         // Pane
-        GridPane employeePane = new GridPane();
-        employeePane.setVgap(10);
-        employeePane.setHgap(10);
+        TabPane employeeTabs = new TabPane();
+        
+        
+        GridPane bookReportPane = new GridPane();
+        
+        
+        GridPane checkOutPane = new GridPane();
+        
+        
+        GridPane createGuestPane = new GridPane();
+        
+        
+        GridPane createEmployeePane = new GridPane();
+
+        
+        GridPane editRoomPane = new GridPane();
+        editRoomPane.setAlignment(Pos.CENTER);
+        editRoomPane.setVgap(10);
+        editRoomPane.setHgap(10);
+        editRoomPane.add(btnCreateRoom, 0, 0);
+        editRoomPane.add(btnEditRoom, 0, 1);
+        editRoomPane.add(btnActive, 0, 2);
+        editRoomPane.add(btnLogout, 0, 4);
+        
+        btnLogout.setOnAction(e ->
+        {
+            employeeStage.close();
+            Stage loginStage = new Stage();
+            start(loginStage);
+        });
+        btnCreateRoom.setOnAction(e ->
+        {
+            employeeStage.hide();
+            Stage createRoomStage = new Stage();
+            createRoom(createRoomStage);
+        });
+        
+        Tab bookReportTab = new Tab("Booking Report");
+        bookReportTab.setContent(bookReportPane);
+        employeeTabs.getTabs().add(bookReportTab);
+        
+        Tab checkOutTab = new Tab("Check Guest Out");
+        checkOutTab.setContent(checkOutPane);
+        employeeTabs.getTabs().add(checkOutTab);
+        
+        Tab createGuestTab = new Tab("Create Guest Account");
+        createGuestTab.setContent(createGuestPane);
+        employeeTabs.getTabs().add(createGuestTab);
+        
+        Tab createEmployeeTab = new Tab("Create Employee Account");
+        createEmployeeTab.setContent(createEmployeePane);
+        employeeTabs.getTabs().add(createEmployeeTab);
+        
+        Tab editRoomTab = new Tab("Create/Edit Room");
+        editRoomTab.setContent(editRoomPane);
+        employeeTabs.getTabs().add(editRoomTab);
         
         // Scene
-        Scene employeeScene = new Scene(employeePane, 1000, 1000);
-
-
+        Scene employeeScene = new Scene(employeeTabs, 630, 520);
         
         // Stage
         employeeStage.setTitle("Madison Hotel - Employee Menu");
         employeeStage.setScene(employeeScene);
         employeeStage.show();
+    }
+    public void createRoom(Stage createRoomStage)
+    {
+        // Controls
+        Label lblBed = new Label("Bed: ");
+        ComboBox bedCombo = new ComboBox();
+        bedCombo.getItems().add("1x Queen Bed");
+        bedCombo.getItems().add("2x Queen Bed");
+        bedCombo.getItems().add("1x King Bed");
+        Label lblKitch = new Label("Kitchen: ");
+        ComboBox kitchCombo = new ComboBox();
+        kitchCombo.getItems().add("Microwave");
+        kitchCombo.getItems().add("Fridge + Microwave");
+        Label lblCoffee = new Label("Coffee");
+        ComboBox coffeeCombo = new ComboBox();
+        coffeeCombo.getItems().add("1-Cup Std. Coffee Machine");
+        coffeeCombo.getItems().add("Keurig Hot K200 Machine");
+        Label lblAccess = new Label("Accessibility: ");
+        ComboBox accessCombo = new ComboBox();
+        accessCombo.getItems().add("Standard Room");
+        accessCombo.getItems().add("Enhanced Accessibility Room");
+        Label lblRoomNumber = new Label("Room Numbers: ");
+        TextField txtRoomNumber = new TextField();
+        Label lblRoomPrice = new Label("Price per Night");
+        TextField txtRoomPrice = new TextField();
+        Button btnAddRoom = new Button("Add Room ->");
+        Button btnEmpMenu = new Button("Employee Menu ->");
+        ListView lvOutput = new ListView();
+        lvOutput.getItems().add("");
+        
+        btnEmpMenu.setOnAction(e ->
+        {
+            createRoomStage.hide();
+            Stage employeeStage = new Stage();
+            employee(employeeStage);
+        });
+        
+        btnAddRoom.setOnAction(e ->
+        {
+            String bed = (String) bedCombo.getValue();
+            int bedChoice = 0;
+            if (bed.equalsIgnoreCase("1x Queen Bed"))
+            {
+                bedChoice = 0;
+            }
+            else if (bed.equalsIgnoreCase("2x Queen Bed"))
+            {
+                bedChoice = 1;
+            }
+            else if (bed.equalsIgnoreCase("1x King Bed"))
+            {
+                bedChoice = 2;
+            }
+            String kitch = (String) kitchCombo.getValue();
+            int kitchChoice = 0;
+            if (kitch.equalsIgnoreCase("Microwave"))
+            {
+                kitchChoice = 0;
+            }
+            else if (kitch.equalsIgnoreCase("Fridge + Microwave"))
+            {
+                kitchChoice = 1;
+            }
+            String coffee = (String) coffeeCombo.getValue();
+            int coffeeChoice = 0;
+            if (coffee.equalsIgnoreCase("1-Cup Std. Coffee Machine"))
+            {
+                coffeeChoice = 0;
+            }
+            else if (coffee.equalsIgnoreCase("Keurig Hot K200 Machine"))
+            {
+                coffeeChoice = 1;
+            }
+            String access = (String) accessCombo.getValue();
+            int accessChoice = 0;
+            if (access.equalsIgnoreCase("Standard Room"))
+            {
+                accessChoice = 0;
+            }
+            else if (access.equalsIgnoreCase("Enhanced Accessibility Room"))
+            {
+                accessChoice = 1;
+            }
+            int roomNumber = 0;
+            roomNumber = Integer.parseInt(txtRoomNumber.getText());
+            double roomPrice = 0;
+            roomPrice = Double.parseDouble(txtRoomPrice.getText());
+            if (bed != null || kitch != null || coffee != null 
+                    || access != null || roomNumber > 0 || roomPrice > 0)
+            {
+                Room r = new Room(bedChoice, kitchChoice, coffeeChoice, 
+                        accessChoice, roomNumber, roomPrice);
+                rooms.add(r);
+                for (int i = 0; i < rooms.size(); i++)
+                {
+                    if (rooms.get(i).equals(r))
+                    {
+                        String booked = null;
+                        if (rooms.get(i).isBooked())
+                        {
+                            booked = "[Unavailable]";
+                        }
+                        else
+                        {
+                            booked = "[Available]";
+                        }
+                            lvOutput.getItems().add("Room " 
+                                    + rooms.get(i).roomNumber 
+                                    + " Booking Qty: " 
+                                    + rooms.get(i).getRoomBookedQuantity() 
+                                    + " " + booked);
+                    }
+                }
+            }
+        });        
+        
+        // Pane        
+        GridPane createRoomPane = new GridPane();
+        createRoomPane.setVgap(20);
+        createRoomPane.setHgap(20);
+        createRoomPane.add(lblBed, 0, 1);
+        createRoomPane.add(bedCombo, 1, 1);
+        createRoomPane.add(lblKitch, 0, 2);
+        createRoomPane.add(kitchCombo, 1, 2);
+        createRoomPane.add(lblCoffee, 0, 3);
+        createRoomPane.add(coffeeCombo, 1, 3);
+        createRoomPane.add(lblAccess, 0, 4);
+        createRoomPane.add(accessCombo, 1, 4);
+        createRoomPane.add(lblRoomNumber, 0, 10);
+        createRoomPane.add(txtRoomNumber, 1, 10);
+        createRoomPane.add(btnAddRoom, 1, 16);
+        createRoomPane.add(btnEmpMenu, 3, 16);
+        createRoomPane.add(lvOutput, 3, 1, 1, 15);
+        createRoomPane.add(lblRoomPrice, 0, 11);
+        createRoomPane.add(txtRoomPrice, 1, 11);
+        
+        // Scene
+        Scene createRoomScene = new Scene(createRoomPane, 630, 520);
+        
+        // Stage
+        createRoomStage.setTitle("Madison Hotel - Create a Room");
+        createRoomStage.setScene(createRoomScene);
+        createRoomStage.show();
     }
     public void stop()
     {
@@ -157,7 +381,7 @@ public class MadisonHotelJavaFX extends Application
         rooms.add(room2);
         Room room3 = new Room(2, 1, 0, 1, 302, 300.0);
         rooms.add(room3);
-        ValueGuest valueGuest1 = new ValueGuest("George", "pass", "george moya");
+        ValueGuest valueGuest1 = new ValueGuest("George", "pass", "george moy");
         valueGuests.add(valueGuest1);
         Room room4 = new Room(2, 0, 0, 0, 308, 150.0);
         rooms.add(room4);
