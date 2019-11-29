@@ -9,7 +9,7 @@ package GroupProject1;
 public class ValueGuest extends Guest
 {
     // Data Fields
-    private String savingsNumber;
+    private int valueClubID;
     private int numberOfBookings;
     private double amountSpentWithHotel;
 
@@ -33,8 +33,8 @@ public class ValueGuest extends Guest
     }
     
     //getter for savings number
-    public String getSavingsNumber()
+    public int valueClubID()
     {
-        return this.savingsNumber;
+        return this.valueClubID;
     }
 }
