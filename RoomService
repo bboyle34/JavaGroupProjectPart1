@@ -1,0 +1,23 @@
+
+package GroupProject1;
+// Class Definition File (CDF)
+
+public class RoomService 
+{
+    // Data Fields
+    public int ID;
+    public String description;
+    public double price;
+    
+    public static int nextID = 0;
+
+    // Constructors
+    public RoomService(String description, double price)
+    {
+        this.ID = nextID++;
+        this.description = description;
+        this.price = price;
+    }
+
+    // Methods
+}
