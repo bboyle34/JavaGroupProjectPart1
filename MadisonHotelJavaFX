@@ -21,6 +21,7 @@ public class MadisonHotelJavaFX extends Application
     
     public void start(Stage loginStage) 
     {
+        //read the database
         // Controls
         Label lblUsername = new Label("Username: ");
         Label lblPassword = new Label("Password: ");
@@ -948,6 +949,7 @@ public class MadisonHotelJavaFX extends Application
         //this will run before any program ends
         //code in here is guaranteed to run before the program closes
         //cleanup method
+        //update the database with all current objects
     }
     public static void main(String args[])
     {
