@@ -31,6 +31,7 @@ public class MadisonHotelJavaFX extends Application
         ComboBox userCombo = new ComboBox();
         userCombo.getItems().add("Guest");
         userCombo.getItems().add("Employee");
+        userCombo.getItems().add("Value Guest");
         Button btnExit = new Button("Exit Program");
         
         btnLogin.setOnAction(e ->
@@ -43,7 +44,7 @@ public class MadisonHotelJavaFX extends Application
                     if (employees.get(i).checkCredentials(txtUsername.getText(), 
                             txtPassword.getText()))
                     {
-                        loginStage.hide();
+                        loginStage.close();
                         Stage employeeStage = new Stage();
                         employee(employeeStage, employees.get(i));
                         break;
@@ -57,27 +58,27 @@ public class MadisonHotelJavaFX extends Application
                     if (guests.get(i).checkCredentials(txtUsername.getText(), 
                             txtPassword.getText()))
                     {
-                        loginStage.hide();
+                        loginStage.close();
                         Stage guestStage = new Stage();
                         guest(guestStage, guests.get(i));
                         break;
                     }
                 }
             }
-//            else if (choice.equalsIgnoreCase("Guest"))
-//            {
-//                for (int i = 0; i < valueGuests.size(); i++)
-//                {
-//                    if (valueGuests.get(i).checkCredentials(txtUsername.getText(), 
-//                          txtPassword.getText()))
-//                    {
-//                        loginStage.hide();
-//                        Stage valueGuestStage = new Stage();
-//                        guest(valueGuestStage);
-//                        break;
-//                    }
-//                }
-//            }
+            else if (choice.equalsIgnoreCase("Value Guest"))
+            {
+                for (int i = 0; i < valueGuests.size(); i++)
+                {
+                    if (valueGuests.get(i).checkCredentials(txtUsername.getText(), 
+                          txtPassword.getText()))
+                    {
+                        loginStage.close();
+                        Stage valueGuestStage = new Stage();
+                        guest(valueGuestStage, valueGuests.get(i));
+                        break;
+                    }
+                }
+            }
             else
             {
                 System.out.println("Please enter a valid username "
@@ -156,38 +157,47 @@ public class MadisonHotelJavaFX extends Application
             int checkIn = Integer.parseInt(txtCheckDay.getText());
             int checkOut = Integer.parseInt(txtCheckOut.getText());
             int number = 0;
+            boolean operator = false;
+
             if (room != null && checkIn > 0 && checkOut > 0)
             {
+                try
+                {
+                    number = Integer.parseInt(room.substring(5, 8));                        
+                }
+                catch (Exception f)
+                {
+                    number = Integer.parseInt(room.substring(5, 7));
+                }
                 for (int i = 0; i < rooms.size(); i++)
                 {
-                    try
-                    {
-                        number = Integer.parseInt(room.substring(5, 8));                        
-                    }
-                    catch (Exception f)
-                    {
-                        number = Integer.parseInt(room.substring(5, 7));
-                    }
                     if (rooms.get(i).roomNumber == number)
                     {
                         Booking b = new Booking(guest, rooms.get(i), year, 
                                 checkIn, checkOut);
                         bookings.add(b);
-                        lvFreeRoom.getItems().clear();
-                        for (int j = 0; j < bookings.size(); j++)
+                        operator = true;
+                    }
+                }
+                if (operator)
+                {
+                    lvFreeRoom.getItems().clear();
+                    for (int i = 0; i < rooms.size(); i++)
+                    {
+                        String booked = null;
+                        if (!(rooms.get(i).isBooked()))
                         {
-                            String booked = null;
-                            if (!(rooms.get(j).isBooked()))
-                            {
-                                booked = "[Available]";
-                                lvFreeRoom.getItems().add("Room " 
-                                + rooms.get(j).roomNumber 
-                                + ", " + rooms.get(j).printKitchOption()
-                                + ", \n" + rooms.get(j).printCoffeeOption()
-                                + ", " + booked);
-                            }
+                            booked = "[Available]";
+                            lvFreeRoom.getItems().add("Room " 
+                            + rooms.get(i).roomNumber 
+                            + ", " + rooms.get(i).printKitchOption()
+                            + ", \n" + rooms.get(i).printCoffeeOption()
+                            + ", " + booked);
                         }
                     }
+                    txtCheckYear.clear();
+                    txtCheckDay.clear();
+                    txtCheckOut.clear();                  
                 }
             }
         });
@@ -255,7 +265,9 @@ public class MadisonHotelJavaFX extends Application
         });
         btnChangeGuestPassword.setOnAction(e ->
         {
-            
+            Stage changePasswordStage = new Stage();
+            changePassword(changePasswordStage, guest);
+            guestStage.close();
         });
         
         // Pane
@@ -480,7 +492,10 @@ public class MadisonHotelJavaFX extends Application
                 Guest g = new Guest(txtGuestUsername.getText(), 
                         txtGuestPassword.getText(), txtGuestName.getText());
                 guests.add(g);
-                lvGuestList.getItems().add(g.getGuestName() + " [Regular]");                
+                lvGuestList.getItems().add(g.getGuestName() + " [Regular]");
+                txtGuestName.clear();
+                txtGuestUsername.clear();
+                txtGuestPassword.clear();                
             }
             else if (!(txtGuestName.getText().equalsIgnoreCase("")) 
                     && !(txtGuestUsername.getText().equalsIgnoreCase("")) 
@@ -574,6 +589,14 @@ public class MadisonHotelJavaFX extends Application
         bookReportPane.add(btnLogout2, 2, 16);
         
         GridPane checkOutPane = new GridPane();
+        checkOutPane.setOnMouseEntered(e ->
+        {
+            lvGuests.getItems().clear();
+            for (int i = 0; i < guests.size(); i++)
+            {
+                lvGuests.getItems().add(guests.get(i).getGuestName());
+            }
+        });
         checkOutPane.setAlignment(Pos.CENTER);
         checkOutPane.setVgap(10);
         checkOutPane.setHgap(10);
@@ -880,6 +903,45 @@ public class MadisonHotelJavaFX extends Application
         changeGuestNameStage.setTitle("Change Guest Name");
         changeGuestNameStage.setScene(changeNameScene);
         changeGuestNameStage.show();
+    }
+    public void changePassword(Stage changePasswordStage, Guest guest)
+    {
+        Label lblOldPassword = new Label("Old Password: ");
+        TextField txtOldPassword = new TextField();
+        Label lblNewPassword = new Label("New Password: ");
+        TextField txtNewPassword = new TextField();
+        Button btnChangeName = new Button("Change Password");
+        btnChangeName.setOnAction(e ->
+        {
+            String pass = txtNewPassword.getText();
+            if (pass != null && !(pass.equalsIgnoreCase("") 
+                    && !(pass.equalsIgnoreCase(" "))))
+            {
+                guest.setPassword(txtOldPassword.getText(), 
+                        txtNewPassword.getText());
+                changePasswordStage.close();
+                Stage guestStage = new Stage();
+                guest(guestStage, guest);                
+            }
+        });
+        
+        // Pane
+        GridPane changePasswordPane = new GridPane();
+        changePasswordPane.setAlignment(Pos.CENTER);
+        changePasswordPane.setVgap(10);
+        changePasswordPane.setHgap(10);
+        changePasswordPane.add(lblOldPassword, 0, 0);
+        changePasswordPane.add(txtOldPassword, 1, 0);
+        changePasswordPane.add(lblNewPassword, 0, 1);
+        changePasswordPane.add(txtNewPassword, 1, 1);
+        changePasswordPane.add(btnChangeName, 1, 3);
+        // Scene
+        Scene changePasswordScene = new Scene(changePasswordPane, 500, 300);
+        
+        // Stage
+        changePasswordStage.setTitle("Change Guest Password");
+        changePasswordStage.setScene(changePasswordScene);
+        changePasswordStage.show();
     }
     public void stop()
     {
