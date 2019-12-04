@@ -1,6 +1,8 @@
 
 package GroupProject1;
 // Class Definition File (CDF) - Mark Kilgore and George Moya
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class Employee 
 {
