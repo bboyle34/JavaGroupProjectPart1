@@ -35,7 +35,12 @@ public class MadisonHotelApplication
         bookings.add(book1);
         Booking book2 = new Booking(guest1, room4, 2005, 1, 4);
         bookings.add(book2);
-
+        RoomService pizza = new RoomService("Customer ordered pizza", 15.00);
+        RoomService pillows = new RoomService("Customer ordered fresh pillows", 10.00);
+        RoomService movie = new RoomService("Customer ordered a movie", 5.00);
+        book1.addRoomService(movie);
+        book2.addRoomService(pillows);
+        book2.addRoomService(pizza);
         
         login();
     }
