@@ -4,7 +4,6 @@
 package GroupProject1;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-
 // Class Definition File (CDF)
 
 public class Guest 
@@ -61,63 +60,74 @@ public class Guest
     
     //setter for guest password, requires old and new
     //password as parameters
-//   public int setPassword(String oldP, String newP)
-//    {
-//        boolean operator = true;
-//        if (newP.substring(0, 1).matches("[0-9]"))
-//        {
-//            operator = false;
-//        }
+   public int setPassword(String oldP, String newP)
+    {
+        boolean operator = true;
+        if (newP.substring(0, 1).matches("[0-9]"))
+        {
+            operator = false;
+        }
+        int count = 1;
+        boolean b = false;
+        for (int i = 0; i < newP.length(); i++)
+        {
+            if (newP.substring(i).matches("[^A-Za-z0-9]"))
+            {
+                b = true;
+            }
+            count++;
+        }
 //        Pattern p = Pattern.compile("[^A-Za-z0-9]");
 //        Matcher m = p.matcher(newP);
 //        boolean b = m.find();
-//        if (this.password.equalsIgnoreCase(oldP) || !b || !operator)
-//        {
-//            this.password = newP;
-//            return 0;
-//        }
-//        else
-//        {
-//            return 1;
-//        }
-//    }
-    
-    
-        public boolean setPassword(String oldP, String newP)
-    {
-     
-        boolean meetsPassRequirements = true;
-        
-        if(Character.isDigit(newP.charAt(0)))
+        if (this.password.equalsIgnoreCase(oldP) && b && operator)
         {
-            meetsPassRequirements = false;
+            System.out.println("it worked");
+            this.password = newP;
+            return 0;
         }
         
-        for(int i = 0; i < newP.length(); i++)
+        else
         {
-            if(oldP.charAt(i) == newP.charAt(i))
-                meetsPassRequirements = false;
+            return 1;
         }
-        
-        for(int i = 0; i < newP.length(); i++)
-        {
-            if(Character.isLowerCase(newP.charAt(i)))
-            {
-                meetsPassRequirements = false;
-            }
-            
-        }
-        
-        for(int i = 0; i < newP.length(); i++)
-        {
-            if(Character.isLetter(newP.charAt(i)))
-            {
-                meetsPassRequirements = false;
-            }
-        }
-        return meetsPassRequirements;     
     }
     
+    
+//        public boolean setPassword(String oldP, String newP)
+//    {
+//     
+//        boolean meetsPassRequirements = true;
+//        
+//        if(Character.isDigit(newP.charAt(0)))
+//        {
+//            meetsPassRequirements = false;
+//        }
+//        
+//        
+//           if(oldP.
+//                meetsPassRequirements = false;
+//        
+//        
+//        for(int i = 0; i < newP.length(); i++)
+//        {
+//            if(Character.isLowerCase(newP.charAt(i)))
+//            {
+//                meetsPassRequirements = false;
+//            }
+//            
+//        }
+//        
+//        for(int i = 0; i < newP.length(); i++)
+//        {
+//            if(Character.isLetter(newP.charAt(i)))
+//            {
+//                meetsPassRequirements = false;
+//            }
+//        }
+//        return meetsPassRequirements;     
+//    }
+//    
     
     //method which returns as a string a description of a guest
     public String describeGuest()
