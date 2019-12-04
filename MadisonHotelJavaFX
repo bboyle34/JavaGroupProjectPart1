@@ -30,7 +30,7 @@ public class MadisonHotelJavaFX extends Application
         Label lblPassword = new Label("Password: ");
         Button btnLogin = new Button("Login ->");
         TextField txtUsername = new TextField();
-        TextField txtPassword = new TextField();        
+        PasswordField userPass = new PasswordField();    
         String[] users = {"Guest", "Employee"};
         ComboBox userCombo = new ComboBox();
         userCombo.getItems().add("Guest");
@@ -51,7 +51,7 @@ public class MadisonHotelJavaFX extends Application
                     for (int i = 0; i < employees.size(); i++)
                     {
                         if (employees.get(i).checkCredentials(txtUsername.getText(), 
-                                txtPassword.getText()))
+                                userPass.getText()))
                         {
                             operator = false;
                             loginStage.close();
@@ -70,7 +70,7 @@ public class MadisonHotelJavaFX extends Application
                     for (int i = 0; i < guests.size(); i++)
                     {
                         if (guests.get(i).checkCredentials(txtUsername.getText(), 
-                                txtPassword.getText()))
+                                userPass.getText()))
                         {
                             operator = false;
                             loginStage.close();
@@ -89,7 +89,7 @@ public class MadisonHotelJavaFX extends Application
                     for (int i = 0; i < valueGuests.size(); i++)
                     {
                         if (valueGuests.get(i).checkCredentials(txtUsername.getText(), 
-                              txtPassword.getText()))
+                              userPass.getText()))
                         {
                             operator = false;
                             loginStage.close();
