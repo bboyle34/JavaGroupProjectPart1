@@ -42,7 +42,7 @@ public class MadisonHotelJavaFX extends Application
         
         btnLogin.setOnAction(e ->
         {
-            if (!(txtUsername.getText().isEmpty()) && !(txtPassword.getText().isEmpty()))
+            if (!(txtUsername.getText().isEmpty()) && !(userPass.getText().isEmpty()))
             {
                 boolean operator = true;
                 String choice = (String) userCombo.getValue();
@@ -119,7 +119,7 @@ public class MadisonHotelJavaFX extends Application
         loginPane.add(lblUsername, 0, 1);
         loginPane.add(lblPassword, 0, 2);
         loginPane.add(txtUsername, 1, 1);
-        loginPane.add(txtPassword, 1, 2);
+        loginPane.add(userPass, 1, 2);
         loginPane.add(btnLogin, 1, 4);
         loginPane.add(userCombo, 1, 3);
         loginPane.add(btnExit, 1, 5);
