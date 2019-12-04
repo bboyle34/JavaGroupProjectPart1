@@ -338,6 +338,18 @@ public class MadisonHotelJavaFX extends Application
         personalInfoPane.add(btnLogout3, 3, 19);
         
         GridPane roomServicePane = new GridPane();
+        roomServicePane.setAlignment(Pos.CENTER);
+        roomServicePane.setVgap(10);
+        roomServicePane.setHgap(10);
+        roomServicePane.add(sceneTitle4, 0, 0, 2, 1);
+        roomServicePane.add(lblGuestNameInfo3, 0, 1);
+        roomServicePane.add(lblGuestNameInfo4, 1, 1);
+        roomServicePane.add(lblGuestUsernameInfo3, 0, 2);
+        roomServicePane.add(lblGuestUsernameInfo4, 1, 2);
+        roomServicePane.add(lvGuestCosts, 1, 3, 1, 15);
+        roomServicePane.add(lblGuestCosts, 0, 4);
+        roomServicePane.add(btnLogout4,3, 19);
+        
         
         Tab bookRoomTab = new Tab("Book Room");
         bookRoomTab.setContent(bookRoomPane);
