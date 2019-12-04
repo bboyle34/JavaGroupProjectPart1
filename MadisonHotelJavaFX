@@ -303,12 +303,13 @@ public class MadisonHotelJavaFX extends Application
         {
             if (bookings.get(i).bookingGuest.equals(guest))
             {
-                lvGuestCosts.getItems().add("\n Total Cost of Room: "
-                + bookings.get(i).bookedRoom.roomCostPerNight + "\n" + bookings.get(i));
-                count++;
+                lvGuestCosts.getItems().add("Total Cost of Room: $"
+                + bookings.get(i).bookedRoom.roomCostPerNight + "\n" 
+                        + " Room " + bookings.get(i).bookedRoom.getRoomNumber());
+                count1++;
             }
         }
-        if (count == 0)
+        if (count1 == 0)
         {
             lvGuestCosts.getItems().add("You currently have no Bookings");
         }
@@ -387,10 +388,29 @@ public class MadisonHotelJavaFX extends Application
         personalInfoPane.add(btnLogout3, 3, 19);
         
         GridPane roomServicePane = new GridPane();
+        roomServicePane.setOnMouseEntered(e ->
+        {
+            lvGuestCosts.getItems().clear();
+            int count2 = 0;
+            for (int i = 0; i < bookings.size(); i++)
+            {
+                if (bookings.get(i).bookingGuest.equals(guest))
+                {
+                    lvGuestCosts.getItems().add("Total Cost of Room: $"
+                    + bookings.get(i).bookedRoom.roomCostPerNight + "\n" 
+                            + " Room " + bookings.get(i).bookedRoom.getRoomNumber());
+                    count2++;
+                }
+            }
+            if (count2 == 0)
+            {
+                lvGuestCosts.getItems().add("You currently have no Bookings");
+            }                    
+        });
         roomServicePane.setAlignment(Pos.CENTER);
         roomServicePane.setVgap(10);
-        roomServicePane.setHgap(10);    
-        roomServicePane.add(sceneTitle4, 0, 0, 2, 1); //When commenting this line out. Guest login should work as normal
+        roomServicePane.setHgap(10); 
+        roomServicePane.add(sceneTitle4, 0, 0, 2, 1);
         roomServicePane.add(lblGuestNameInfo3, 0, 1);
         roomServicePane.add(lblGuestNameInfo4, 1, 1);
         roomServicePane.add(lblGuestUsernameInfo3, 0, 2);
@@ -1345,7 +1365,7 @@ public class MadisonHotelJavaFX extends Application
             String oldPassword = txtOldPassword.getText();
             String newPassword = txtNewPassword.getText();
             
-            if (guest.setPassword(oldPassword, newPassword));
+            if (guest.setPassword(oldPassword, newPassword) == 1);
             {
                 guest.setPassword(oldPassword,newPassword);
                 changeGuestPasswordStage.close();
