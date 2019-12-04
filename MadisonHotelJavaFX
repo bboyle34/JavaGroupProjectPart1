@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.collections.*;
+import javafx.scene.text.*;
 
 public class MadisonHotelJavaFX extends Application
 {
@@ -23,6 +24,8 @@ public class MadisonHotelJavaFX extends Application
     {
         //read the database
         // Controls
+        Text txtTitle = new Text("Welcome to The Shitshow");
+        txtTitle.setFont(Font.font(20.0));
         Label lblUsername = new Label("Username: ");
         Label lblPassword = new Label("Password: ");
         Button btnLogin = new Button("Login ->");
@@ -112,14 +115,15 @@ public class MadisonHotelJavaFX extends Application
         loginPane.setAlignment(Pos.CENTER);
         loginPane.setVgap(10);
         loginPane.setHgap(10);
-        loginPane.add(lblUsername, 0, 0);
-        loginPane.add(lblPassword, 0, 1);
-        loginPane.add(txtUsername, 1, 0);
-        loginPane.add(txtPassword, 1, 1);
-        loginPane.add(btnLogin, 1, 3);
-        loginPane.add(userCombo, 1, 2);
-        loginPane.add(btnExit, 1, 4);
-        loginPane.add(lblError, 1, 5, 2, 1);
+        loginPane.add(txtTitle, 0, 0, 2, 1);
+        loginPane.add(lblUsername, 0, 1);
+        loginPane.add(lblPassword, 0, 2);
+        loginPane.add(txtUsername, 1, 1);
+        loginPane.add(txtPassword, 1, 2);
+        loginPane.add(btnLogin, 1, 4);
+        loginPane.add(userCombo, 1, 3);
+        loginPane.add(btnExit, 1, 5);
+        loginPane.add(lblError, 1, 6, 2, 1);
         
         // Scene
         Scene loginScene = new Scene(loginPane, 500, 300);
