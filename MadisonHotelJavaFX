@@ -834,24 +834,31 @@ public class MadisonHotelJavaFX extends Application
         bedCombo.getItems().add("1x Queen Bed");
         bedCombo.getItems().add("2x Queen Bed");
         bedCombo.getItems().add("1x King Bed");
+        bedCombo.getSelectionModel().select(0);
         Label lblKitch = new Label("  Kitchen: ");
         ComboBox kitchCombo = new ComboBox();
         kitchCombo.getItems().add("Microwave");
         kitchCombo.getItems().add("Fridge + Microwave");
+        kitchCombo.getSelectionModel().select(0);
         Label lblCoffee = new Label("  Coffee: ");
         ComboBox coffeeCombo = new ComboBox();
         coffeeCombo.getItems().add("1-Cup Std. Coffee Machine");
         coffeeCombo.getItems().add("Keurig Hot K200 Machine");
+        coffeeCombo.getSelectionModel().select(0);
         Label lblAccess = new Label("  Accessibility: ");
         ComboBox accessCombo = new ComboBox();
         accessCombo.getItems().add("Standard Room");
         accessCombo.getItems().add("Enhanced Accessibility Room");
+        accessCombo.getSelectionModel().select(0);
         Label lblRoomNumber = new Label("  Room Number: ");
         TextField txtRoomNumber = new TextField();
         Label lblRoomPrice = new Label("  Price per Night");
         TextField txtRoomPrice = new TextField();
         Button btnAddRoom = new Button("Add Room ->");
         Button btnEmpMenu = new Button("Employee Menu ->");
+        Label lblOutput = new Label("");
+        Label lblRoomNumberNot = new Label();
+        Label lblRoomPriceNot = new Label();
         ListView lvOutput = new ListView();
         for (int i = 0; i < rooms.size(); i++)
         {
@@ -924,23 +931,35 @@ public class MadisonHotelJavaFX extends Application
             {
                 accessChoice = 1;
             }
-            int count = 0;
+            boolean proceed = true;
             int roomNumber = 0;
             for (int i = 0; i < rooms.size(); i++)
             {
+                if (validRoomNumber(txtRoomNumber.getText())) {
                 if (Integer.parseInt(txtRoomNumber.getText()) == rooms.get(i).roomNumber)
                 {
-                    count++;
+                    proceed=false;
+                }
                 }
             }
-            if (!(count > 0))
-            {
+            if (proceed == false) {
+                lblRoomNumberNot.setText("Sorry, that room number is taken!");
+            }
+            if (proceed && (validRoomNumber(txtRoomNumber.getText()) == false || txtRoomNumber.getText().length() == 0)) {
+                lblRoomNumberNot.setText("Please enter valid room #");
+            }
+            if (proceed && (validRoomNumber(txtRoomNumber.getText())) && txtRoomNumber.getText().length() != 0) {
                 roomNumber = Integer.parseInt(txtRoomNumber.getText());
+                lblRoomNumberNot.setText("");
             }
             double roomPrice = 0;
+            if (validRoomPrice(txtRoomPrice.getText()) && txtRoomPrice.getText().length() != 0) {
             roomPrice = Double.parseDouble(txtRoomPrice.getText());
-            if (bed != null && kitch != null && coffee != null 
-                    && access != null && roomNumber > 0 && roomPrice > 0)
+            lblRoomPriceNot.setText("");
+            } else {
+                lblRoomPriceNot.setText("Please enter valid room price");
+            }
+            if (validRoomNumber(txtRoomNumber.getText()) && validRoomPrice(txtRoomPrice.getText())) 
             {
                 Room r = new Room(bedChoice, kitchChoice, coffeeChoice, 
                         accessChoice, roomNumber, roomPrice);
@@ -965,6 +984,12 @@ public class MadisonHotelJavaFX extends Application
                                 + " " + booked);
                     }
                 }
+                lblOutput.setText("Room successfully created!");
+                //lblRoomNumberNot.setText("");
+                //lblRoomPriceNot.setText("");
+            }
+            else {
+                lblOutput.setText("Room not created, fix errors!");
             }
         });        
         
@@ -980,16 +1005,19 @@ public class MadisonHotelJavaFX extends Application
         createRoomPane.add(coffeeCombo, 1, 3);
         createRoomPane.add(lblAccess, 0, 4);
         createRoomPane.add(accessCombo, 1, 4);
-        createRoomPane.add(lblRoomNumber, 0, 10);
-        createRoomPane.add(txtRoomNumber, 1, 10);
-        createRoomPane.add(btnAddRoom, 1, 16);
-        createRoomPane.add(btnEmpMenu, 3, 16);
-        createRoomPane.add(lvOutput, 3, 1, 1, 15);
-        createRoomPane.add(lblRoomPrice, 0, 11);
-        createRoomPane.add(txtRoomPrice, 1, 11);
+        createRoomPane.add(lblRoomNumber, 0, 7);
+        createRoomPane.add(txtRoomNumber, 1, 7);
+        createRoomPane.add(lblRoomNumberNot,1,8);
+        createRoomPane.add(btnAddRoom, 0, 12);
+        createRoomPane.add(btnEmpMenu, 1, 12);
+        createRoomPane.add(lvOutput, 3, 1, 1, 13);
+        createRoomPane.add(lblRoomPrice, 0, 9);
+        createRoomPane.add(txtRoomPrice, 1, 9);
+        createRoomPane.add(lblRoomPriceNot,1,10);
+        createRoomPane.add(lblOutput,1,13);
         
         // Scene
-        Scene createRoomScene = new Scene(createRoomPane, 630, 520);
+        Scene createRoomScene = new Scene(createRoomPane, 700, 590);
         
         // Stage
         createRoomStage.setTitle("Madison Hotel - Create a Room");
@@ -1120,7 +1148,7 @@ public class MadisonHotelJavaFX extends Application
         Label txtConfirm = new Label();
         ListView lvOutput = new ListView();
         lvOutput.getItems().add("Current Room Specifications:\n\nBed: " + rooms.get(room).printBedOption()
-        + "\n\nCoffee: " + rooms.get(room).printCoffeeOption() + "\n\nKitchen: " + rooms.get(room).printKitchOption() 
+        + "\n\nKitchen: " + rooms.get(room).printKitchOption() + "\n\nCoffee: " + rooms.get(room).printCoffeeOption() 
         + "\n\nAccessibility: " + rooms.get(room).printAccessOption() + "\n\nRoom Number: " + rooms.get(room).roomNumber 
         + "\n\nRoom Cost Per Night: " + rooms.get(room).roomCostPerNight + "\n\nRoom Status: " + rooms.get(room).getRoomActivity());
         //Label lblroomSpecs = new Label("Current Room Specifications:\n\nBed: " + rooms.get(room).printBedOption()
@@ -1208,7 +1236,7 @@ public class MadisonHotelJavaFX extends Application
             //} //else if (txtRoomNumber.getText().length() ==0 || txtRoomPrice.getText().length() ==0)  {
                 //txtConfirm.setText("Sorry, invalid option(s)! Try again!"
             } else if (txtRoomNumber.getText().length() == 0) {
-                txtRoom.setText("Keeping same room #");
+                //txtRoom.setText("Keeping same room #");
                 roomNumber = rooms.get(room).roomNumber;
             } else if (validRoomNumber(txtRoomNumber.getText()) == false) {
                 txtRoom.setText("Please enter valid room #");
@@ -1216,16 +1244,18 @@ public class MadisonHotelJavaFX extends Application
                 
             }
             double roomPrice = 0;
-            if (validRoomPrice(txtRoomPrice.getText())) {
+           if (validRoomPrice(txtRoomPrice.getText())) {
             roomPrice = Double.parseDouble(txtRoomPrice.getText());
             } else if(txtRoomPrice.getText().length() == 0) {
-                txtPrice.setText("Keeping same price");
+               // txtPrice.setText("Keeping same price");
                 roomPrice = rooms.get(room).roomCostPerNight;
             } else {
                 txtPrice.setText("Please enter valid price!");
                 roomPrice = rooms.get(room).roomCostPerNight;
             }
             
+           if (count == 0) {
+           if (txtRoomPrice.getText().length() + txtRoomNumber.getText().length() == 0) {
             rooms.get(room).bedOption = bedChoice;
             rooms.get(room).coffeeOption = coffeeChoice;
             rooms.get(room).kitchenOption = kitchChoice;
@@ -1233,6 +1263,42 @@ public class MadisonHotelJavaFX extends Application
             rooms.get(room).roomNumber = roomNumber;
             rooms.get(room).roomCostPerNight = roomPrice;
             txtConfirm.setText("Changes successfully made!");
+            txtRoom.setText("Keeping same room #");
+            txtPrice.setText("Keeping same room price");
+           } else if (txtRoomPrice.getText().length() == 0) {
+            rooms.get(room).bedOption = bedChoice;
+            rooms.get(room).coffeeOption = coffeeChoice;
+            rooms.get(room).kitchenOption = kitchChoice;
+            rooms.get(room).accessibleOption = accessChoice;
+            rooms.get(room).roomNumber = roomNumber;
+            rooms.get(room).roomCostPerNight = roomPrice;
+            txtConfirm.setText("Changes successfully made!");
+            txtPrice.setText("Keeping same room price");
+            txtRoom.setText("");
+           } else if (txtRoomNumber.getText().length() == 0) {
+            rooms.get(room).bedOption = bedChoice;
+            rooms.get(room).coffeeOption = coffeeChoice;
+            rooms.get(room).kitchenOption = kitchChoice;
+            rooms.get(room).accessibleOption = accessChoice;
+            rooms.get(room).roomNumber = roomNumber;
+            rooms.get(room).roomCostPerNight = roomPrice;
+            txtConfirm.setText("Changes successfully made!");
+            txtRoom.setText("Keeping same room #");
+           }else if (validRoomPrice(txtRoomPrice.getText()) && validRoomNumber(txtRoomNumber.getText())) {
+                
+            rooms.get(room).bedOption = bedChoice;
+            rooms.get(room).coffeeOption = coffeeChoice;
+            rooms.get(room).kitchenOption = kitchChoice;
+            rooms.get(room).accessibleOption = accessChoice;
+            rooms.get(room).roomNumber = roomNumber;
+            rooms.get(room).roomCostPerNight = roomPrice;
+            txtConfirm.setText("Changes successfully made!");
+            txtRoom.setText("");
+            txtPrice.setText("");
+           } else {
+               txtConfirm.setText("Changes not made, fix errors!");
+           }
+           }
         });
         
         btnApplyChanges.setOnMouseReleased(e -> 
@@ -1288,7 +1354,7 @@ public class MadisonHotelJavaFX extends Application
     }
     
     public boolean validRoomNumber(String input) {
-        boolean result = true;
+        boolean result = false;
         try {
             int num = Integer.parseInt(input);
             if (num >=1 && num <=9999) {
@@ -1301,7 +1367,7 @@ public class MadisonHotelJavaFX extends Application
     }
     
     public boolean validRoomPrice(String input) {
-        boolean result = true;
+        boolean result = false;
         try {
             double num = Double.parseDouble(input);
             if (num >0 && num <= 9999) {
