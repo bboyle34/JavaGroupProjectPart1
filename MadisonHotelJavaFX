@@ -33,68 +33,72 @@ public class MadisonHotelJavaFX extends Application
         userCombo.getItems().add("Guest");
         userCombo.getItems().add("Employee");
         userCombo.getItems().add("Value Guest");
+        userCombo.getSelectionModel().select(0);
         Button btnExit = new Button("Exit Program");
         Label lblError = new Label("");
         
         btnLogin.setOnAction(e ->
         {
-            boolean operator = true;
-            String choice = (String) userCombo.getValue();
-            if (choice.equalsIgnoreCase("Employee"))
+            if (!(txtUsername.getText().isEmpty()) && !(txtPassword.getText().isEmpty()))
             {
-                for (int i = 0; i < employees.size(); i++)
+                boolean operator = true;
+                String choice = (String) userCombo.getValue();
+                if (choice.equalsIgnoreCase("Employee"))
                 {
-                    if (employees.get(i).checkCredentials(txtUsername.getText(), 
-                            txtPassword.getText()))
+                    for (int i = 0; i < employees.size(); i++)
                     {
-                        operator = false;
-                        loginStage.close();
-                        Stage employeeStage = new Stage();
-                        employee(employeeStage, employees.get(i));
-                        break;
+                        if (employees.get(i).checkCredentials(txtUsername.getText(), 
+                                txtPassword.getText()))
+                        {
+                            operator = false;
+                            loginStage.close();
+                            Stage employeeStage = new Stage();
+                            employee(employeeStage, employees.get(i));
+                            break;
+                        }
+                    }
+                    if (operator)
+                    {
+                        lblError.setText("Invalid Employee Username or Password");
                     }
                 }
-                if (operator)
-                {
-                    lblError.setText("Invalid Employee Username or Password");
-                }
-            }
-            else if (choice.equalsIgnoreCase("Guest"))
-            {    
-                for (int i = 0; i < guests.size(); i++)
-                {
-                    if (guests.get(i).checkCredentials(txtUsername.getText(), 
-                            txtPassword.getText()))
+                else if (choice.equalsIgnoreCase("Guest"))
+                {    
+                    for (int i = 0; i < guests.size(); i++)
                     {
-                        operator = false;
-                        loginStage.close();
-                        Stage guestStage = new Stage();
-                        guest(guestStage, guests.get(i));
-                        break;
+                        if (guests.get(i).checkCredentials(txtUsername.getText(), 
+                                txtPassword.getText()))
+                        {
+                            operator = false;
+                            loginStage.close();
+                            Stage guestStage = new Stage();
+                            guest(guestStage, guests.get(i));
+                            break;
+                        }
+                    }
+                    if (operator)
+                    {
+                        lblError.setText("Invalid Guest Username or Password");
                     }
                 }
-                if (operator)
+                else if (choice.equalsIgnoreCase("Value Guest"))
                 {
-                    lblError.setText("Invalid Guest Username or Password");
-                }
-            }
-            else if (choice.equalsIgnoreCase("Value Guest"))
-            {
-                for (int i = 0; i < valueGuests.size(); i++)
-                {
-                    if (valueGuests.get(i).checkCredentials(txtUsername.getText(), 
-                          txtPassword.getText()))
+                    for (int i = 0; i < valueGuests.size(); i++)
                     {
-                        operator = false;
-                        loginStage.close();
-                        Stage valueGuestStage = new Stage();
-                        guest(valueGuestStage, valueGuests.get(i));
-                        break;
+                        if (valueGuests.get(i).checkCredentials(txtUsername.getText(), 
+                              txtPassword.getText()))
+                        {
+                            operator = false;
+                            loginStage.close();
+                            Stage valueGuestStage = new Stage();
+                            guest(valueGuestStage, valueGuests.get(i));
+                            break;
+                        }
                     }
-                }
-                if (operator)
-                {
-                    lblError.setText("Invalid Value Guest Username or Password");
+                    if (operator)
+                    {
+                        lblError.setText("Invalid Value Guest Username or Password");
+                    }
                 }
             }
         });
