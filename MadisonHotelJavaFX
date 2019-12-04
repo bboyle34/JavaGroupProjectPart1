@@ -665,6 +665,12 @@ public class MadisonHotelJavaFX extends Application
             Stage createRoomStage = new Stage();
             createRoom(createRoomStage, emp);
         });
+        btnEditRoom.setOnAction(e -> 
+        {
+            employeeStage.hide();
+            Stage editRoomStage = new Stage();
+            selectRoom(editRoomStage, emp);
+        });
         
         Tab bookReportTab = new Tab("Booking Report");
         bookReportTab.setContent(bookReportPane);
@@ -863,6 +869,267 @@ public class MadisonHotelJavaFX extends Application
         createRoomStage.setTitle("Madison Hotel - Create a Room");
         createRoomStage.setScene(createRoomScene);
         createRoomStage.show();
+    }
+        public void selectRoom(Stage editRoomStage, Employee emp) {
+        //Controls
+        Button btnEmpMenu = new Button("Back to Employee Menu ->");
+        Label lblRoomSelection = new Label("Select room to edit: ");
+        ComboBox roomSelectionCombo = new ComboBox();
+        Button btnEditThisRoom = new Button("Edit this room ->");
+        ListView lvOutput = new ListView();
+        
+        String[] roomNumbers = new String[rooms.size()];
+        for (int i=0; i<rooms.size(); i++) {
+            roomNumbers[i] = Integer.toString(rooms.get(i).roomNumber);
+            roomSelectionCombo.getItems().add(roomNumbers[i]);
+        }
+
+        btnEditThisRoom.setOnAction(e -> 
+        {
+        String roomSelection = (String)roomSelectionCombo.getValue();
+        int room = 0;
+        for (int i=0; i<rooms.size(); i++) {
+            if (roomSelection.equals(String.valueOf(rooms.get(i).roomNumber))) {
+                room = i;
+            }
+        }
+        editRoomStage.hide();
+        Stage editSelectedRoomStage = new Stage();
+        editRoom(editSelectedRoomStage, emp, room);
+        });
+        
+        btnEmpMenu.setOnAction(e ->
+        {
+            editRoomStage.hide();
+            Stage employeeStage = new Stage();
+            employee(employeeStage, emp);
+        });
+
+
+        
+        for (int i = 0; i < rooms.size(); i++)
+        {
+            String booked = null;
+            if (rooms.get(i).isBooked())
+            {
+                booked = "[Booked]";
+            }
+            else
+            {
+                booked = "[Available]";
+            }
+            lvOutput.getItems().add("Room " 
+                    + rooms.get(i).roomNumber 
+                    + " Booking Qty: " 
+                    + rooms.get(i).getRoomBookedQuantity() 
+                    + " " + booked);
+        }
+        
+        btnEmpMenu.setOnAction(e ->
+        {
+            editRoomStage.hide();
+            Stage employeeStage = new Stage();
+            employee(employeeStage, emp);
+        });
+        
+        //Pane
+        GridPane editRoomPane = new GridPane();
+        editRoomPane.setVgap(20);
+        editRoomPane.setHgap(20);
+        editRoomPane.add(lblRoomSelection, 2, 1);
+        editRoomPane.add(roomSelectionCombo, 2, 2);
+        editRoomPane.add(btnEditThisRoom,2,3);
+        editRoomPane.add(btnEmpMenu,2,5);
+        editRoomPane.add(lvOutput, 3, 1, 1, 15);
+        
+        // Scene
+        Scene editRoomScene = new Scene(editRoomPane, 630, 520);
+        
+        // Stage
+        editRoomStage.setTitle("Madison Hotel - Select Room to Edit");
+        editRoomStage.setScene(editRoomScene);
+        editRoomStage.show();
+    }
+    
+    public void editRoom(Stage editSelectedRoomStage, Employee emp, int room) {
+        //Controls
+        Label lblCurrentRoom = new Label("Editing room #" + rooms.get(room).roomNumber);
+        Label lblBed = new Label("  New Bed Option: ");
+        ComboBox bedCombo = new ComboBox();
+        bedCombo.getItems().add("1x Queen Bed");
+        bedCombo.getItems().add("2x Queen Bed");
+        bedCombo.getItems().add("1x King Bed");
+        Label lblKitch = new Label("  New Kitchen Option: ");
+        ComboBox kitchCombo = new ComboBox();
+        kitchCombo.getItems().add("Microwave");
+        kitchCombo.getItems().add("Fridge + Microwave");
+        Label lblCoffee = new Label("  New Coffee Option: ");
+        ComboBox coffeeCombo = new ComboBox();
+        coffeeCombo.getItems().add("1-Cup Std. Coffee Machine");
+        coffeeCombo.getItems().add("Keurig Hot K200 Machine");
+        Label lblAccess = new Label("  New Accessibility Option: ");
+        ComboBox accessCombo = new ComboBox();
+        accessCombo.getItems().add("Standard Room");
+        accessCombo.getItems().add("Enhanced Accessibility Room");
+        Label lblActivity = new Label("  Room Status:  ");
+        ComboBox activityCombo = new ComboBox();
+        activityCombo.getItems().add("Active");
+        activityCombo.getItems().add("Inactive");
+        Label lblRoomNumber = new Label(" New Room Number: ");
+        TextField txtRoomNumber = new TextField();
+        Label lblRoomPrice = new Label("  New Price per Night: ");
+        TextField txtRoomPrice = new TextField();
+        Button btnApplyChanges = new Button("Apply selected changes ->");
+        Button btnEmpMenu = new Button("Return to Employee Menu");
+        Label txtConfirm = new Label();
+        ListView lvOutput = new ListView();
+        lvOutput.getItems().add("Current Room Specifications:\n\nBed: " + rooms.get(room).printBedOption()
+        + "\n\nCoffee: " + rooms.get(room).printCoffeeOption() + "\n\nKitchen: " + rooms.get(room).printKitchOption() 
+        + "\n\nAccessibility: " + rooms.get(room).printAccessOption() + "\n\nRoom Number: " + rooms.get(room).roomNumber 
+        + "\n\nRoom Cost Per Night: " + rooms.get(room).roomCostPerNight + "\n\nRoom Status: " + rooms.get(room).getRoomActivity());
+        //Label lblroomSpecs = new Label("Current Room Specifications:\n\nBed: " + rooms.get(room).printBedOption()
+        //+ "\n\nCoffee: " + rooms.get(room).printCoffeeOption() + "\n\nKitchen: " + rooms.get(room).printCoffeeOption() 
+        //+ "\n\nAccessibility: " + rooms.get(room).printAccessOption() + "\n\nRoom Number: " + rooms.get(room).roomNumber 
+        //+ "\n\nRoom Cost Per Night: " + rooms.get(room).roomCostPerNight);
+        
+        btnApplyChanges.setOnAction(e -> 
+        {
+            String bed = (String) bedCombo.getValue();
+            int bedChoice = 0;
+            if (bed.equalsIgnoreCase("1x Queen Bed"))
+            {
+                bedChoice = 0;
+            }
+            else if (bed.equalsIgnoreCase("2x Queen Bed"))
+            {
+                bedChoice = 1;
+            }
+            else if (bed.equalsIgnoreCase("1x King Bed"))
+            {
+                bedChoice = 2;
+            }
+            String kitch = (String) kitchCombo.getValue();
+            int kitchChoice = 0;
+            if (kitch.equalsIgnoreCase("Microwave"))
+            {
+                kitchChoice = 0;
+            }
+            else if (kitch.equalsIgnoreCase("Fridge + Microwave"))
+            {
+                kitchChoice = 1;
+            }
+            String coffee = (String) coffeeCombo.getValue();
+            int coffeeChoice = 0;
+            if (coffee.equalsIgnoreCase("1-Cup Std. Coffee Machine"))
+            {
+                coffeeChoice = 0;
+            }
+            else if (coffee.equalsIgnoreCase("Keurig Hot K200 Machine"))
+            {
+                coffeeChoice = 1;
+            }
+            String access = (String) accessCombo.getValue();
+            int accessChoice = 0;
+            if (access.equalsIgnoreCase("Standard Room"))
+            {
+                accessChoice = 0;
+            }
+            else if (access.equalsIgnoreCase("Enhanced Accessibility Room"))
+            {
+                accessChoice = 1;
+            }
+            String activity = (String)activityCombo.getValue();
+            int activityChoice = 0;
+            if (activity.equalsIgnoreCase("Active")) {
+                rooms.get(room).setRoomActivity("Active");
+            } else if (activity.equalsIgnoreCase("Inactive")) {
+                rooms.get(room).setRoomActivity("Inactive");
+            }
+            int count = 0;
+            int roomNumber = 0;
+            for (int i = 0; i < rooms.size(); i++)
+            {
+                if (Integer.parseInt(txtRoomNumber.getText()) == rooms.get(i).roomNumber)
+                {
+                    if (Integer.parseInt(txtRoomNumber.getText()) == rooms.get(room).roomNumber) {
+                        break;
+                    }
+                    count++;
+                }
+            }
+            if (!(count > 0))
+            {
+                roomNumber = Integer.parseInt(txtRoomNumber.getText());
+            }
+            if (count > 0) {
+                txtConfirm.setText("Room number already taken, try another!\n"); 
+            } else if (kitchCombo.getValue() ==null || coffeeCombo.getValue() ==null
+                    || accessCombo.getValue() ==null || bedCombo.getValue() == null || 
+                    txtRoomNumber.getText() == null || txtRoomPrice.getText() ==null) {
+                txtConfirm.setText(txtConfirm.getText() + "Sorry, invalid option(s)! Please select"
+                        + "an option for everything!");
+            } else {
+                txtConfirm.setText("Changes successfully made!");
+            }
+            double roomPrice = 0;
+            roomPrice = Double.parseDouble(txtRoomPrice.getText());
+            
+            rooms.get(room).bedOption = bedChoice;
+            rooms.get(room).coffeeOption = coffeeChoice;
+            rooms.get(room).kitchenOption = kitchChoice;
+            rooms.get(room).accessibleOption = accessChoice;
+            rooms.get(room).roomNumber = roomNumber;
+            rooms.get(room).roomCostPerNight = roomPrice;
+        });
+        
+        btnApplyChanges.setOnMouseReleased(e -> 
+        {
+        lvOutput.getItems().clear();
+        lvOutput.getItems().add("Current Room Specifications:\n\nBed: " + rooms.get(room).printBedOption()
+        + "\n\nKitchen: " + rooms.get(room).printKitchOption() + "\n\nCoffee: " + rooms.get(room).printCoffeeOption() 
+        + "\n\nAccessibility: " + rooms.get(room).printAccessOption() + "\n\nRoom Number: " + rooms.get(room).roomNumber 
+        + "\n\nRoom Cost Per Night: " + rooms.get(room).roomCostPerNight + "\n\nRoom Status: " + rooms.get(room).getRoomActivity());
+        });
+        
+        btnEmpMenu.setOnAction(e -> 
+        {
+            editSelectedRoomStage.hide();
+            Stage employeeStage = new Stage();
+            employee(employeeStage, emp);
+        });
+        
+        //Pane
+        GridPane editSelectedRoomPane = new GridPane();
+        editSelectedRoomPane.setVgap(10);
+        editSelectedRoomPane.setHgap(10);
+        editSelectedRoomPane.add(lblCurrentRoom,1,1);
+        editSelectedRoomPane.add(lblKitch, 1, 5);
+        editSelectedRoomPane.add(kitchCombo,1,6);
+        editSelectedRoomPane.add(lblBed,1,3);
+        editSelectedRoomPane.add(lblActivity,2,3);
+        editSelectedRoomPane.add(bedCombo,1,4);
+        editSelectedRoomPane.add(lblCoffee,1,7);
+        editSelectedRoomPane.add(coffeeCombo,1,8);
+        editSelectedRoomPane.add(lblAccess,1,9);
+        editSelectedRoomPane.add(accessCombo,1,10);
+        editSelectedRoomPane.add(lblRoomNumber,1,11);
+        editSelectedRoomPane.add(txtRoomNumber,1,12);
+        editSelectedRoomPane.add(lblRoomPrice,1,13);
+        editSelectedRoomPane.add(txtRoomPrice,1,14);
+        editSelectedRoomPane.add(activityCombo,2,4);
+        editSelectedRoomPane.add(lvOutput, 8, 1,1,13);
+        editSelectedRoomPane.add(txtConfirm, 1, 16);
+        editSelectedRoomPane.add(btnApplyChanges, 1, 15);
+        editSelectedRoomPane.add(btnEmpMenu,8, 15);
+        
+        //Scene
+        Scene editSelectedRoomScene = new Scene(editSelectedRoomPane,630,520);
+        
+        //Stage
+        editSelectedRoomStage.setTitle("Madison Hotel - Edit a Room");
+        editSelectedRoomStage.setScene(editSelectedRoomScene);
+        editSelectedRoomStage.show();
+        
     }
     public void changeGuestName(Stage changeGuestNameStage, Guest guest)
     {
