@@ -283,7 +283,33 @@ public class MadisonHotelJavaFX extends Application
         });
         
         // Room Service Tab
-        
+        Label lblGuestNameInfo3 = new Label("Guest Name: ");
+        Label lblGuestNameInfo4 = new Label(guest.getGuestName());
+        Label lblGuestUsernameInfo3 = new Label("Guest Username: ");
+        Label lblGuestUsernameInfo4 = new Label(guest.getUsername());
+        Label lblGuestCosts = new Label("Room Service Charges: ");
+        ListView lvGuestCosts = new ListView();        
+        int count1 = 0;
+        for (int i = 0; i < bookings.size(); i++)
+        {
+            if (bookings.get(i).bookingGuest.equals(guest))
+            {
+                lvGuestCosts.getItems().add("\n Total Cost of Room(s): "
+                + rooms.get(i).roomCostPerNight);
+                count++;
+            }
+        }
+        if (count == 0)
+        {
+            lvGuestCosts.getItems().add("You currently have no Bookings");
+        }
+        Button btnLogout4 = new Button("<- Logout");
+        btnLogout4.setOnAction(e ->
+        {
+            guestStage.hide();
+            Stage loginStage = new Stage();
+            start(loginStage);
+        });
         
         // Pane
         TabPane guestTabs = new TabPane();
