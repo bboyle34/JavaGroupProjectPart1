@@ -1432,7 +1432,7 @@ public class MadisonHotelJavaFX extends Application
         changeGuestNameStage.show();
     }
     
-      public void changeGuestPassword(Stage changeGuestPasswordStage, Guest guest)
+        public void changeGuestPassword(Stage changeGuestPasswordStage, Guest guest)
     {
          Label lblError = new Label("");
         // Controls
@@ -1446,21 +1446,23 @@ public class MadisonHotelJavaFX extends Application
             String oldPassword = txtOldPassword.getText();
             String newPassword = txtNewPassword.getText();
             
-            if (guest.setPassword(oldPassword, newPassword) == 1);
+            if (guest.setPassword(oldPassword, newPassword) == 0)
             {
                 guest.setPassword(oldPassword,newPassword);
                 changeGuestPasswordStage.close();
                 Stage guestStage = new Stage();
                 guest(guestStage, guest);                
             }
+           
+            else if (guest.setPassword(oldPassword, newPassword) == 1)
+            {
+               lblError.setText("The new password must be different from the old password \n"
+                       + "The new password cannot start with a number \n"
+                       + "The new password must contain one number \n"
+                       + "The new password must contain one capital letter");
+            }
             
-//            else if (passwordErrorCheck(newPassword) == false)
-//            {
-//                lblError.setText("New password must be different from old password \n"
-//                        + "New password cannot begin with a number \n"
-//                        + "New password must contain at least one number \n"
-//                        + "New password must contain at least one capital letter");
-//            }
+
         });
         
         // Pane
