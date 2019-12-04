@@ -389,7 +389,7 @@ public class MadisonHotelJavaFX extends Application
         roomServicePane.setAlignment(Pos.CENTER);
         roomServicePane.setVgap(10);
         roomServicePane.setHgap(10);    
-        roomServicePane.add(sceneTitle4, 0, 0, 2, 1);
+        roomServicePane.add(sceneTitle4, 0, 0, 2, 1); //When commenting this line out. Guest login should work as normal
         roomServicePane.add(lblGuestNameInfo3, 0, 1);
         roomServicePane.add(lblGuestNameInfo4, 1, 1);
         roomServicePane.add(lblGuestUsernameInfo3, 0, 2);
