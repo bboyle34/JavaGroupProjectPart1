@@ -2,6 +2,9 @@
 //to describe guests and also a method to check login credentials
 //contributed by Brendan Boyle
 package GroupProject1;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 // Class Definition File (CDF)
 
 public class Guest 
