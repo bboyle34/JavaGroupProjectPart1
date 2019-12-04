@@ -139,6 +139,7 @@ public class MadisonHotelJavaFX extends Application
         Label sceneTitle1 = new Label("  Welcome " + guestName);
         Label sceneTitle2 = new Label("  Welcome " + guestName);
         Label sceneTitle3 = new Label("  Welcome " + guestName);
+        Label sceneTitle4 = new Label("  Welcome " + guestName);
         Label lblFreeRoom = new Label("Free Rooms: ");
         ListView lvFreeRoom = new ListView();
         for (int i = 0; i < rooms.size(); i++)
