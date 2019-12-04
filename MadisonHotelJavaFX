@@ -976,6 +976,7 @@ public class MadisonHotelJavaFX extends Application
             roomNumbers[i] = Integer.toString(rooms.get(i).roomNumber);
             roomSelectionCombo.getItems().add(roomNumbers[i]);
         }
+        roomSelectionCombo.getSelectionModel().select(0);
 
         btnEditThisRoom.setOnAction(e -> 
         {
@@ -1046,29 +1047,38 @@ public class MadisonHotelJavaFX extends Application
     
     public void editRoom(Stage editSelectedRoomStage, Employee emp, int room) {
         //Controls
+        //combobox.getSelectionModel().select(int) --> default value
+        //clear text boxes and set back to default with selection model 
         Label lblCurrentRoom = new Label("Editing room #" + rooms.get(room).roomNumber);
         Label lblBed = new Label("  New Bed Option: ");
         ComboBox bedCombo = new ComboBox();
         bedCombo.getItems().add("1x Queen Bed");
         bedCombo.getItems().add("2x Queen Bed");
         bedCombo.getItems().add("1x King Bed");
+        bedCombo.getSelectionModel().select(0);
         Label lblKitch = new Label("  New Kitchen Option: ");
         ComboBox kitchCombo = new ComboBox();
         kitchCombo.getItems().add("Microwave");
         kitchCombo.getItems().add("Fridge + Microwave");
+        kitchCombo.getSelectionModel().select(0);
         Label lblCoffee = new Label("  New Coffee Option: ");
         ComboBox coffeeCombo = new ComboBox();
         coffeeCombo.getItems().add("1-Cup Std. Coffee Machine");
         coffeeCombo.getItems().add("Keurig Hot K200 Machine");
+        coffeeCombo.getSelectionModel().select(0);
         Label lblAccess = new Label("  New Accessibility Option: ");
         ComboBox accessCombo = new ComboBox();
         accessCombo.getItems().add("Standard Room");
         accessCombo.getItems().add("Enhanced Accessibility Room");
+        accessCombo.getSelectionModel().select(0);
         Label lblActivity = new Label("  Room Status:  ");
+        Label txtRoom = new Label("");
         ComboBox activityCombo = new ComboBox();
         activityCombo.getItems().add("Active");
         activityCombo.getItems().add("Inactive");
+        activityCombo.getSelectionModel().select(0);
         Label lblRoomNumber = new Label(" New Room Number: ");
+        Label txtPrice = new Label("");
         TextField txtRoomNumber = new TextField();
         Label lblRoomPrice = new Label("  New Price per Night: ");
         TextField txtRoomPrice = new TextField();
@@ -1142,6 +1152,9 @@ public class MadisonHotelJavaFX extends Application
             int roomNumber = 0;
             for (int i = 0; i < rooms.size(); i++)
             {
+                if (!(validRoomNumber(txtRoomNumber.getText()))) {
+                    break;
+                }
                 if (Integer.parseInt(txtRoomNumber.getText()) == rooms.get(i).roomNumber)
                 {
                     if (Integer.parseInt(txtRoomNumber.getText()) == rooms.get(room).roomNumber) {
@@ -1152,20 +1165,33 @@ public class MadisonHotelJavaFX extends Application
             }
             if (!(count > 0))
             {
+                if (validRoomNumber(txtRoomNumber.getText())) {
                 roomNumber = Integer.parseInt(txtRoomNumber.getText());
+                }
             }
             if (count > 0) {
-                txtConfirm.setText("Room number already taken, try another!\n"); 
-            } else if (kitchCombo.getValue() ==null || coffeeCombo.getValue() ==null
-                    || accessCombo.getValue() ==null || bedCombo.getValue() == null || 
-                    txtRoomNumber.getText() == null || txtRoomPrice.getText() ==null) {
-                txtConfirm.setText(txtConfirm.getText() + "Sorry, invalid option(s)! Please select"
-                        + "an option for everything!");
-            } else {
-                txtConfirm.setText("Changes successfully made!");
+                txtRoom.setText("Room number already taken, try another!\n");
+                roomNumber = rooms.get(room).roomNumber;
+            //} //else if (txtRoomNumber.getText().length() ==0 || txtRoomPrice.getText().length() ==0)  {
+                //txtConfirm.setText("Sorry, invalid option(s)! Try again!"
+            } else if (txtRoomNumber.getText().length() == 0) {
+                txtRoom.setText("Keeping same room #");
+                roomNumber = rooms.get(room).roomNumber;
+            } else if (validRoomNumber(txtRoomNumber.getText()) == false) {
+                txtRoom.setText("Please enter valid room #");
+                roomNumber = rooms.get(room).roomNumber;
+                
             }
             double roomPrice = 0;
+            if (validRoomPrice(txtRoomPrice.getText())) {
             roomPrice = Double.parseDouble(txtRoomPrice.getText());
+            } else if(txtRoomPrice.getText().length() == 0) {
+                txtPrice.setText("Keeping same price");
+                roomPrice = rooms.get(room).roomCostPerNight;
+            } else {
+                txtPrice.setText("Please enter valid price!");
+                roomPrice = rooms.get(room).roomCostPerNight;
+            }
             
             rooms.get(room).bedOption = bedChoice;
             rooms.get(room).coffeeOption = coffeeChoice;
@@ -1173,6 +1199,7 @@ public class MadisonHotelJavaFX extends Application
             rooms.get(room).accessibleOption = accessChoice;
             rooms.get(room).roomNumber = roomNumber;
             rooms.get(room).roomCostPerNight = roomPrice;
+            txtConfirm.setText("Changes successfully made!");
         });
         
         btnApplyChanges.setOnMouseReleased(e -> 
@@ -1207,22 +1234,51 @@ public class MadisonHotelJavaFX extends Application
         editSelectedRoomPane.add(accessCombo,1,10);
         editSelectedRoomPane.add(lblRoomNumber,1,11);
         editSelectedRoomPane.add(txtRoomNumber,1,12);
-        editSelectedRoomPane.add(lblRoomPrice,1,13);
-        editSelectedRoomPane.add(txtRoomPrice,1,14);
+        editSelectedRoomPane.add(txtRoom,1,13);
+        editSelectedRoomPane.add(lblRoomPrice,1,14);
+        editSelectedRoomPane.add(txtRoomPrice,1,15);
         editSelectedRoomPane.add(activityCombo,2,4);
         editSelectedRoomPane.add(lvOutput, 8, 1,1,13);
-        editSelectedRoomPane.add(txtConfirm, 1, 16);
-        editSelectedRoomPane.add(btnApplyChanges, 1, 15);
+        editSelectedRoomPane.add(txtConfirm, 1, 18);
+        editSelectedRoomPane.add(btnApplyChanges, 1, 17);
+        editSelectedRoomPane.add(txtPrice,1,16);
         editSelectedRoomPane.add(btnEmpMenu,8, 15);
         
         //Scene
-        Scene editSelectedRoomScene = new Scene(editSelectedRoomPane,630,520);
+        Scene editSelectedRoomScene = new Scene(editSelectedRoomPane,700,590);
         
         //Stage
         editSelectedRoomStage.setTitle("Madison Hotel - Edit a Room");
         editSelectedRoomStage.setScene(editSelectedRoomScene);
         editSelectedRoomStage.show();
         
+    }
+    
+    public boolean validRoomNumber(String input) {
+        boolean result = true;
+        try {
+            int num = Integer.parseInt(input);
+            if (num >=1 && num <=9999) {
+                result = true;
+            }
+        } catch (NumberFormatException e) {
+            result = false;
+        }
+        return result;
+    }
+    
+    public boolean validRoomPrice(String input) {
+        boolean result = true;
+        try {
+            double num = Double.parseDouble(input);
+            if (num >0 && num <= 9999) {
+                result = true;
+            }
+            
+        }catch (NumberFormatException e) {
+            result = false;
+        }
+        return result;
     }
     public void changeGuestName(Stage changeGuestNameStage, Guest guest)
     {
