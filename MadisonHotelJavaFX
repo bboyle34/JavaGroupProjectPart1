@@ -560,7 +560,7 @@ public class MadisonHotelJavaFX extends Application
             else if (!(txtGuestName.getText().equalsIgnoreCase("")) 
                     && !(txtGuestUsername.getText().equalsIgnoreCase("")) 
                     && !(txtGuestPassword.getText().equalsIgnoreCase(""))
-                    && type.equalsIgnoreCase("Guest"))
+                    && type.equalsIgnoreCase("Value Guest"))
             {
                 ValueGuest v = new ValueGuest(txtGuestUsername.getText(), 
                         txtGuestPassword.getText(), txtGuestName.getText());
