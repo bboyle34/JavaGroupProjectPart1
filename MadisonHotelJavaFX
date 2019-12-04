@@ -305,11 +305,17 @@ public class MadisonHotelJavaFX extends Application
         int count1 = 0;
         for (int i = 0; i < bookings.size(); i++)
         {
+            double cost = 0.0;
             if (bookings.get(i).bookingGuest.equals(guest))
             {
+                cost += bookings.get(i).bookedRoom.roomCostPerNight;
+                for (int j = 0; j < bookings.get(i).roomServices.size(); j++)
+                {
+                    cost += bookings.get(i).roomServices.get(j).price;
+                }
                 lvGuestCosts.getItems().add("Total Cost of Room: $"
-                + bookings.get(i).bookedRoom.roomCostPerNight + "\n" 
-                        + " Room " + bookings.get(i).bookedRoom.getRoomNumber());
+                + cost + "\n" + " Room " 
+                        + bookings.get(i).bookedRoom.getRoomNumber());
                 count1++;
             }
         }
@@ -391,37 +397,46 @@ public class MadisonHotelJavaFX extends Application
         personalInfoPane.add(btnChangeGuestPassword, 1, 19);
         personalInfoPane.add(btnLogout3, 3, 19);
         
-        GridPane roomServicePane = new GridPane();
-        roomServicePane.setOnMouseEntered(e ->
+        for (int i = 0; i < valueGuests.size(); i++)
         {
-            lvGuestCosts.getItems().clear();
-            int count2 = 0;
-            for (int i = 0; i < bookings.size(); i++)
+            if (valueGuests.get(i).equals(guest))
             {
-                if (bookings.get(i).bookingGuest.equals(guest))
+                GridPane roomServicePane = new GridPane();
+                roomServicePane.setOnMouseEntered(e ->
                 {
-                    lvGuestCosts.getItems().add("Total Cost of Room: $"
-                    + bookings.get(i).bookedRoom.roomCostPerNight + "\n" 
-                            + " Room " + bookings.get(i).bookedRoom.getRoomNumber());
-                    count2++;
-                }
+                    lvGuestCosts.getItems().clear();
+                    int count2 = 0;
+                    for (int j = 0; j < bookings.size(); j++)
+                    {
+                        if (bookings.get(j).bookingGuest.equals(guest))
+                        {
+                            lvGuestCosts.getItems().add("Total Cost of Room: $"
+                            + bookings.get(j).bookedRoom.roomCostPerNight + "\n" 
+                                    + " Room " + bookings.get(j).bookedRoom.getRoomNumber());
+                            count2++;
+                        }
+                    }
+                    if (count2 == 0)
+                    {
+                        lvGuestCosts.getItems().add("You currently have no Bookings");
+                    }                    
+                });
+                roomServicePane.setAlignment(Pos.CENTER);
+                roomServicePane.setVgap(10);
+                roomServicePane.setHgap(10); 
+                roomServicePane.add(sceneTitle4, 0, 0, 2, 1);
+                roomServicePane.add(lblGuestNameInfo3, 0, 1);
+                roomServicePane.add(lblGuestNameInfo4, 1, 1);
+                roomServicePane.add(lblGuestUsernameInfo3, 0, 2);
+                roomServicePane.add(lblGuestUsernameInfo4, 1, 2);
+                roomServicePane.add(lvGuestCosts, 1, 3, 1, 15);
+                roomServicePane.add(lblGuestCosts, 0, 4);
+                roomServicePane.add(btnLogout4,3, 19);
+                Tab roomServiceChargeTab = new Tab("Room Service Charge");
+                roomServiceChargeTab.setContent(roomServicePane);
+                guestTabs.getTabs().add(roomServiceChargeTab);
             }
-            if (count2 == 0)
-            {
-                lvGuestCosts.getItems().add("You currently have no Bookings");
-            }                    
-        });
-        roomServicePane.setAlignment(Pos.CENTER);
-        roomServicePane.setVgap(10);
-        roomServicePane.setHgap(10); 
-        roomServicePane.add(sceneTitle4, 0, 0, 2, 1);
-        roomServicePane.add(lblGuestNameInfo3, 0, 1);
-        roomServicePane.add(lblGuestNameInfo4, 1, 1);
-        roomServicePane.add(lblGuestUsernameInfo3, 0, 2);
-        roomServicePane.add(lblGuestUsernameInfo4, 1, 2);
-        roomServicePane.add(lvGuestCosts, 1, 3, 1, 15);
-        roomServicePane.add(lblGuestCosts, 0, 4);
-        roomServicePane.add(btnLogout4,3, 19);
+        }
         
         
         Tab bookRoomTab = new Tab("Book Room");
@@ -435,10 +450,6 @@ public class MadisonHotelJavaFX extends Application
         Tab personalInfoTab = new Tab("Personal Information");
         personalInfoTab.setContent(personalInfoPane);
         guestTabs.getTabs().add(personalInfoTab);
-        
-        Tab roomServiceChargeTab = new Tab("Room Service Charge");
-        roomServiceChargeTab.setContent(roomServicePane);
-        guestTabs.getTabs().add(roomServiceChargeTab);
         
         // Scene
         Scene guestScene = new Scene(guestTabs, 550, 600);
