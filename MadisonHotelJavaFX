@@ -407,23 +407,25 @@ public class MadisonHotelJavaFX extends Application
         ListView lvGuests = new ListView();
         for (int i = 0; i < guests.size(); i++)
         {
-            lvGuests.getItems().add(guests.get(i).getGuestName());
+            lvGuests.getItems().add(guests.get(i).getGuestName() + " [Regular]");
+        }
+        for (int i = 0; i < valueGuests.size(); i++)
+        {
+            lvGuests.getItems().add(valueGuests.get(i).getGuestName() + " [Value]");
         }
         Label lblSelectRoom = new Label("Select a Booked Room: ");
         ListView lvRooms = new ListView();
         lvGuests.setOnMouseReleased(e ->
         {
             lvRooms.getItems().clear();
-            int choice = lvGuests.getSelectionModel().getSelectedIndex();
-            if (choice >= 0)
+            String name = (String) lvGuests.getSelectionModel().getSelectedItem();
+            if (name.substring(name.length() - 9, name.length()).equalsIgnoreCase("[Regular]"))
             {
-                for (int i = 0; i < bookings.size(); i++)
+                for (int i = 0; i < guests.size(); i++)
                 {
-                    if (guests.get(choice).equals(bookings.get(i).bookingGuest) 
-                            && bookings.get(i).bookedRoom.isBooked())
+                    if (name.substring(0, name.length() - 10).equalsIgnoreCase(guests.get(i).getGuestName()))
                     {
-                        lvRooms.getItems().add("Room " 
-                                + bookings.get(i).bookedRoom.roomNumber);
+                        System.out.println("guests");
                     }
                 }
             }
@@ -607,7 +609,11 @@ public class MadisonHotelJavaFX extends Application
             lvGuests.getItems().clear();
             for (int i = 0; i < guests.size(); i++)
             {
-                lvGuests.getItems().add(guests.get(i).getGuestName());
+                lvGuests.getItems().add(guests.get(i).getGuestName() + " [Regular]");
+            }
+            for (int i = 0; i < valueGuests.size(); i++)
+            {
+                lvGuests.getItems().add(valueGuests.get(i).getGuestName() + " [Value]");
             }
         });
         checkOutPane.setAlignment(Pos.CENTER);
