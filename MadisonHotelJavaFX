@@ -1,4 +1,3 @@
-
 package GroupProject1;
 
 import java.util.*;
@@ -808,6 +807,12 @@ public class MadisonHotelJavaFX extends Application
             Stage editRoomStage = new Stage();
             selectRoom(editRoomStage, emp);
         });
+        
+        GridPane personalInfoPane = new GridPane();
+        
+        Tab PII = new Tab("P.I.I");
+        PII.setContent(personalInfoPane);
+        employeeTabs.getTabs().add(PII);
         
         Tab bookReportTab = new Tab("Booking Report");
         bookReportTab.setContent(bookReportPane);
