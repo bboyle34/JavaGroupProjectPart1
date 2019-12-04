@@ -38,6 +38,7 @@ public class MadisonHotelJavaFX extends Application
         
         btnLogin.setOnAction(e ->
         {
+            boolean operator = true;
             String choice = (String) userCombo.getValue();
             if (choice.equalsIgnoreCase("Employee"))
             {
@@ -46,11 +47,16 @@ public class MadisonHotelJavaFX extends Application
                     if (employees.get(i).checkCredentials(txtUsername.getText(), 
                             txtPassword.getText()))
                     {
+                        operator = false;
                         loginStage.close();
                         Stage employeeStage = new Stage();
                         employee(employeeStage, employees.get(i));
                         break;
                     }
+                }
+                if (operator)
+                {
+                    lblError.setText("Invalid Employee Username or Password");
                 }
             }
             else if (choice.equalsIgnoreCase("Guest"))
@@ -60,11 +66,16 @@ public class MadisonHotelJavaFX extends Application
                     if (guests.get(i).checkCredentials(txtUsername.getText(), 
                             txtPassword.getText()))
                     {
+                        operator = false;
                         loginStage.close();
                         Stage guestStage = new Stage();
                         guest(guestStage, guests.get(i));
                         break;
                     }
+                }
+                if (operator)
+                {
+                    lblError.setText("Invalid Guest Username or Password");
                 }
             }
             else if (choice.equalsIgnoreCase("Value Guest"))
@@ -74,11 +85,16 @@ public class MadisonHotelJavaFX extends Application
                     if (valueGuests.get(i).checkCredentials(txtUsername.getText(), 
                           txtPassword.getText()))
                     {
+                        operator = false;
                         loginStage.close();
                         Stage valueGuestStage = new Stage();
                         guest(valueGuestStage, valueGuests.get(i));
                         break;
                     }
+                }
+                if (operator)
+                {
+                    lblError.setText("Invalid Value Guest Username or Password");
                 }
             }
         });
@@ -99,6 +115,7 @@ public class MadisonHotelJavaFX extends Application
         loginPane.add(btnLogin, 1, 3);
         loginPane.add(userCombo, 1, 2);
         loginPane.add(btnExit, 1, 4);
+        loginPane.add(lblError, 1, 5, 2, 1);
         
         // Scene
         Scene loginScene = new Scene(loginPane, 500, 300);
@@ -258,12 +275,6 @@ public class MadisonHotelJavaFX extends Application
         {
             Stage changeGuestNameStage = new Stage();
             changeGuestName(changeGuestNameStage, guest);
-            guestStage.close();
-        });
-        btnChangeGuestPassword.setOnAction(e ->
-        {
-            Stage changePasswordStage = new Stage();
-            changePassword(changePasswordStage, guest);
             guestStage.close();
         });
         
@@ -1223,45 +1234,6 @@ public class MadisonHotelJavaFX extends Application
         changeGuestNameStage.setTitle("Change Guest Name");
         changeGuestNameStage.setScene(changeNameScene);
         changeGuestNameStage.show();
-    }
-    public void changePassword(Stage changePasswordStage, Guest guest)
-    {
-        Label lblOldPassword = new Label("Old Password: ");
-        TextField txtOldPassword = new TextField();
-        Label lblNewPassword = new Label("New Password: ");
-        TextField txtNewPassword = new TextField();
-        Button btnChangeName = new Button("Change Password");
-        btnChangeName.setOnAction(e ->
-        {
-            String pass = txtNewPassword.getText();
-            if (pass != null && !(pass.equalsIgnoreCase("") 
-                    && !(pass.equalsIgnoreCase(" "))))
-            {
-                guest.setPassword(txtOldPassword.getText(), 
-                        txtNewPassword.getText());
-                changePasswordStage.close();
-                Stage guestStage = new Stage();
-                guest(guestStage, guest);                
-            }
-        });
-        
-        // Pane
-        GridPane changePasswordPane = new GridPane();
-        changePasswordPane.setAlignment(Pos.CENTER);
-        changePasswordPane.setVgap(10);
-        changePasswordPane.setHgap(10);
-        changePasswordPane.add(lblOldPassword, 0, 0);
-        changePasswordPane.add(txtOldPassword, 1, 0);
-        changePasswordPane.add(lblNewPassword, 0, 1);
-        changePasswordPane.add(txtNewPassword, 1, 1);
-        changePasswordPane.add(btnChangeName, 1, 3);
-        // Scene
-        Scene changePasswordScene = new Scene(changePasswordPane, 500, 300);
-        
-        // Stage
-        changePasswordStage.setTitle("Change Guest Password");
-        changePasswordStage.setScene(changePasswordScene);
-        changePasswordStage.show();
     }
     public void stop()
     {
