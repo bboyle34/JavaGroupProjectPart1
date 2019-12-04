@@ -1473,6 +1473,7 @@ public class MadisonHotelJavaFX extends Application
         changePasswordPane.add(lblNewPassword, 0, 1);
         changePasswordPane.add(txtNewPassword, 1, 1);
         changePasswordPane.add(btnChangePassword, 1, 3);
+        changePasswordPane.add(lblError, 0, 6, 2, 1);
         
         // Scene
         Scene changePasswordScene = new Scene(changePasswordPane, 500, 300);
