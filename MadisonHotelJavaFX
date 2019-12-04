@@ -1492,6 +1492,62 @@ public class MadisonHotelJavaFX extends Application
     
     }
     
+    //THIS IS OVERLOADED AND IS USED FOR EMPLOYEES TO CHANGE PASSWORDS  
+         public void changeGuestPassword(Stage changeGuestPasswordStage, Employee employee)
+    {
+         Label lblError = new Label("");
+        // Controls
+        Label lblOldPassword = new Label("Enter your current password: ");
+        TextField txtOldPassword = new TextField();
+        Label lblNewPassword = new Label("New Password: ");
+        TextField txtNewPassword = new TextField();
+        Button btnChangePassword = new Button("Change Password");
+        btnChangePassword.setOnAction(e ->
+        {
+            String oldPassword = txtOldPassword.getText();
+            String newPassword = txtNewPassword.getText();
+            
+            if (employee.setPassword(oldPassword, newPassword) == 0)
+            {
+                employee.setPassword(oldPassword,newPassword);
+                changeGuestPasswordStage.close();
+                Stage employeeStage = new Stage();
+                employee(employeeStage, employee);                
+            }
+           
+            else if (employee.setPassword(oldPassword, newPassword) == 1)
+            {
+               lblError.setText("The new password must be different from the old password \n"
+                       + "The new password cannot start with a number \n"
+                       + "The new password must contain one number \n"
+                       + "The new password must contain one capital letter");
+            }
+            
+
+        });
+        
+        // Pane
+        GridPane changePasswordPane = new GridPane();
+        changePasswordPane.setAlignment(Pos.CENTER);
+        changePasswordPane.setVgap(10);
+        changePasswordPane.setHgap(10);
+        changePasswordPane.add(lblOldPassword, 0, 0);
+        changePasswordPane.add(txtOldPassword, 1, 0);
+        changePasswordPane.add(lblNewPassword, 0, 1);
+        changePasswordPane.add(txtNewPassword, 1, 1);
+        changePasswordPane.add(btnChangePassword, 1, 3);
+        changePasswordPane.add(lblError, 0, 6, 2, 1);
+        
+        // Scene
+        Scene changePasswordScene = new Scene(changePasswordPane, 500, 300);
+        
+         // Stage
+        changeGuestPasswordStage.setTitle("Change Guest Password");
+        changeGuestPasswordStage.setScene(changePasswordScene);
+        changeGuestPasswordStage.show();
+    
+    }
+    
     public void stop()
     {
         //this will run before any program ends
