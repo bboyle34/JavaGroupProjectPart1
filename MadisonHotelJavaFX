@@ -383,10 +383,8 @@ public class MadisonHotelJavaFX extends Application
                     lvGuestBookings.getItems().add("Room " 
                         + bookings.get(i).bookedRoom.roomNumber 
                         + "\nCheck in Year " + bookings.get(i).bookingYear 
-                        + " \nCheck in Day: " + checkMonth(bookings.get(i).checkInDay)
-                            + " " + checkDay(bookings.get(i).checkInDay) 
-                        + " \nCheck out Day: " + checkMonth(bookings.get(i).checkOutDay)
-                            + " " + checkDay(bookings.get(i).checkOutDay));
+                        + " \nCheck in Day: " + bookings.get(i).getDate(bookings.get(i).checkInDay) 
+                        + " \nCheck out Day: " + bookings.get(i).getDate(bookings.get(i).checkOutDay));
                 count++;
             }
         }
@@ -502,10 +500,8 @@ public class MadisonHotelJavaFX extends Application
                     lvGuestBookings.getItems().add("Room " 
                         + bookings.get(i).bookedRoom.roomNumber 
                         + "\nCheck in Year " + bookings.get(i).bookingYear 
-                        + " \nCheck in Day: " + checkMonth(bookings.get(i).checkInDay)
-                            + " " + checkDay(bookings.get(i).checkInDay) 
-                        + " \nCheck out Day: " + checkMonth(bookings.get(i).checkOutDay)
-                            + " " + checkDay(bookings.get(i).checkOutDay));
+                        + " \nCheck in Day: " + bookings.get(i).getDate(bookings.get(i).checkInDay) 
+                        + " \nCheck out Day: " + bookings.get(i).getDate(bookings.get(i).checkOutDay));
                     thisCount++;
                 }
             }
@@ -1581,6 +1577,8 @@ public class MadisonHotelJavaFX extends Application
         }
         return result;
     }
+    //Moved this functionality to Booking class - AT
+    /*
     public String checkMonth(int dayInOrOut) {
         //returns string with month name
         String returnString = "";
@@ -1634,6 +1632,7 @@ public class MadisonHotelJavaFX extends Application
         }
         return (day - monthnum);
     }
+    */
     public void changeGuestName(Stage changeGuestNameStage, Guest guest)
     {
         // Controls
