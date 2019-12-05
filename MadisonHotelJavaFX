@@ -965,6 +965,16 @@ public class MadisonHotelJavaFX extends Application
         checkOutPane.add(btnLogout5, 2, 17);
         
         GridPane roomServicePane = new GridPane();
+        roomServicePane.setOnMouseEntered(e -> 
+        {
+        lvGuests2.getItems().clear();
+            for (int i = 0; i < valueGuests.size(); i++)
+        {
+            lvGuests2.getItems().add(valueGuests.get(i).getGuestName() + " [Value]");
+        }
+            valuebookings.clear();
+            comboSelectRoom.getItems().clear();
+        });
         roomServicePane.setVgap(10);
         roomServicePane.setHgap(10);
         roomServicePane.add(lblSelectValueGuest,0,1);
