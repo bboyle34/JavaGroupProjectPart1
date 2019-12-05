@@ -426,19 +426,10 @@ public class MadisonHotelJavaFX extends Application
         int count1 = 0;
         for (int i = 0; i < bookings.size(); i++)
         {
-            double cost = 0.0;
             if (bookings.get(i).bookingGuest.equals(guest))
             {
-                cost += bookings.get(i).bookedRoom.roomCostPerNight;
-                for (int j = 0; j < bookings.get(i).roomServices.size(); j++)
-                {
-                    lvGuestCosts.getItems().add(bookings.get(i).roomServices.get(j).description 
-                            + "\n$" + bookings.get(i).roomServices.get(j).price);
-                   //cost += bookings.get(i).roomServices.get(j).price;
-                }
-//                lvGuestCosts.getItems().add("Total Cost of Room: $"
-//                + cost + "\n" + " Room " 
-//                        + bookings.get(i).bookedRoom.getRoomNumber());
+                lvGuestCosts.getItems().add("\nTotal Cost of Room: $"
+                + bookings.get(i).getTotalCost());
                 count1++;
             }
         }
