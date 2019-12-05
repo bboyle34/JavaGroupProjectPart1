@@ -137,4 +137,14 @@ public class Booking
         }
         return daysstayed;
     }
+    
+    //returns as double the total cost (amt spent) on a booking
+    public double getTotalCost() {
+        double amt = 0;
+        amt += (this.getDaysStayed() * this.bookedRoom.roomCostPerNight);
+        for (int i = 0; i<roomServices.size(); i++) {
+        amt += roomServices.get(i).price;
+        }
+        return amt;
+    }
 }
