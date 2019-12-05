@@ -128,13 +128,12 @@ public class Booking
         return a;
     }
     
-    //returns as an int the total number of days the guest has stayed in the hotel
-    public int getDaysStayed(int dayin, int dayout) {
+    public int getDaysStayed() {
         int daysstayed = 0;
-        if (checkMonth(dayin).equals("December") && (!(checkMonth(dayout).equals("December")))) {
-            daysstayed = (365-dayin) + dayout;
+        if (checkMonth(this.checkInDay).equals("December") && (!(checkMonth(this.checkOutDay).equals("December")))) {
+            daysstayed = (365-this.checkInDay) + this.checkOutDay;
         } else {
-            daysstayed = dayout-dayin;
+            daysstayed = this.checkOutDay-this.checkInDay;
         }
         return daysstayed;
     }
