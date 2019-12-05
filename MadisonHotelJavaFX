@@ -703,6 +703,100 @@ public class MadisonHotelJavaFX extends Application
             }
         });
         
+        //Room Service Tab
+        Label lblSelectValueGuest = new Label("Select a Value Guest:");
+        ListView lvGuests2 = new ListView();
+        for (int i = 0; i < valueGuests.size(); i++)
+        {
+            lvGuests2.getItems().add(valueGuests.get(i).getGuestName() + " [Value]");
+        }
+        Label lblSelectValueRoom = new Label("Select a booked room:");
+        ComboBox comboSelectRoom = new ComboBox();
+        ArrayList <Booking> valuebookings = new ArrayList();
+        int guestChoice = lvGuests2.getSelectionModel().getSelectedIndex();
+        int num = 0;
+        
+        lvGuests2.setOnMouseReleased(e -> {
+        for (int i = 0; i < bookings.size(); i ++) {
+            if (bookings.get(i).bookingGuest.equals(valueGuests.get(guestChoice + 1)) && bookings.get(i).bookedRoom.isBooked()) {
+                valuebookings.add(bookings.get(i));
+            }
+        }   
+        
+        for (int i = 0; i <valuebookings.size(); i++) {
+            comboSelectRoom.getItems().add(valuebookings.get(i).bookedRoom.roomNumber);
+        }
+        comboSelectRoom.getSelectionModel().select(0);
+        //int selectedRoomNumber = (int)comboSelectRoom.getValue();
+        });
+        
+        
+        //int selectedRoomNumber = (int)comboSelectRoom.getValue();
+        
+        TextField txtPrice = new TextField();
+        Label lblPrice = new Label("Room Service Charge($$): ");
+        Label lblDesc = new Label("Description: ");
+        TextField txtDescription = new TextField();
+        Label lblMessage = new Label("");
+        Label lblPriceMessage = new Label("");
+        Label lblDescMessage = new Label("");
+        Button btnCreateService = new Button("Create Room Service Charge ->");
+        /*
+        double serviceCharge = 0.0;
+        if (validRoomPrice(txtPrice.getText())) {
+        serviceCharge = Double.parseDouble(txtPrice.getText());
+        }
+        
+        if (validRoomPrice(txtPrice.getText()) == false || txtPrice.getText().length() == 0) {
+            lblPriceMessage.setText("Please enter valid service price!");
+        }
+        
+        
+        String desc = (String)txtDescription.getText();
+        */
+        btnCreateService.setOnAction(e -> {
+        int selectedRoomNumber = (int)comboSelectRoom.getValue();
+        double serviceCharge = 0.0;
+        if (validRoomPrice(txtPrice.getText())) {
+        serviceCharge = Double.parseDouble(txtPrice.getText());
+        lblPriceMessage.setText("");
+        }
+        
+        if (validRoomPrice(txtPrice.getText()) == false || txtPrice.getText().length() == 0) {
+            lblPriceMessage.setText("Please enter valid service price!");
+        }
+        
+        String desc = "";
+        if (txtDescription.getText().length() != 0) {
+        desc += (String)txtDescription.getText();
+        lblDescMessage.setText("");
+        } else {
+            lblDescMessage.setText("Please enter valid description!");
+        }
+            
+            
+        if (validRoomPrice(txtPrice.getText()) && txtPrice.getText().length() != 0 && txtDescription.getText().length() != 0) {
+            for (int i= 0; i<bookings.size(); i++) {
+                if (bookings.get(i).bookedRoom.roomNumber == selectedRoomNumber) {
+                    bookings.get(i).roomServices.add(new RoomService(desc, serviceCharge));
+                    lblMessage.setText("Successfully added room service to room " + bookings.get(i).bookedRoom.roomNumber);
+                    txtPrice.clear();
+                    txtDescription.clear();
+                    comboSelectRoom.getItems().clear();
+                    valuebookings.clear();
+                }
+            }
+        }
+        });
+        
+        Button btnLogout12 = new Button("Logout ->");
+        btnLogout12.setOnAction(e ->
+        {
+            employeeStage.close();
+            Stage loginStage = new Stage();
+            start(loginStage);
+        });
+        
         // Create Guest Tab
         Label lblSelectType = new Label("Type of Guest: ");
         ComboBox guestTypeCombo = new ComboBox();
@@ -870,6 +964,23 @@ public class MadisonHotelJavaFX extends Application
         checkOutPane.add(btnCheckOut, 1, 17);
         checkOutPane.add(btnLogout5, 2, 17);
         
+        GridPane roomServicePane = new GridPane();
+        roomServicePane.setVgap(10);
+        roomServicePane.setHgap(10);
+        roomServicePane.add(lblSelectValueGuest,0,1);
+        roomServicePane.add(lvGuests2,0,2,1,15);
+        roomServicePane.add(lblSelectValueRoom,3,1);
+        roomServicePane.add(comboSelectRoom,3,2);
+        roomServicePane.add(lblPrice, 3, 3);
+        roomServicePane.add(txtPrice,3,4);
+        roomServicePane.add(lblPriceMessage,3,5);
+        roomServicePane.add(lblDesc,3,6);
+        roomServicePane.add(txtDescription,3,7);
+        roomServicePane.add(lblDescMessage,3,8);
+        roomServicePane.add(btnCreateService,3,10);
+        roomServicePane.add(lblMessage,3,11);
+        roomServicePane.add(btnLogout12,4,13);
+        
         GridPane createGuestPane = new GridPane();
         createGuestPane.setAlignment(Pos.CENTER);
         createGuestPane.setVgap(10);
@@ -963,6 +1074,10 @@ public class MadisonHotelJavaFX extends Application
         Tab PII = new Tab("P.I.I");
         PII.setContent(personalInfo);
         employeeTabs.getTabs().add(PII);
+        
+        Tab roomServiceTab = new Tab("Room Service");
+        roomServiceTab.setContent(roomServicePane);
+        employeeTabs.getTabs().add(roomServiceTab);
         
         Tab bookReportTab = new Tab("Booking Report");
         bookReportTab.setContent(bookReportPane);
