@@ -1,3 +1,4 @@
+
 package GroupProject1;
 
 import java.util.*;
@@ -30,7 +31,6 @@ public class MadisonHotelJavaFX extends Application
         Button btnLogin = new Button("Login ->");
         TextField txtUsername = new TextField();
         PasswordField userPass = new PasswordField();    
-        String[] users = {"Guest", "Employee"};
         ComboBox userCombo = new ComboBox();
         userCombo.getItems().add("Guest");
         userCombo.getItems().add("Employee");
@@ -122,7 +122,7 @@ public class MadisonHotelJavaFX extends Application
         loginPane.add(btnLogin, 1, 4);
         loginPane.add(userCombo, 1, 3);
         loginPane.add(btnExit, 1, 5);
-        loginPane.add(lblError, 1, 6, 2, 1);
+        loginPane.add(lblError, 0, 6, 3, 1);
         
         // Scene
         Scene loginScene = new Scene(loginPane, 500, 300);
@@ -159,7 +159,6 @@ public class MadisonHotelJavaFX extends Application
             }
         }
         Label lbCheckYear = new Label("Check In Year: ");
-        TextField txtCheckYear = new TextField();
         ComboBox comboCheckMonth = new ComboBox();
         comboCheckMonth.getItems().add("January");
         comboCheckMonth.getItems().add("February");
@@ -175,7 +174,7 @@ public class MadisonHotelJavaFX extends Application
         comboCheckMonth.getItems().add("December");
         comboCheckMonth.getSelectionModel().select(0);
         Label lbCheckDay = new Label("Check In Day: ");
-        ComboBox comboCheckDay = new ComboBox();
+         ComboBox comboCheckDay = new ComboBox();
         comboCheckDay.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
                 "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31");
         comboCheckDay.getSelectionModel().select(0);
@@ -215,7 +214,7 @@ public class MadisonHotelJavaFX extends Application
             int tempmonth =0;
             int tempdayout = Integer.parseInt((String)comboCheckOutDay.getValue());
             int tempmonthout = 0;
-            
+
             String result = (String)comboCheckMonth.getValue();
             switch (result) {
                 case("January"):
@@ -255,7 +254,7 @@ public class MadisonHotelJavaFX extends Application
                     tempmonth = 334;
                     break;
             }
-            
+
             String result1 = (String)comboCheckOutMonth.getValue();
             switch (result1) {
                 case("January"):
@@ -432,11 +431,13 @@ public class MadisonHotelJavaFX extends Application
                 cost += bookings.get(i).bookedRoom.roomCostPerNight;
                 for (int j = 0; j < bookings.get(i).roomServices.size(); j++)
                 {
-                    cost += bookings.get(i).roomServices.get(j).price;
+                    lvGuestCosts.getItems().add(bookings.get(i).roomServices.get(j).description 
+                            + "\n$" + bookings.get(i).roomServices.get(j).price);
+                   //cost += bookings.get(i).roomServices.get(j).price;
                 }
-                lvGuestCosts.getItems().add("Total Cost of Room: $"
-                + cost + "\n" + " Room " 
-                        + bookings.get(i).bookedRoom.getRoomNumber());
+//                lvGuestCosts.getItems().add("Total Cost of Room: $"
+//                + cost + "\n" + " Room " 
+//                        + bookings.get(i).bookedRoom.getRoomNumber());
                 count1++;
             }
         }
@@ -523,25 +524,25 @@ public class MadisonHotelJavaFX extends Application
             if (valueGuests.get(i).equals(guest))
             {
                 GridPane roomServicePane = new GridPane();
-                roomServicePane.setOnMouseEntered(e ->
-                {
-                    lvGuestCosts.getItems().clear();
-                    int count2 = 0;
-                    for (int j = 0; j < bookings.size(); j++)
-                    {
-                        if (bookings.get(j).bookingGuest.equals(guest))
-                        {
-                            lvGuestCosts.getItems().add("Total Cost of Room: $"
-                            + bookings.get(j).bookedRoom.roomCostPerNight + "\n" 
-                                    + " Room " + bookings.get(j).bookedRoom.getRoomNumber());
-                            count2++;
-                        }
-                    }
-                    if (count2 == 0)
-                    {
-                        lvGuestCosts.getItems().add("You currently have no Bookings");
-                    }                    
-                });
+//                roomServicePane.setOnMouseEntered(e ->
+//                {
+//                    lvGuestCosts.getItems().clear();
+//                    int count2 = 0;
+//                    for (int j = 0; j < bookings.size(); j++)
+//                    {
+//                        if (bookings.get(j).bookingGuest.equals(guest))
+//                        {
+//                            lvGuestCosts.getItems().add("Total Cost of Room: $"
+//                            + bookings.get(j).bookedRoom.roomCostPerNight + "\n" 
+//                                    + " Room " + bookings.get(j).bookedRoom.getRoomNumber());
+//                            count2++;
+//                        }
+//                    }
+//                    if (count2 == 0)
+//                    {
+//                        lvGuestCosts.getItems().add("You currently have no Bookings");
+//                    }                    
+//                });
                 roomServicePane.setAlignment(Pos.CENTER);
                 roomServicePane.setVgap(10);
                 roomServicePane.setHgap(10); 
@@ -638,7 +639,7 @@ public class MadisonHotelJavaFX extends Application
                     }
                 }
             }
-            else if (name.substring(name.length() - 7, name.length()).equalsIgnoreCase("[Value"))
+            else if (name.substring(name.length() - 7, name.length()).equalsIgnoreCase("[Value]"))
             {
                 for (int i = 0; i < valueGuests.size(); i++)
                 {
@@ -720,6 +721,7 @@ public class MadisonHotelJavaFX extends Application
         TextField txtGuestPassword = new TextField();
         Label lblGuestList = new Label("All Guests: ");
         ListView lvGuestList = new ListView();
+        Label lblError1 = new Label("");
         for (int i = 0; i < guests.size(); i++)
         {
             lvGuestList.getItems().add(guests.get(i).getGuestName() + " [Regular]");
@@ -750,7 +752,8 @@ public class MadisonHotelJavaFX extends Application
                 lvGuestList.getItems().add(g.getGuestName() + " [Regular]");
                 txtGuestName.clear();
                 txtGuestUsername.clear();
-                txtGuestPassword.clear();                
+                txtGuestPassword.clear();
+                lblError1.setText("");                
             }
             else if (!(txtGuestName.getText().equalsIgnoreCase("")) 
                     && !(txtGuestUsername.getText().equalsIgnoreCase("")) 
@@ -764,6 +767,11 @@ public class MadisonHotelJavaFX extends Application
                 txtGuestName.clear();
                 txtGuestUsername.clear();
                 txtGuestPassword.clear();
+                lblError1.setText("");                
+            }
+            else
+            {
+                lblError1.setText("Please completely fill out the form.");
             }
         });
         
@@ -782,6 +790,7 @@ public class MadisonHotelJavaFX extends Application
         }
         Button btnCreateEmployee = new Button("Create Employee");
         Button btnLogout4 = new Button("Logout ->");
+        Label lblError = new Label("");
         btnLogout4.setOnAction(e ->
         {
             employeeStage.close();
@@ -790,9 +799,9 @@ public class MadisonHotelJavaFX extends Application
         });
         btnCreateEmployee.setOnAction(e ->
         {
-            if (!(txtEmployeeName.getText().equalsIgnoreCase("") 
-                    && !(txtEmployeeUsername.getText().equalsIgnoreCase("")) 
-                    && !(txtEmployeePassword.getText().equalsIgnoreCase(""))))
+            if (!(txtEmployeeName.getText().isEmpty()) 
+                    && !(txtEmployeeUsername.getText().isEmpty())
+                    && !(txtEmployeePassword.getText().isEmpty()))
             {
                 Employee z = new Employee(txtEmployeeUsername.getText(), 
                         txtEmployeePassword.getText(), 
@@ -802,7 +811,12 @@ public class MadisonHotelJavaFX extends Application
                 txtEmployeeName.clear();
                 txtEmployeePassword.clear();
                 txtEmployeeUsername.clear();
-            }                
+                lblError.setText("");
+            }
+            else
+            {
+                lblError.setText("Please completely fill out the form.");
+            }
         });
         
         // Edit Room Tab
@@ -846,6 +860,7 @@ public class MadisonHotelJavaFX extends Application
         GridPane checkOutPane = new GridPane();
         checkOutPane.setOnMouseEntered(e ->
         {
+            lvRooms.getItems().clear();
             lvGuests.getItems().clear();
             for (int i = 0; i < guests.size(); i++)
             {
@@ -883,6 +898,7 @@ public class MadisonHotelJavaFX extends Application
         createGuestPane.add(lblGuestPassword, 0, 4);
         createGuestPane.add(txtGuestPassword, 1, 4);
         createGuestPane.add(btnCreateGuest, 0, 6);
+        createGuestPane.add(lblError1, 0, 7, 2, 1);
         createGuestPane.add(btnLogout3, 1, 6);
         
         GridPane createEmployeePane = new GridPane();
@@ -899,6 +915,7 @@ public class MadisonHotelJavaFX extends Application
         createEmployeePane.add(lblEmployeePassword, 0, 3);
         createEmployeePane.add(txtEmployeePassword, 1, 3);
         createEmployeePane.add(btnCreateEmployee, 0, 5);
+        createEmployeePane.add(lblError, 0, 6, 2, 1);
         createEmployeePane.add(btnLogout4, 1, 5);
         
         GridPane editRoomPane = new GridPane();
@@ -910,7 +927,7 @@ public class MadisonHotelJavaFX extends Application
         editRoomPane.add(btnEditRoom, 0, 2);
         editRoomPane.add(btnActive, 0, 3);
         editRoomPane.add(btnLogout1, 0, 5);
-        
+       
         btnLogout1.setOnAction(e ->
         {
             employeeStage.close();
@@ -930,11 +947,7 @@ public class MadisonHotelJavaFX extends Application
             selectRoom(editRoomStage, emp);
         });
         
-        GridPane personalInfoPane = new GridPane();
-        
-        Tab PII = new Tab("P.I.I");
-        PII.setContent(personalInfoPane);
-        employeeTabs.getTabs().add(PII);
+        // Emp PII controls
         
         Tab bookReportTab = new Tab("Booking Report");
         bookReportTab.setContent(bookReportPane);
@@ -1073,28 +1086,35 @@ public class MadisonHotelJavaFX extends Application
             int roomNumber = 0;
             for (int i = 0; i < rooms.size(); i++)
             {
-                if (validRoomNumber(txtRoomNumber.getText())) {
-                if (Integer.parseInt(txtRoomNumber.getText()) == rooms.get(i).roomNumber)
+                if (validRoomNumber(txtRoomNumber.getText())) 
                 {
-                    proceed=false;
-                }
+                    if (Integer.parseInt(txtRoomNumber.getText()) == rooms.get(i).roomNumber)
+                    {
+                        proceed=false;
+                    }
                 }
             }
-            if (proceed == false) {
+            if (proceed == false) 
+            {
                 lblRoomNumberNot.setText("Sorry, that room number is taken!");
             }
-            if (proceed && (validRoomNumber(txtRoomNumber.getText()) == false || txtRoomNumber.getText().length() == 0)) {
+            if (proceed && (validRoomNumber(txtRoomNumber.getText()) == false || txtRoomNumber.getText().length() == 0))
+            {
                 lblRoomNumberNot.setText("Please enter valid room #");
             }
-            if (proceed && (validRoomNumber(txtRoomNumber.getText())) && txtRoomNumber.getText().length() != 0) {
+            if (proceed && (validRoomNumber(txtRoomNumber.getText())) && txtRoomNumber.getText().length() != 0) 
+            {
                 roomNumber = Integer.parseInt(txtRoomNumber.getText());
                 lblRoomNumberNot.setText("");
             }
             double roomPrice = 0;
-            if (validRoomPrice(txtRoomPrice.getText()) && txtRoomPrice.getText().length() != 0) {
-            roomPrice = Double.parseDouble(txtRoomPrice.getText());
-            lblRoomPriceNot.setText("");
-            } else {
+            if (validRoomPrice(txtRoomPrice.getText()) && txtRoomPrice.getText().length() != 0) 
+            {
+                roomPrice = Double.parseDouble(txtRoomPrice.getText());
+                lblRoomPriceNot.setText("");
+            } 
+            else 
+            {
                 lblRoomPriceNot.setText("Please enter valid room price");
             }
             if (validRoomNumber(txtRoomNumber.getText()) && validRoomPrice(txtRoomPrice.getText())) 
@@ -1126,7 +1146,8 @@ public class MadisonHotelJavaFX extends Application
                 //lblRoomNumberNot.setText("");
                 //lblRoomPriceNot.setText("");
             }
-            else {
+            else 
+            {
                 lblOutput.setText("Room not created, fix errors!");
             }
         });        
@@ -1162,7 +1183,8 @@ public class MadisonHotelJavaFX extends Application
         createRoomStage.setScene(createRoomScene);
         createRoomStage.show();
     }
-        public void selectRoom(Stage editRoomStage, Employee emp) {
+    public void selectRoom(Stage editRoomStage, Employee emp) 
+    {
         //Controls
         Button btnEmpMenu = new Button("Back to Employee Menu ->");
         Label lblRoomSelection = new Label("Select room to edit: ");
@@ -1179,16 +1201,18 @@ public class MadisonHotelJavaFX extends Application
 
         btnEditThisRoom.setOnAction(e -> 
         {
-        String roomSelection = (String)roomSelectionCombo.getValue();
-        int room = 0;
-        for (int i=0; i<rooms.size(); i++) {
-            if (roomSelection.equals(String.valueOf(rooms.get(i).roomNumber))) {
-                room = i;
+            String roomSelection = (String)roomSelectionCombo.getValue();
+            int room = 0;
+            for (int i=0; i<rooms.size(); i++) 
+            {
+                if (roomSelection.equals(String.valueOf(rooms.get(i).roomNumber))) 
+                {
+                    room = i;
+                }
             }
-        }
-        editRoomStage.hide();
-        Stage editSelectedRoomStage = new Stage();
-        editRoom(editSelectedRoomStage, emp, room);
+            editRoomStage.hide();
+            Stage editSelectedRoomStage = new Stage();
+            editRoom(editSelectedRoomStage, emp, room);
         });
         
         btnEmpMenu.setOnAction(e ->
@@ -1196,10 +1220,7 @@ public class MadisonHotelJavaFX extends Application
             editRoomStage.hide();
             Stage employeeStage = new Stage();
             employee(employeeStage, emp);
-        });
-
-
-        
+        });       
         for (int i = 0; i < rooms.size(); i++)
         {
             String booked = null;
@@ -1216,8 +1237,7 @@ public class MadisonHotelJavaFX extends Application
                     + " Booking Qty: " 
                     + rooms.get(i).getRoomBookedQuantity() 
                     + " " + booked);
-        }
-        
+        }        
         btnEmpMenu.setOnAction(e ->
         {
             editRoomStage.hide();
@@ -1342,21 +1362,26 @@ public class MadisonHotelJavaFX extends Application
             }
             String activity = (String)activityCombo.getValue();
             int activityChoice = 0;
-            if (activity.equalsIgnoreCase("Active")) {
+            if (activity.equalsIgnoreCase("Active")) 
+            {
                 rooms.get(room).setRoomActivity("Active");
-            } else if (activity.equalsIgnoreCase("Inactive")) {
+            } 
+            else if (activity.equalsIgnoreCase("Inactive")) 
+            {
                 rooms.get(room).setRoomActivity("Inactive");
             }
             int count = 0;
             int roomNumber = 0;
             for (int i = 0; i < rooms.size(); i++)
             {
-                if (!(validRoomNumber(txtRoomNumber.getText()))) {
+                if (!(validRoomNumber(txtRoomNumber.getText()))) 
+                {
                     break;
                 }
                 if (Integer.parseInt(txtRoomNumber.getText()) == rooms.get(i).roomNumber)
                 {
-                    if (Integer.parseInt(txtRoomNumber.getText()) == rooms.get(room).roomNumber) {
+                    if (Integer.parseInt(txtRoomNumber.getText()) == rooms.get(room).roomNumber) 
+                    {
                         break;
                     }
                     count++;
@@ -1364,88 +1389,108 @@ public class MadisonHotelJavaFX extends Application
             }
             if (!(count > 0))
             {
-                if (validRoomNumber(txtRoomNumber.getText())) {
+                if (validRoomNumber(txtRoomNumber.getText())) 
+                {
                 roomNumber = Integer.parseInt(txtRoomNumber.getText());
                 }
             }
-            if (count > 0) {
+            if (count > 0) 
+            {
                 txtRoom.setText("Room number already taken, try another!\n");
                 roomNumber = rooms.get(room).roomNumber;
             //} //else if (txtRoomNumber.getText().length() ==0 || txtRoomPrice.getText().length() ==0)  {
                 //txtConfirm.setText("Sorry, invalid option(s)! Try again!"
-            } else if (txtRoomNumber.getText().length() == 0) {
+            } 
+            else if (txtRoomNumber.getText().length() == 0) 
+            {
                 //txtRoom.setText("Keeping same room #");
                 roomNumber = rooms.get(room).roomNumber;
-            } else if (validRoomNumber(txtRoomNumber.getText()) == false) {
+            } 
+            else if (validRoomNumber(txtRoomNumber.getText()) == false) 
+            {
                 txtRoom.setText("Please enter valid room #");
                 roomNumber = rooms.get(room).roomNumber;
                 
             }
             double roomPrice = 0;
-           if (validRoomPrice(txtRoomPrice.getText())) {
-            roomPrice = Double.parseDouble(txtRoomPrice.getText());
-            } else if(txtRoomPrice.getText().length() == 0) {
+            if (validRoomPrice(txtRoomPrice.getText())) 
+            {
+                roomPrice = Double.parseDouble(txtRoomPrice.getText());
+            } 
+            else if(txtRoomPrice.getText().length() == 0) 
+            {
                // txtPrice.setText("Keeping same price");
                 roomPrice = rooms.get(room).roomCostPerNight;
-            } else {
+            } 
+            else 
+            {
                 txtPrice.setText("Please enter valid price!");
                 roomPrice = rooms.get(room).roomCostPerNight;
             }
             
-           if (count == 0) {
-           if (txtRoomPrice.getText().length() + txtRoomNumber.getText().length() == 0) {
-            rooms.get(room).bedOption = bedChoice;
-            rooms.get(room).coffeeOption = coffeeChoice;
-            rooms.get(room).kitchenOption = kitchChoice;
-            rooms.get(room).accessibleOption = accessChoice;
-            rooms.get(room).roomNumber = roomNumber;
-            rooms.get(room).roomCostPerNight = roomPrice;
-            txtConfirm.setText("Changes successfully made!");
-            txtRoom.setText("Keeping same room #");
-            txtPrice.setText("Keeping same room price");
-           } else if (txtRoomPrice.getText().length() == 0) {
-            rooms.get(room).bedOption = bedChoice;
-            rooms.get(room).coffeeOption = coffeeChoice;
-            rooms.get(room).kitchenOption = kitchChoice;
-            rooms.get(room).accessibleOption = accessChoice;
-            rooms.get(room).roomNumber = roomNumber;
-            rooms.get(room).roomCostPerNight = roomPrice;
-            txtConfirm.setText("Changes successfully made!");
-            txtPrice.setText("Keeping same room price");
-            txtRoom.setText("");
-           } else if (txtRoomNumber.getText().length() == 0) {
-            rooms.get(room).bedOption = bedChoice;
-            rooms.get(room).coffeeOption = coffeeChoice;
-            rooms.get(room).kitchenOption = kitchChoice;
-            rooms.get(room).accessibleOption = accessChoice;
-            rooms.get(room).roomNumber = roomNumber;
-            rooms.get(room).roomCostPerNight = roomPrice;
-            txtConfirm.setText("Changes successfully made!");
-            txtRoom.setText("Keeping same room #");
-           }else if (validRoomPrice(txtRoomPrice.getText()) && validRoomNumber(txtRoomNumber.getText())) {
-                
-            rooms.get(room).bedOption = bedChoice;
-            rooms.get(room).coffeeOption = coffeeChoice;
-            rooms.get(room).kitchenOption = kitchChoice;
-            rooms.get(room).accessibleOption = accessChoice;
-            rooms.get(room).roomNumber = roomNumber;
-            rooms.get(room).roomCostPerNight = roomPrice;
-            txtConfirm.setText("Changes successfully made!");
-            txtRoom.setText("");
-            txtPrice.setText("");
-           } else {
-               txtConfirm.setText("Changes not made, fix errors!");
-           }
+            if (count == 0) 
+            {
+                if (txtRoomPrice.getText().length() + txtRoomNumber.getText().length() == 0) 
+                {
+                    rooms.get(room).bedOption = bedChoice;
+                    rooms.get(room).coffeeOption = coffeeChoice;
+                    rooms.get(room).kitchenOption = kitchChoice;
+                    rooms.get(room).accessibleOption = accessChoice;
+                    rooms.get(room).roomNumber = roomNumber;
+                    rooms.get(room).roomCostPerNight = roomPrice;
+                    txtConfirm.setText("Changes successfully made!");
+                    txtRoom.setText("Keeping same room #");
+                    txtPrice.setText("Keeping same room price");
+                } 
+                else if (txtRoomPrice.getText().length() == 0) 
+                {
+                    rooms.get(room).bedOption = bedChoice;
+                    rooms.get(room).coffeeOption = coffeeChoice;
+                    rooms.get(room).kitchenOption = kitchChoice;
+                    rooms.get(room).accessibleOption = accessChoice;
+                    rooms.get(room).roomNumber = roomNumber;
+                    rooms.get(room).roomCostPerNight = roomPrice;
+                    txtConfirm.setText("Changes successfully made!");
+                    txtPrice.setText("Keeping same room price");
+                    txtRoom.setText("");
+                } 
+                else if (txtRoomNumber.getText().length() == 0) 
+                {
+                    rooms.get(room).bedOption = bedChoice;
+                    rooms.get(room).coffeeOption = coffeeChoice;
+                    rooms.get(room).kitchenOption = kitchChoice;
+                    rooms.get(room).accessibleOption = accessChoice;
+                    rooms.get(room).roomNumber = roomNumber;
+                    rooms.get(room).roomCostPerNight = roomPrice;
+                    txtConfirm.setText("Changes successfully made!");
+                    txtRoom.setText("Keeping same room #");
+                }
+                else if (validRoomPrice(txtRoomPrice.getText()) && validRoomNumber(txtRoomNumber.getText())) 
+                {
+                    rooms.get(room).bedOption = bedChoice;
+                    rooms.get(room).coffeeOption = coffeeChoice;
+                    rooms.get(room).kitchenOption = kitchChoice;
+                    rooms.get(room).accessibleOption = accessChoice;
+                    rooms.get(room).roomNumber = roomNumber;
+                    rooms.get(room).roomCostPerNight = roomPrice;
+                    txtConfirm.setText("Changes successfully made!");
+                    txtRoom.setText("");
+                    txtPrice.setText("");
+                } 
+                else 
+                {
+                    txtConfirm.setText("Changes not made, fix errors!");
+                }
            }
         });
         
         btnApplyChanges.setOnMouseReleased(e -> 
         {
-        lvOutput.getItems().clear();
-        lvOutput.getItems().add("Current Room Specifications:\n\nBed: " + rooms.get(room).printBedOption()
-        + "\n\nKitchen: " + rooms.get(room).printKitchOption() + "\n\nCoffee: " + rooms.get(room).printCoffeeOption() 
-        + "\n\nAccessibility: " + rooms.get(room).printAccessOption() + "\n\nRoom Number: " + rooms.get(room).roomNumber 
-        + "\n\nRoom Cost Per Night: " + rooms.get(room).roomCostPerNight + "\n\nRoom Status: " + rooms.get(room).getRoomActivity());
+            lvOutput.getItems().clear();
+            lvOutput.getItems().add("Current Room Specifications:\n\nBed: " + rooms.get(room).printBedOption()
+            + "\n\nKitchen: " + rooms.get(room).printKitchOption() + "\n\nCoffee: " + rooms.get(room).printCoffeeOption() 
+            + "\n\nAccessibility: " + rooms.get(room).printAccessOption() + "\n\nRoom Number: " + rooms.get(room).roomNumber 
+            + "\n\nRoom Cost Per Night: " + rooms.get(room).roomCostPerNight + "\n\nRoom Status: " + rooms.get(room).getRoomActivity());
         });
         
         btnEmpMenu.setOnAction(e -> 
@@ -1491,28 +1536,38 @@ public class MadisonHotelJavaFX extends Application
         
     }
     
-    public boolean validRoomNumber(String input) {
+    public boolean validRoomNumber(String input) 
+    {
         boolean result = false;
-        try {
+        try 
+        {
             int num = Integer.parseInt(input);
-            if (num >=1 && num <=9999) {
+            if (num >=1 && num <=9999) 
+            {
                 result = true;
             }
-        } catch (NumberFormatException e) {
+        } 
+        catch (NumberFormatException e) 
+        {
             result = false;
         }
         return result;
     }
     
-    public boolean validRoomPrice(String input) {
+    public boolean validRoomPrice(String input) 
+    {
         boolean result = false;
-        try {
+        try 
+        {
             double num = Double.parseDouble(input);
-            if (num >0 && num <= 9999) {
+            if (num >0 && num <= 9999) 
+            {
                 result = true;
             }
             
-        }catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) 
+        {
             result = false;
         }
         return result;
@@ -1559,9 +1614,9 @@ public class MadisonHotelJavaFX extends Application
         changeGuestNameStage.show();
     }
     
-        public void changeGuestPassword(Stage changeGuestPasswordStage, Guest guest)
+    public void changeGuestPassword(Stage changeGuestPasswordStage, Guest guest)
     {
-         Label lblError = new Label("");
+        Label lblError = new Label("");
         // Controls
         Label lblOldPassword = new Label("Enter your current password: ");
         TextField txtOldPassword = new TextField();
@@ -1613,9 +1668,9 @@ public class MadisonHotelJavaFX extends Application
         changeGuestPasswordStage.show();
     
     }
-    
+      
     //THIS IS OVERLOADED AND IS USED FOR EMPLOYEES TO CHANGE PASSWORDS  
-         public void changeGuestPassword(Stage changeGuestPasswordStage, Employee employee)
+    public void changeGuestPassword(Stage changeGuestPasswordStage, Employee employee)
     {
          Label lblError = new Label("");
         // Controls
@@ -1628,7 +1683,7 @@ public class MadisonHotelJavaFX extends Application
         {
             String oldPassword = txtOldPassword.getText();
             String newPassword = txtNewPassword.getText();
-            
+
             if (employee.setPassword(oldPassword, newPassword) == 0)
             {
                 employee.setPassword(oldPassword,newPassword);
@@ -1636,7 +1691,7 @@ public class MadisonHotelJavaFX extends Application
                 Stage employeeStage = new Stage();
                 employee(employeeStage, employee);                
             }
-           
+
             else if (employee.setPassword(oldPassword, newPassword) == 1)
             {
                lblError.setText("The new password must be different from the old password \n"
@@ -1644,10 +1699,10 @@ public class MadisonHotelJavaFX extends Application
                        + "The new password must contain one number \n"
                        + "The new password must contain one capital letter");
             }
-            
+
 
         });
-        
+
         // Pane
         GridPane changePasswordPane = new GridPane();
         changePasswordPane.setAlignment(Pos.CENTER);
@@ -1659,15 +1714,14 @@ public class MadisonHotelJavaFX extends Application
         changePasswordPane.add(txtNewPassword, 1, 1);
         changePasswordPane.add(btnChangePassword, 1, 3);
         changePasswordPane.add(lblError, 0, 6, 2, 1);
-        
+
         // Scene
         Scene changePasswordScene = new Scene(changePasswordPane, 500, 300);
-        
+
          // Stage
         changeGuestPasswordStage.setTitle("Change Guest Password");
         changeGuestPasswordStage.setScene(changePasswordScene);
         changeGuestPasswordStage.show();
-    
     }
     
     public void stop()
@@ -1697,10 +1751,15 @@ public class MadisonHotelJavaFX extends Application
         rooms.add(room4);
         Room room5 = new Room(1, 1, 1, 1, 400, 250.0);
         rooms.add(room5);
-        Booking book1 = new Booking(guest1, room3, 2005, 1, 4);
+        Booking book1 = new Booking(valueGuest1, room3, 2005, 1, 4);
         bookings.add(book1);
         Booking book2 = new Booking(guest1, room4, 2005, 1, 4);
         bookings.add(book2);
+        RoomService rm1 = new RoomService("beer", 1000.0);
+        RoomService rm2 = new RoomService("I bought all the food", 45);
+        book1.roomServices.add(rm1);
+        book1.roomServices.add(rm2);
+        
         
         Application.launch(args);
     }
