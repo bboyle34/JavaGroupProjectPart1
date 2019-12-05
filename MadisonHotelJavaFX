@@ -340,8 +340,8 @@ public class MadisonHotelJavaFX extends Application
                         }
                     }
                     txtCheckYear.clear();
-                    txtCheckDay.clear();
-                    txtCheckOut.clear();                  
+                    //txtCheckDay.clear();
+                    //txtCheckOut.clear();                  
                 }
             }
         });
