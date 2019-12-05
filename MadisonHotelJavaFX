@@ -1,4 +1,3 @@
-
 package GroupProject1;
 
 import java.util.*;
@@ -843,15 +842,8 @@ public class MadisonHotelJavaFX extends Application
                         + bookings.get(i).bookingGuest.getGuestName()); 
             }
         });
-        bookReportPane.setAlignment(Pos.CENTER);
-        bookReportPane.setVgap(10);
-        bookReportPane.setHgap(10);
-        bookReportPane.add(sceneTitle1, 0, 0, 2, 1);
-        bookReportPane.add(lblBookings, 2, 0);
-        bookReportPane.add(lvBookings, 1, 1, 1, 15);
-        bookReportPane.add(txtBookingReport, 2, 1, 1, 15);
-        bookReportPane.add(btnViewBooking, 1, 16);
-        bookReportPane.add(btnLogout2, 2, 16);
+        
+        
         
         GridPane checkOutPane = new GridPane();
         checkOutPane.setOnMouseEntered(e ->
@@ -923,6 +915,28 @@ public class MadisonHotelJavaFX extends Application
         editRoomPane.add(btnEditRoom, 0, 2);
         editRoomPane.add(btnActive, 0, 3);
         editRoomPane.add(btnLogout1, 0, 5);
+        
+        Label lblEmNameInfo1 = new Label("Employee Name: ");
+        Label lblEmNameInfo2 = new Label(employeeName);
+        Label lblEmUsernameInfo1 = new Label("Employee Username: ");
+        Label lblEmUsernameInfo2 = new Label(emp.getUsername());
+     //   Label lblEmBookings = new Label("Guest Bookings: ");
+        ListView lvGuestBookings = new ListView();
+        
+        GridPane personalInfo = new GridPane();
+        personalInfo.setAlignment(Pos.CENTER);
+        personalInfo.setVgap(10);
+        personalInfo.setHgap(10);
+        personalInfo.add(sceneTitle3, 0, 0, 2, 1);
+        personalInfo.add(lblEmNameInfo1, 0, 1);
+        personalInfo.add(lblEmNameInfo2, 1, 1);
+        personalInfo.add(lblEmUsernameInfo1, 0, 2);
+//        personalInfo.add(lblGuestUsernameInfo2, 1, 2);
+//        personalInfo.add(lblGuestBookings, 0, 3);
+//        personalInfo.add(lvGuestBookings, 1, 3, 1, 15);
+//        personalInfo.add(btnChangeGuestName, 0, 19);
+//        personalInfo.add(btnChangeGuestPassword, 1, 19);
+//        personalInfo.add(btnLogout3, 3, 19);
        
         btnLogout1.setOnAction(e ->
         {
@@ -944,10 +958,10 @@ public class MadisonHotelJavaFX extends Application
         });
         
         // Emp PII controls
-        GridPane personalInfoPane = new GridPane();
+   
 
         Tab PII = new Tab("P.I.I");
-        PII.setContent(personalInfoPane);
+        PII.setContent(personalInfo);
         employeeTabs.getTabs().add(PII);
         
         Tab bookReportTab = new Tab("Booking Report");
@@ -971,12 +985,14 @@ public class MadisonHotelJavaFX extends Application
         employeeTabs.getTabs().add(editRoomTab);
         
         // Scene
-        Scene employeeScene = new Scene(employeeTabs, 700, 600);
+        
         
         // Stage
         employeeStage.setTitle("Madison Hotel - Employee Menu");
         employeeStage.setScene(employeeScene);
         employeeStage.show();
+        
+        
     }
     public void createRoom(Stage createRoomStage, Employee emp)
     {
