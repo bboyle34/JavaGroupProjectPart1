@@ -379,11 +379,13 @@ public class MadisonHotelJavaFX extends Application
         {
             if (bookings.get(i).bookingGuest.equals(guest))
             {
-                lvGuestBookings.getItems().add("Room " 
+                    lvGuestBookings.getItems().add("Room " 
                         + bookings.get(i).bookedRoom.roomNumber 
                         + "\nCheck in Year " + bookings.get(i).bookingYear 
-                        + " \nCheck in Day " + bookings.get(i).checkInDay 
-                        + " Check out Day " + bookings.get(i).checkOutDay);
+                        + " \nCheck in Day: " + checkMonth(bookings.get(i).checkInDay)
+                            + " " + checkDay(bookings.get(i).checkInDay) 
+                        + " \nCheck out Day: " + checkMonth(bookings.get(i).checkOutDay)
+                            + " " + checkDay(bookings.get(i).checkOutDay));
                 count++;
             }
         }
@@ -495,8 +497,10 @@ public class MadisonHotelJavaFX extends Application
                     lvGuestBookings.getItems().add("Room " 
                         + bookings.get(i).bookedRoom.roomNumber 
                         + "\nCheck in Year " + bookings.get(i).bookingYear 
-                        + " \nCheck in Day " + bookings.get(i).checkInDay 
-                        + " Check out Day " + bookings.get(i).checkOutDay);
+                        + " \nCheck in Day: " + checkMonth(bookings.get(i).checkInDay)
+                            + " " + checkDay(bookings.get(i).checkInDay) 
+                        + " \nCheck out Day: " + checkMonth(bookings.get(i).checkOutDay)
+                            + " " + checkDay(bookings.get(i).checkOutDay));
                     thisCount++;
                 }
             }
@@ -1571,6 +1575,59 @@ public class MadisonHotelJavaFX extends Application
             result = false;
         }
         return result;
+    }
+    public String checkMonth(int dayInOrOut) {
+        //returns string with month name
+        String returnString = "";
+        
+        if (dayInOrOut >=0 && dayInOrOut <=31) {
+            returnString += "January";
+        } else if (dayInOrOut >31 && dayInOrOut <=59) {
+            returnString += "February";
+        } else if (dayInOrOut > 59 && dayInOrOut <=90) {
+            returnString += "March";
+        } else if (dayInOrOut > 90 && dayInOrOut <= 120) {
+            returnString += "April";
+        } else if (dayInOrOut > 120 && dayInOrOut <= 151) {
+            returnString += "May";
+        } else if (dayInOrOut > 151 && dayInOrOut <= 181) {
+            returnString += "June";
+        } else if (dayInOrOut > 181 && dayInOrOut <= 212) {
+            returnString += "July";
+        } else if (dayInOrOut > 212 && dayInOrOut <= 243) {
+            returnString += "August";
+        } else if (dayInOrOut > 243 && dayInOrOut <= 273) {
+            returnString += "September";
+        } else if (dayInOrOut > 273 && dayInOrOut <= 304) {
+            returnString += "October";
+        } else if (dayInOrOut > 304 && dayInOrOut <= 334) {
+            returnString += "November";
+        } else if (dayInOrOut > 334) {
+            returnString += "December";
+        }
+        
+        return returnString;
+    }
+    
+    public int checkDay(int day) {
+        String month = checkMonth(day);
+        //day-monthnum = day
+        int monthnum = 0;
+        switch(month) {
+            case("January"): monthnum = 0; break;
+            case("February"): monthnum = 31; break;
+            case("March"): monthnum = 59; break;
+            case("April"): monthnum = 90; break;
+            case("May"): monthnum = 120; break;
+            case("June"): monthnum = 151; break;
+            case("July"): monthnum = 181; break;
+            case("August"): monthnum = 212; break;
+            case("September"): monthnum = 243; break;
+            case("October"): monthnum = 273; break;
+            case("November"): monthnum = 304; break;
+            case("December"): monthnum = 334; break;
+        }
+        return (day - monthnum);
     }
     public void changeGuestName(Stage changeGuestNameStage, Guest guest)
     {
