@@ -159,6 +159,7 @@ public class MadisonHotelJavaFX extends Application
             }
         }
         Label lbCheckYear = new Label("Check In Year: ");
+        TextField txtCheckYear = new TextField();
         ComboBox comboCheckMonth = new ComboBox();
         comboCheckMonth.getItems().add("January");
         comboCheckMonth.getItems().add("February");
@@ -467,10 +468,14 @@ public class MadisonHotelJavaFX extends Application
         bookRoomPane.add(lvFreeRoom, 1, 1, 2, 1);
         bookRoomPane.add(lbCheckYear, 0, 2);
         bookRoomPane.add(txtCheckYear, 1, 2);
+        bookRoomPane.add(comboCheckMonth,1,3);
+        bookRoomPane.add(comboCheckDay,2,3);
         bookRoomPane.add(lbCheckDay, 0, 3);
-        bookRoomPane.add(txtCheckDay, 1, 3);
+        //bookRoomPane.add(txtCheckDay, 1, 3);
+        bookRoomPane.add(comboCheckOutMonth,1,4);
+        bookRoomPane.add(comboCheckOutDay,2,4);
         bookRoomPane.add(lbCheckOut, 0, 4);
-        bookRoomPane.add(txtCheckOut, 1, 4);
+        //bookRoomPane.add(txtCheckOut, 1, 4);
         bookRoomPane.add(btnBookRoom, 1, 5);
         bookRoomPane.add(btnLogout1,3, 5);
         
