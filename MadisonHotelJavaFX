@@ -1151,7 +1151,7 @@ public class MadisonHotelJavaFX extends Application
         employeeTabs.getTabs().add(PII);
         
         // Scene
-        Scene employeeScene = new Scene(employeeTabs, 700, 600);
+        Scene employeeScene = new Scene(employeeTabs, 750, 600);
         
         // Stage
         employeeStage.setTitle("Madison Hotel - Employee Menu");
