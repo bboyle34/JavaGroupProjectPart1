@@ -748,7 +748,7 @@ public class MadisonHotelJavaFX extends Application
             int guestChoice = lvGuests2.getSelectionModel().getSelectedIndex();
             for (int i = 0; i < bookings.size(); i ++) 
             {
-                if (bookings.get(i).bookingGuest.equals(valueGuests.get(guestChoice + 1)) 
+                if (bookings.get(i).bookingGuest.equals(valueGuests.get(guestChoice)) 
                         && bookings.get(i).bookedRoom.isBooked()) 
                 {
                     valuebookings.add(bookings.get(i));
