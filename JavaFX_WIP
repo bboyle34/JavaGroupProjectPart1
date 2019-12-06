@@ -841,6 +841,7 @@ public class MadisonHotelJavaFX extends Application
         ComboBox guestTypeCombo = new ComboBox();
         guestTypeCombo.getItems().add("Guest");
         guestTypeCombo.getItems().add("Value Guest");
+        guestTypeCombo.getSelectionModel().select(0);
         Label lblGuestName = new Label("Guest's Name: ");
         TextField txtGuestName = new TextField();
         Label lblGuestUsername = new Label("Guest's Username: ");
