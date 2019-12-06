@@ -936,6 +936,15 @@ public class MadisonHotelJavaFX extends Application
                         + bookings.get(i).bookingGuest.getGuestName()); 
             }
         });
+        bookReportPane.setAlignment(Pos.CENTER);
+        bookReportPane.setVgap(10);
+        bookReportPane.setHgap(10);
+        bookReportPane.add(sceneTitle1, 0, 0, 2, 1);
+        bookReportPane.add(lblBookings, 2, 0);
+        bookReportPane.add(lvBookings, 1, 1, 1, 15);
+        bookReportPane.add(txtBookingReport, 2, 1, 1, 15);
+        bookReportPane.add(btnViewBooking, 1, 16);
+        bookReportPane.add(btnLogout2, 2, 16);
         
         
         
@@ -1110,7 +1119,7 @@ public class MadisonHotelJavaFX extends Application
         employeeTabs.getTabs().add(editRoomTab);
         
         // Scene
-        
+        Scene employeeScene = new Scene(employeeTabs, 700, 600);
         
         // Stage
         employeeStage.setTitle("Madison Hotel - Employee Menu");
