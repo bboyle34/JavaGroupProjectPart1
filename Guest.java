@@ -68,7 +68,7 @@ public class Guest
             operator = false;
         }
         int count = 1;
-        boolean b = false;
+        b = false;
         for (int i = 0; i < newP.length(); i++)
         {
             if (newP.substring(i).matches("[^A-Za-z0-9]"))
