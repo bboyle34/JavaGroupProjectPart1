@@ -77,9 +77,9 @@ public class Guest
             }
             count++;
         }
-//        Pattern p = Pattern.compile("[^A-Za-z0-9]");
-//        Matcher m = p.matcher(newP);
-//        boolean b = m.find();
+        Pattern p = Pattern.compile("[^A-Za-z0-9]");
+        Matcher m = p.matcher(newP);
+        boolean b = m.find();
         if (this.password.equalsIgnoreCase(oldP) && b && operator)
         {
             System.out.println("it worked");
