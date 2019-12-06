@@ -738,11 +738,14 @@ public class MadisonHotelJavaFX extends Application
         Label lblSelectValueRoom = new Label("Select a booked room:");
         ComboBox comboSelectRoom = new ComboBox();
         ArrayList <Booking> valuebookings = new ArrayList();
-        int guestChoice = lvGuests2.getSelectionModel().getSelectedIndex();
         int num = 0;
 
-        lvGuests2.setOnMouseReleased(e -> 
+        lvGuests2.setOnMousePressed(e -> 
         {
+            valuebookings.clear();
+            comboSelectRoom.getItems().clear();
+            comboSelectRoom.getSelectionModel().clearSelection();
+            int guestChoice = lvGuests2.getSelectionModel().getSelectedIndex();
             for (int i = 0; i < bookings.size(); i ++) 
             {
                 if (bookings.get(i).bookingGuest.equals(valueGuests.get(guestChoice + 1)) 
@@ -757,6 +760,7 @@ public class MadisonHotelJavaFX extends Application
                 comboSelectRoom.getItems().add(valuebookings.get(i).bookedRoom.roomNumber);
             }
             comboSelectRoom.getSelectionModel().select(0);
+            valuebookings.clear();
             //int selectedRoomNumber = (int)comboSelectRoom.getValue();
         });
 
