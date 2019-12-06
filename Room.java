@@ -145,13 +145,13 @@ public class Room
     {
         String bed = "";
         if(this.bedOption == 0)
-            bed += "1 Queen bed";
+            bed += "1x Queen bed";
         
         else if(this.bedOption == 1)
-            bed+= "2 Queen beds";
+            bed+= "2x Queen beds";
         
         else if(this.bedOption == 2)
-            bed+= "1 King bed";
+            bed+= "1x King bed";
         
         return bed;
     }
