@@ -41,15 +41,31 @@ public class Booking
     {
         String answer = "";
         answer += ("Booking Guest: " + this.bookingGuest.describeGuest() + "\nBooked Room: " 
-                + this.bookedRoom.roomDescription() + "\nBooking Year: " 
-                + this.bookingYear + "\nCheck in: " + this.checkInDay 
-                + "\nCheck Out: " + this.checkOutDay);
+                + this.bookedRoom.roomDescription());
+        if (!(this.roomServices.isEmpty())) {
+            answer += "\nRoom Service Charges: \n";
+        for (int i=0; i< roomServices.size(); i++) {
+            answer += "Desc: " + roomServices.get(i).description + ", Price: $" + roomServices.get(i).price + "\n";
+        } 
+        } else {
+            answer += "\n";
+        }
+        answer += " " + "\nCheck in: " + this.getDate(this.checkInDay) 
+                + "\nCheck Out: " + this.getDate(this.checkOutDay) + "\nTotal Booking Cost: $" + this.getTotalCost();
         return answer;
     }
     //ends booking - which frees the room associated with the booking
     public void endBooking()
     {
         this.bookedRoom.freeThisRoom();
+    }
+    
+    public String shortBookingDescription() {
+        String returnString = "";
+        
+        returnString += "Room #" + this.bookedRoom.roomNumber + " booked by: " + this.bookingGuest.getGuestName()
+                + "Check out: " + this.getDate(this.checkOutDay);
+        return returnString;
     }
     
     public String checkMonth(int dayInOrOut) {
