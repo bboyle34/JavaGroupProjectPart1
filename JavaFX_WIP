@@ -875,13 +875,15 @@ public class MadisonHotelJavaFX extends Application
             Stage loginStage = new Stage();
             start(loginStage);
         });
-        btnCreateGuest.setOnAction(e ->
+       btnCreateGuest.setOnAction(e ->
         {
+           
             String type = (String) guestTypeCombo.getValue();
             if (!(txtGuestName.getText().equalsIgnoreCase("")) 
                     && !(txtGuestUsername.getText().equalsIgnoreCase("")) 
                     && !(txtGuestPassword.getText().equalsIgnoreCase(""))
-                    && type.equalsIgnoreCase("Guest"))
+                    && type.equalsIgnoreCase("Guest")
+                    && createPassword(txtGuestPassword.getText())==0)   
             {
                 Guest g = new Guest(txtGuestUsername.getText(), 
                         txtGuestPassword.getText(), txtGuestName.getText());
@@ -895,7 +897,8 @@ public class MadisonHotelJavaFX extends Application
             else if (!(txtGuestName.getText().equalsIgnoreCase("")) 
                     && !(txtGuestUsername.getText().equalsIgnoreCase("")) 
                     && !(txtGuestPassword.getText().equalsIgnoreCase(""))
-                    && type.equalsIgnoreCase("Value Guest"))
+                    && type.equalsIgnoreCase("Value Guest")
+                    && createPassword(txtGuestPassword.getText())==0)
             {
                 ValueGuest v = new ValueGuest(txtGuestUsername.getText(), 
                         txtGuestPassword.getText(), txtGuestName.getText());
@@ -908,7 +911,10 @@ public class MadisonHotelJavaFX extends Application
             }
             else
             {
-                lblError1.setText("Please completely fill out the form.");
+                lblError1.setText("The new password must be different from the old password \n"
+                       + "The new password cannot start with a number \n"
+                       + "The new password must contain one number \n"
+                       + "The new password must contain one capital letter");
             }
         });
         
@@ -934,11 +940,12 @@ public class MadisonHotelJavaFX extends Application
             Stage loginStage = new Stage();
             start(loginStage);
         });
-        btnCreateEmployee.setOnAction(e ->
+       btnCreateEmployee.setOnAction(e ->
         {
-            if (!(txtEmployeeName.getText().isEmpty()) 
-                    && !(txtEmployeeUsername.getText().isEmpty())
-                    && !(txtEmployeePassword.getText().isEmpty()))
+            if (!(txtEmployeeName.getText().equalsIgnoreCase("")) 
+                    && !(txtEmployeeUsername.getText().equalsIgnoreCase("")) 
+                    && !(txtEmployeePassword.getText().equalsIgnoreCase(""))
+                    && createPassword(txtEmployeePassword.getText())==0)
             {
                 Employee z = new Employee(txtEmployeeUsername.getText(), 
                         txtEmployeePassword.getText(), 
@@ -952,7 +959,10 @@ public class MadisonHotelJavaFX extends Application
             }
             else
             {
-                lblError.setText("Please completely fill out the form.");
+                lblError.setText("The new password must be different from the old password \n"
+                       + "The new password cannot start with a number \n"
+                       + "The new password must contain one number \n"
+                       + "The new password must contain one capital letter");
             }
         });
         
