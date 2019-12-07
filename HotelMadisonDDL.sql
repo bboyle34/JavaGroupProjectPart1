@@ -42,6 +42,16 @@ CREATE TABLE GUEST (
 );
 
 CREATE TABLE BOOKING (
-	 bookedRoom ROOM
-	 bookingGuest GUEST 
+	 bookedRoom NUMERIC(4) 
+	          references ROOM(roomID) not null,
+			  
+	 bookingGuest Numeric(3)
+              references GUEST(guestID) not null,
+     roomServices NUMERIC(3)
+              references ROOMSERVICE(roomServiceID) not null,	 
+     bookingYear NUMERIC(4),
+     checkInDay NUMERIC(2),
+     checkOutDay NUMERIC(2),
+	 primary key(bookedRoom,bookingGuest,roomServices,bookingYear,checkInDay,checkOutDay)
+	 
 );
