@@ -1485,7 +1485,7 @@ public class MadisonHotelJavaFX extends Application
         Label lblBed = new Label("  New Bed Option: ");
         ComboBox bedCombo = new ComboBox();
         bedCombo.getItems().add("1x Queen Bed");
-        bedCombo.getItems().add("2x Queen Bed");
+        bedCombo.getItems().add("2x Queen Beds");
         bedCombo.getItems().add("1x King Bed");
         bedCombo.getSelectionModel().select(rooms.get(room).printBedOption());
         Label lblKitch = new Label("  New Kitchen Option: ");
@@ -1535,7 +1535,7 @@ public class MadisonHotelJavaFX extends Application
             {
                 bedChoice = 0;
             }
-            else if (bed.equalsIgnoreCase("2x Queen Bed"))
+            else if (bed.equalsIgnoreCase("2x Queen Beds"))
             {
                 bedChoice = 1;
             }
