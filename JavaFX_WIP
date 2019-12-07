@@ -2041,6 +2041,48 @@ public class MadisonHotelJavaFX extends Application
         changeGuestPasswordStage.show();
     }
     
+      public static int createPassword(String newP)
+         {
+               int count = 0;
+        
+        if(Character.isDigit(newP.charAt(0)))
+        {
+            count = 1; 
+            return count;
+        }
+             
+       for(int i = 0; i < newP.length(); i++)
+        {
+            if(Character.isUpperCase(newP.charAt(i)))
+            {
+                count = 0;
+                break;
+            } 
+            else{
+                count = 1;
+                return count;
+                
+            }     
+        }
+        
+        
+        for(int i = 1; i < newP.length(); i++)
+        {
+            if(Character.isDigit(newP.charAt(i)))
+            {
+                count = 0;
+                return count;
+            }
+            else{
+                count = 1;
+               // return count;
+            }
+            
+        }
+        return count;
+             
+       }
+    
     public void stop()
     {
         //this will run before any program ends
