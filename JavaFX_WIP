@@ -435,9 +435,9 @@ public class MadisonHotelJavaFX extends Application
                 lblTotalCost.setText("Total Cost: $" + bookings.get(i).getTotalCost());
                 for (int j = 0; j < bookings.get(i).roomServices.size(); j++)
                 {
-                    lvGuestCosts.getItems().add(bookings.get(i).roomServices.get(j).description
+                    lvGuestCosts.getItems().add("Room Number: " + bookings.get(i).bookedRoom.roomNumber + "\n" + bookings.get(i).roomServices.get(j).description
                         + ": $" + bookings.get(i).roomServices.get(j).price);
-                    count1++;
+                        count1++;
                 }
             }
         }
