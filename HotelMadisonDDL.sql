@@ -1,3 +1,10 @@
+DROP TABLE BOOKING;
+DROP TABLE VALUEGUEST;
+DROP TABLE GUEST;
+DROP TABLE ROOMSERVICE;
+DROP TABLE EMPLOYEE;
+DROP TABLE ROOM;
+
 CREATE TABLE ROOM (
 	roomID Numeric(3) primary key, 
 	roomNumber Numeric(4),
@@ -24,16 +31,6 @@ CREATE TABLE ROOMSERVICE (
 	price Numeric(4)
 );
 
-CREATE TABLE VALUEGUEST (
-	valueClubID Numeric(3) primary key,
-	numberOfBookings Numeric(3),
-	amountSpentWithHotel Numeric(5)
-	guestID Numeric(3),
-	guestUsername VARCHAR(30),
-	guestName VARCHAR(30),
-	guestPassword VARCHAR(30)
-);
-
 CREATE TABLE GUEST (
 	guestID Numeric(3) primary key,
 	guestUsername VARCHAR(30),
@@ -41,10 +38,20 @@ CREATE TABLE GUEST (
 	guestPassword VARCHAR(30)
 );
 
+CREATE TABLE VALUEGUEST (
+	valueClubID Numeric(3) primary key,
+	numberOfBookings Numeric(3),
+	amountSpentWithHotel Numeric(5)
+	guestID Numeric(3)
+	      references GUEST(guestID),
+	guestUsername VARCHAR(30),
+	guestName VARCHAR(30),
+	guestPassword VARCHAR(30)
+);
+
 CREATE TABLE BOOKING (
 	 bookedRoom NUMERIC(4) 
-	          references ROOM(roomID) not null,
-			  
+	          references ROOM(roomID) not null,			  
 	 bookingGuest Numeric(3)
               references GUEST(guestID) not null,
      roomServices NUMERIC(3)
