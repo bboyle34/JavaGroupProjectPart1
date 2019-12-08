@@ -119,8 +119,10 @@ public class Employee
         }
         return count;
     }
-    
-    
+    public String getPassword()
+    {
+        return this.password;
+    }    
     //Method to return a description of a specified employee object.
     public String describeEmployee()
     {
