@@ -176,8 +176,10 @@ public class MadisonHotelJavaFX extends Application
         comboCheckMonth.getSelectionModel().select(0);
         Label lbCheckDay = new Label("Check In Day: ");
          ComboBox comboCheckDay = new ComboBox();
-        comboCheckDay.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
-                "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31");
+        comboCheckDay.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", 
+                "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
+                "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", 
+                "30", "31");
         comboCheckDay.getSelectionModel().select(0);
         Label lbCheckOut = new Label("Check Out Day: ");
         ComboBox comboCheckOutMonth = new ComboBox();
@@ -195,8 +197,10 @@ public class MadisonHotelJavaFX extends Application
         comboCheckOutMonth.getItems().add("December");
         comboCheckOutMonth.getSelectionModel().select(0);
         ComboBox comboCheckOutDay = new ComboBox();
-        comboCheckOutDay.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14",
-                "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31");
+        comboCheckOutDay.getItems().addAll("1", "2", "3", "4", "5", "6", "7", 
+                "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", 
+                "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", 
+                "29", "30", "31");
         comboCheckOutDay.getSelectionModel().select(0);
         Button btnBookRoom = new Button("Book Room ^");
         Button btnLogout1 = new Button("<- Logout");       
@@ -340,8 +344,8 @@ public class MadisonHotelJavaFX extends Application
                         }
                     }
                     txtCheckYear.clear();
-                    //txtCheckDay.clear();
-                    //txtCheckOut.clear();                  
+                    comboCheckMonth.getSelectionModel().select(0);
+                    comboCheckOutMonth.getSelectionModel().select(0);
                 }
             }
         });
@@ -413,8 +417,7 @@ public class MadisonHotelJavaFX extends Application
             Stage changeGuestPasswordStage = new Stage();
             changeGuestPassword(changeGuestPasswordStage, guest);
             guestStage.close();
-        });
-        
+        });        
         
         // Room Service Tab
         Label lblGuestNameInfo3 = new Label("Guest Name: ");
@@ -422,20 +425,25 @@ public class MadisonHotelJavaFX extends Application
         Label lblGuestUsernameInfo3 = new Label("Guest Username: ");
         Label lblGuestUsernameInfo4 = new Label(guest.getUsername());
         Label lblGuestCosts = new Label("Room Service Charges: ");
-        ListView lvGuestCosts = new ListView();        
+        ListView lvGuestCosts = new ListView();
+        Label lblTotalCost = new Label();
         int count1 = 0;
         for (int i = 0; i < bookings.size(); i++)
         {
             if (bookings.get(i).bookingGuest.equals(guest))
             {
-                lvGuestCosts.getItems().add("Total Cost of Room: $"
-                    + bookings.get(i).getTotalCost());
-                count1++;
+                lblTotalCost.setText("Total Cost: $" + bookings.get(i).getTotalCost());
+                for (int j = 0; j < bookings.get(i).roomServices.size(); j++)
+                {
+                    lvGuestCosts.getItems().add("Room Number: " + bookings.get(i).bookedRoom.roomNumber + "\n" + bookings.get(i).roomServices.get(j).description
+                        + ": $" + bookings.get(i).roomServices.get(j).price);
+                        count1++;
+                }
             }
         }
         if (count1 == 0)
         {
-            lvGuestCosts.getItems().add("You currently have no Bookings");
+            lvGuestCosts.getItems().add("You currently have no Room Service Charges");
         }
         Button btnLogout4 = new Button("<- Logout");
         btnLogout4.setOnAction(e ->
@@ -515,47 +523,29 @@ public class MadisonHotelJavaFX extends Application
         personalInfoPane.add(btnChangeGuestPassword, 1, 19);
         personalInfoPane.add(btnLogout3, 3, 19);
         
+        GridPane roomServicePane = new GridPane();
+        roomServicePane.setAlignment(Pos.CENTER);
+        roomServicePane.setVgap(10);
+        roomServicePane.setHgap(10); 
+        roomServicePane.add(sceneTitle4, 0, 0, 2, 1);
+        roomServicePane.add(lblGuestNameInfo3, 0, 1);
+        roomServicePane.add(lblGuestNameInfo4, 1, 1);
+        roomServicePane.add(lblGuestUsernameInfo3, 0, 2);
+        roomServicePane.add(lblGuestUsernameInfo4, 1, 2);
+        roomServicePane.add(lvGuestCosts, 1, 3, 1, 15);
+        roomServicePane.add(lblGuestCosts, 0, 4);
+        roomServicePane.add(lblTotalCost, 1, 19);
+        roomServicePane.add(btnLogout4, 3, 19);
+        
         for (int i = 0; i < valueGuests.size(); i++)
         {
             if (valueGuests.get(i).equals(guest))
             {
-                GridPane roomServicePane = new GridPane();
-//                roomServicePane.setOnMouseEntered(e ->
-//                {
-//                    lvGuestCosts.getItems().clear();
-//                    int count2 = 0;
-//                    for (int j = 0; j < bookings.size(); j++)
-//                    {
-//                        if (bookings.get(j).bookingGuest.equals(guest))
-//                        {
-//                            lvGuestCosts.getItems().add("Total Cost of Room: $"
-//                            + bookings.get(j).bookedRoom.roomCostPerNight + "\n" 
-//                                    + " Room " + bookings.get(j).bookedRoom.getRoomNumber());
-//                            count2++;
-//                        }
-//                    }
-//                    if (count2 == 0)
-//                    {
-//                        lvGuestCosts.getItems().add("You currently have no Bookings");
-//                    }                    
-//                });
-                roomServicePane.setAlignment(Pos.CENTER);
-                roomServicePane.setVgap(10);
-                roomServicePane.setHgap(10); 
-                roomServicePane.add(sceneTitle4, 0, 0, 2, 1);
-                roomServicePane.add(lblGuestNameInfo3, 0, 1);
-                roomServicePane.add(lblGuestNameInfo4, 1, 1);
-                roomServicePane.add(lblGuestUsernameInfo3, 0, 2);
-                roomServicePane.add(lblGuestUsernameInfo4, 1, 2);
-                roomServicePane.add(lvGuestCosts, 1, 3, 1, 15);
-                roomServicePane.add(lblGuestCosts, 0, 4);
-                roomServicePane.add(btnLogout4,3, 19);
                 Tab roomServiceChargeTab = new Tab("Room Service Charge");
                 roomServiceChargeTab.setContent(roomServicePane);
                 guestTabs.getTabs().add(roomServiceChargeTab);
             }
         }
-        
         
         Tab bookRoomTab = new Tab("Book Room");
         bookRoomTab.setContent(bookRoomPane);
@@ -679,60 +669,64 @@ public class MadisonHotelJavaFX extends Application
         });
         btnCheckOut.setOnAction(e ->
         {
-            int roomNumber = (int) lvRooms.getSelectionModel().getSelectedItem();
-            for (int i = 0; i < bookings.size(); i++)
+            if (!(lvRooms.getSelectionModel().isEmpty()) 
+                    && !(lvGuests.getSelectionModel().isEmpty()))
             {
-                if (roomNumber == bookings.get(i).bookedRoom.getRoomNumber())
-                {
-                    bookings.get(i).endBooking();
-                }
-            }
-            boolean operator = false;
-            int regular = 0;
-            int value = 0;
-            lvRooms.getItems().clear();
-            String name = (String) lvGuests.getSelectionModel().getSelectedItem();
-            if (name.substring(name.length() - 9, name.length()).equalsIgnoreCase("[Regular]"))
-            {
-                for (int i = 0; i < guests.size(); i++)
-                {
-                    if (name.substring(0, name.length() - 10).equalsIgnoreCase(guests.get(i).getGuestName()))
-                    {
-                        operator = true;
-                        regular = i;
-                    }
-                }
-            }
-            else if (name.substring(name.length() - 7, name.length()).equalsIgnoreCase("[Value]"))
-            {
-                for (int i = 0; i < valueGuests.size(); i++)
-                {
-                    if (name.substring(0, name.length() - 8).equalsIgnoreCase(valueGuests.get(i).getGuestName()))
-                    {
-                        operator = false;
-                        value = i;
-                    }
-                }
-            }
-            if (operator)
-            {
+                int roomNumber = (int) lvRooms.getSelectionModel().getSelectedItem();
                 for (int i = 0; i < bookings.size(); i++)
                 {
-                    if (bookings.get(i).bookingGuest.equals(guests.get(regular))
-                            && bookings.get(i).bookedRoom.isBooked())
+                    if (roomNumber == bookings.get(i).bookedRoom.getRoomNumber())
                     {
-                        lvRooms.getItems().add(bookings.get(i).bookedRoom.getRoomNumber());
+                        bookings.get(i).endBooking();
                     }
                 }
-            }
-            else
-            {
-                for (int i = 0; i < bookings.size(); i++)
+                boolean operator = false;
+                int regular = 0;
+                int value = 0;
+                lvRooms.getItems().clear();
+                String name = (String) lvGuests.getSelectionModel().getSelectedItem();
+                if (name.substring(name.length() - 9, name.length()).equalsIgnoreCase("[Regular]"))
                 {
-                    if (bookings.get(i).bookingGuest.equals(valueGuests.get(value))
-                            && bookings.get(i).bookedRoom.isBooked())
+                    for (int i = 0; i < guests.size(); i++)
                     {
-                        lvRooms.getItems().add(bookings.get(i).bookedRoom.getRoomNumber());
+                        if (name.substring(0, name.length() - 10).equalsIgnoreCase(guests.get(i).getGuestName()))
+                        {
+                            operator = true;
+                            regular = i;
+                        }
+                    }
+                }
+                else if (name.substring(name.length() - 7, name.length()).equalsIgnoreCase("[Value]"))
+                {
+                    for (int i = 0; i < valueGuests.size(); i++)
+                    {
+                        if (name.substring(0, name.length() - 8).equalsIgnoreCase(valueGuests.get(i).getGuestName()))
+                        {
+                            operator = false;
+                            value = i;
+                        }
+                    }
+                }
+                if (operator)
+                {
+                    for (int i = 0; i < bookings.size(); i++)
+                    {
+                        if (bookings.get(i).bookingGuest.equals(guests.get(regular))
+                                && bookings.get(i).bookedRoom.isBooked())
+                        {
+                            lvRooms.getItems().add(bookings.get(i).bookedRoom.getRoomNumber());
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < bookings.size(); i++)
+                    {
+                        if (bookings.get(i).bookingGuest.equals(valueGuests.get(value))
+                                && bookings.get(i).bookedRoom.isBooked())
+                        {
+                            lvRooms.getItems().add(bookings.get(i).bookedRoom.getRoomNumber());
+                        }
                     }
                 }
             }
@@ -746,28 +740,19 @@ public class MadisonHotelJavaFX extends Application
             lvGuests2.getItems().add(valueGuests.get(i).getGuestName() + " [Value]");
         }
         Label lblSelectValueRoom = new Label("Select a booked room:");
-        ComboBox comboSelectRoom = new ComboBox();
-        ArrayList <Booking> valuebookings = new ArrayList();
-        int guestChoice = lvGuests2.getSelectionModel().getSelectedIndex();
-        int num = 0;
-
-        lvGuests2.setOnMouseReleased(e -> {
-        for (int i = 0; i < bookings.size(); i ++) {
-            if (bookings.get(i).bookingGuest.equals(valueGuests.get(guestChoice + 1)) && bookings.get(i).bookedRoom.isBooked()) {
-                valuebookings.add(bookings.get(i));
-            }
-        }   
-
-        for (int i = 0; i <valuebookings.size(); i++) {
-            comboSelectRoom.getItems().add(valuebookings.get(i).bookedRoom.roomNumber);
-        }
-        comboSelectRoom.getSelectionModel().select(0);
-        //int selectedRoomNumber = (int)comboSelectRoom.getValue();
+        ListView lvBookedRooms = new ListView();
+        lvGuests2.setOnMousePressed(e -> 
+        {
+            int guestChoice = lvGuests2.getSelectionModel().getSelectedIndex();
+            for (int i = 0; i < bookings.size(); i ++) 
+            {
+                if (bookings.get(i).bookingGuest.equals(valueGuests.get(guestChoice)) 
+                        && bookings.get(i).bookedRoom.isBooked()) 
+                {
+                    lvBookedRooms.getItems().add(bookings.get(i).bookedRoom.getRoomNumber());
+                }
+            }   
         });
-
-
-        //int selectedRoomNumber = (int)comboSelectRoom.getValue();
-
         TextField txtPrice = new TextField();
         Label lblPrice = new Label("Room Service Charge($$): ");
         Label lblDesc = new Label("Description: ");
@@ -776,54 +761,50 @@ public class MadisonHotelJavaFX extends Application
         Label lblPriceMessage = new Label("");
         Label lblDescMessage = new Label("");
         Button btnCreateService = new Button("Create Room Service Charge ->");
-        /*
-        double serviceCharge = 0.0;
-        if (validRoomPrice(txtPrice.getText())) {
-        serviceCharge = Double.parseDouble(txtPrice.getText());
-        }
+        btnCreateService.setOnAction(e -> 
+        {
+            if (!(lvGuests2.getSelectionModel().isEmpty() && !(lvBookedRooms.getSelectionModel().isEmpty()
+                    && !(txtPrice.getText().isEmpty()) && !(txtDescription.getText().isEmpty()))))
+            {
+                int selectedRoomNumber = (int)lvBookedRooms.getSelectionModel().getSelectedItem();
+                double serviceCharge = 0.0;
+                if (validRoomPrice(txtPrice.getText())) 
+                {
+                    serviceCharge = Double.parseDouble(txtPrice.getText());
+                    lblPriceMessage.setText("");
+                }
+                if (validRoomPrice(txtPrice.getText()) == false || txtPrice.getText().length() == 0) 
+                {
+                    lblPriceMessage.setText("Please enter valid service price!");
+                }
 
-        if (validRoomPrice(txtPrice.getText()) == false || txtPrice.getText().length() == 0) {
-            lblPriceMessage.setText("Please enter valid service price!");
-        }
-
-
-        String desc = (String)txtDescription.getText();
-        */
-        btnCreateService.setOnAction(e -> {
-        int selectedRoomNumber = (int)comboSelectRoom.getValue();
-        double serviceCharge = 0.0;
-        if (validRoomPrice(txtPrice.getText())) {
-        serviceCharge = Double.parseDouble(txtPrice.getText());
-        lblPriceMessage.setText("");
-        }
-
-        if (validRoomPrice(txtPrice.getText()) == false || txtPrice.getText().length() == 0) {
-            lblPriceMessage.setText("Please enter valid service price!");
-        }
-
-        String desc = "";
-        if (txtDescription.getText().length() != 0) {
-        desc += (String)txtDescription.getText();
-        lblDescMessage.setText("");
-        } else {
-            lblDescMessage.setText("Please enter valid description!");
-        }
-
-
-        if (validRoomPrice(txtPrice.getText()) && txtPrice.getText().length() != 0 && txtDescription.getText().length() != 0) {
-            for (int i= 0; i<bookings.size(); i++) {
-                if (bookings.get(i).bookedRoom.roomNumber == selectedRoomNumber) {
-                    bookings.get(i).roomServices.add(new RoomService(desc, serviceCharge));
-                    lblMessage.setText("Successfully added room service to room " + bookings.get(i).bookedRoom.roomNumber);
-                    txtPrice.clear();
-                    txtDescription.clear();
-                    comboSelectRoom.getItems().clear();
-                    valuebookings.clear();
+                String desc = "";
+                if (txtDescription.getText().length() != 0) 
+                {
+                    desc += (String)txtDescription.getText();
+                    lblDescMessage.setText("");
+                } 
+                else 
+                {
+                    lblDescMessage.setText("Please enter valid description!");
+                }
+                if (validRoomPrice(txtPrice.getText()) && txtPrice.getText().length() != 0 && txtDescription.getText().length() != 0) 
+                {
+                    for (int i= 0; i<bookings.size(); i++) 
+                    {
+                        if (bookings.get(i).bookedRoom.roomNumber == selectedRoomNumber) 
+                        {
+                            bookings.get(i).roomServices.add(new RoomService(desc, serviceCharge));
+                            lblMessage.setText("Successfully added room service to room " 
+                                    + bookings.get(i).bookedRoom.roomNumber);
+                            txtPrice.clear();
+                            txtDescription.clear();
+                            lvBookedRooms.getItems().clear();
+                        }
+                    }
                 }
             }
-        }
         });
-
         Button btnLogout12 = new Button("Logout ->");
         btnLogout12.setOnAction(e ->
         {
@@ -837,6 +818,7 @@ public class MadisonHotelJavaFX extends Application
         ComboBox guestTypeCombo = new ComboBox();
         guestTypeCombo.getItems().add("Guest");
         guestTypeCombo.getItems().add("Value Guest");
+        guestTypeCombo.getSelectionModel().select(0);
         Label lblGuestName = new Label("Guest's Name: ");
         TextField txtGuestName = new TextField();
         Label lblGuestUsername = new Label("Guest's Username: ");
@@ -868,7 +850,8 @@ public class MadisonHotelJavaFX extends Application
             if (!(txtGuestName.getText().equalsIgnoreCase("")) 
                     && !(txtGuestUsername.getText().equalsIgnoreCase("")) 
                     && !(txtGuestPassword.getText().equalsIgnoreCase(""))
-                    && type.equalsIgnoreCase("Guest"))
+                    && type.equalsIgnoreCase("Guest")
+                    && createPassword(txtGuestPassword.getText()) == 0)
             {
                 Guest g = new Guest(txtGuestUsername.getText(), 
                         txtGuestPassword.getText(), txtGuestName.getText());
@@ -882,7 +865,8 @@ public class MadisonHotelJavaFX extends Application
             else if (!(txtGuestName.getText().equalsIgnoreCase("")) 
                     && !(txtGuestUsername.getText().equalsIgnoreCase("")) 
                     && !(txtGuestPassword.getText().equalsIgnoreCase(""))
-                    && type.equalsIgnoreCase("Value Guest"))
+                    && type.equalsIgnoreCase("Value Guest")
+                    && createPassword(txtGuestPassword.getText()) == 0)
             {
                 ValueGuest v = new ValueGuest(txtGuestUsername.getText(), 
                         txtGuestPassword.getText(), txtGuestName.getText());
@@ -895,7 +879,10 @@ public class MadisonHotelJavaFX extends Application
             }
             else
             {
-                lblError1.setText("Please completely fill out the form.");
+                lblError1.setText("The new password must be different from the old password \n"
+                       + "The new password cannot start with a number \n"
+                       + "The new password must contain one number \n"
+                       + "The new password must contain one capital letter");
             }
         });
         
@@ -925,7 +912,8 @@ public class MadisonHotelJavaFX extends Application
         {
             if (!(txtEmployeeName.getText().isEmpty()) 
                     && !(txtEmployeeUsername.getText().isEmpty())
-                    && !(txtEmployeePassword.getText().isEmpty()))
+                    && !(txtEmployeePassword.getText().isEmpty())
+                    && createPassword(txtEmployeePassword.getText()) == 0)
             {
                 Employee z = new Employee(txtEmployeeUsername.getText(), 
                         txtEmployeePassword.getText(), 
@@ -939,7 +927,10 @@ public class MadisonHotelJavaFX extends Application
             }
             else
             {
-                lblError.setText("Please completely fill out the form.");
+                lblError.setText("The new password must be different from the old password \n"
+                       + "The new password cannot start with a number \n"
+                       + "The new password must contain one number \n"
+                       + "The new password must contain one capital letter");
             }
         });
         
@@ -952,8 +943,34 @@ public class MadisonHotelJavaFX extends Application
         Label lblBookings = new Label("Booking Report: ");
         Button btnCreateRoom = new Button("Create a new Room");
         Button btnEditRoom = new Button("Edit a Room");
-        Button btnActive = new Button("Set a Room Active/Inactive");
         Button btnLogout1 = new Button("Logout ->");
+        
+        // Emp PII Tab
+        Label lblEmNameInfo1 = new Label("Employee Name: ");
+        Label lblEmNameInfo2 = new Label(employeeName);
+        Label lblEmUsernameInfo1 = new Label("Employee Username: ");
+        Label lblEmUsernameInfo2 = new Label(emp.getUsername());
+        Button btnChangeEmpName = new Button("Change Employee Name");
+        Button btnChangeEmpPassword = new Button("Change Employee Password");
+        Button btnLogout6 = new Button("Logout ->");
+        btnLogout6.setOnAction(e ->
+        {
+            employeeStage.close();
+            Stage loginStage = new Stage();
+            start(loginStage);
+        });
+        btnChangeEmpName.setOnAction(e ->
+        {
+            Stage changeGuestNameStage = new Stage();
+            changeGuestName(changeGuestNameStage, emp);
+            employeeStage.close();
+        });
+        btnChangeEmpPassword.setOnAction(e ->
+        {
+            Stage changeGuestPasswordStage = new Stage();
+            changeGuestPassword(changeGuestPasswordStage, emp);
+            employeeStage.close();
+        });
         
         
         // Pane
@@ -1009,29 +1026,34 @@ public class MadisonHotelJavaFX extends Application
         GridPane roomServicePane = new GridPane();
         roomServicePane.setOnMouseEntered(e -> 
         {
-        lvGuests2.getItems().clear();
+            lblMessage.setText("");
+            lvGuests2.getItems().clear();
             for (int i = 0; i < valueGuests.size(); i++)
-        {
-            lvGuests2.getItems().add(valueGuests.get(i).getGuestName() + " [Value]");
-        }
-            valuebookings.clear();
-            comboSelectRoom.getItems().clear();
+            {
+                lvGuests2.getItems().add(valueGuests.get(i).getGuestName() + " [Value]");
+            }
+            //valuebookings.clear();
+            lvBookedRooms.getItems().clear();
+            //comboSelectRoom.getItems().clear();
+            txtPrice.clear();
+            txtDescription.clear();
         });
         roomServicePane.setVgap(10);
         roomServicePane.setHgap(10);
         roomServicePane.add(lblSelectValueGuest,0,1);
         roomServicePane.add(lvGuests2,0,2,1,15);
         roomServicePane.add(lblSelectValueRoom,3,1);
-        roomServicePane.add(comboSelectRoom,3,2);
-        roomServicePane.add(lblPrice, 3, 3);
-        roomServicePane.add(txtPrice,3,4);
-        roomServicePane.add(lblPriceMessage,3,5);
-        roomServicePane.add(lblDesc,3,6);
-        roomServicePane.add(txtDescription,3,7);
-        roomServicePane.add(lblDescMessage,3,8);
-        roomServicePane.add(btnCreateService,3,10);
-        roomServicePane.add(lblMessage,3,11);
-        roomServicePane.add(btnLogout12,4,13);
+        roomServicePane.add(lvBookedRooms, 3, 2, 1, 15);
+        //roomServicePane.add(comboSelectRoom,3,2);
+        roomServicePane.add(lblPrice, 4, 3);
+        roomServicePane.add(txtPrice,4,4);
+        roomServicePane.add(lblPriceMessage, 4, 5);
+        roomServicePane.add(lblDesc, 4, 6);
+        roomServicePane.add(txtDescription, 4, 7);
+        roomServicePane.add(lblDescMessage, 4, 8);
+        roomServicePane.add(btnCreateService, 4, 10);
+        roomServicePane.add(lblMessage, 4, 11, 2, 1);
+        roomServicePane.add(btnLogout12, 4, 13);
         
         GridPane createGuestPane = new GridPane();
         createGuestPane.setAlignment(Pos.CENTER);
@@ -1076,7 +1098,6 @@ public class MadisonHotelJavaFX extends Application
         editRoomPane.add(sceneTitle5, 0, 0);
         editRoomPane.add(btnCreateRoom, 0, 1);
         editRoomPane.add(btnEditRoom, 0, 2);
-        editRoomPane.add(btnActive, 0, 3);
         editRoomPane.add(btnLogout1, 0, 5);
        
         btnLogout1.setOnAction(e ->
@@ -1099,28 +1120,19 @@ public class MadisonHotelJavaFX extends Application
         });
         
         // Emp PII controls
-        GridPane personalInfoPane = new GridPane();
-        Label lblEmNameInfo1 = new Label("Employee Name: ");
-        Label lblEmNameInfo2 = new Label(employeeName);
-        Label lblEmUsernameInfo1 = new Label("Employee Username: ");
-        Label lblEmUsernameInfo2 = new Label(emp.getUsername());
-     //   Label lblEmBookings = new Label("Guest Bookings: ");
-        ListView lvGuestBookings = new ListView();
+        GridPane personalInfoPane = new GridPane();        
+        personalInfoPane.setAlignment(Pos.CENTER);
+        personalInfoPane.setVgap(10);
+        personalInfoPane.setHgap(10);
+        personalInfoPane.add(sceneTitle3, 0, 0, 2, 1);
+        personalInfoPane.add(lblEmNameInfo1, 0, 1);
+        personalInfoPane.add(lblEmNameInfo2, 1, 1);
+        personalInfoPane.add(lblEmUsernameInfo1, 0, 2);
+        personalInfoPane.add(lblEmUsernameInfo2, 1, 2);
+        personalInfoPane.add(btnChangeEmpName, 0, 5);
+        personalInfoPane.add(btnChangeEmpPassword, 1, 5);
+        personalInfoPane.add(btnLogout6, 3, 5);
 
-        GridPane personalInfo = new GridPane();
-        personalInfo.setAlignment(Pos.CENTER);
-        personalInfo.setVgap(10);
-        personalInfo.setHgap(10);
-        personalInfo.add(sceneTitle3, 0, 0, 2, 1);
-        personalInfo.add(lblEmNameInfo1, 0, 1);
-        personalInfo.add(lblEmNameInfo2, 1, 1);
-        personalInfo.add(lblEmUsernameInfo1, 0, 2);
-//        personalInfo.add(lblGuestUsernameInfo2, 1, 2);
-//        personalInfo.add(lblGuestBookings, 0, 3);
-//        personalInfo.add(lvGuestBookings, 1, 3, 1, 15);
-//        personalInfo.add(btnChangeGuestName, 0, 19);
-//        personalInfo.add(btnChangeGuestPassword, 1, 19);
-//        personalInfo.add(btnLogout3, 3, 19);
         
         Tab bookReportTab = new Tab("Booking Report");
         bookReportTab.setContent(bookReportPane);
@@ -1324,8 +1336,10 @@ public class MadisonHotelJavaFX extends Application
                     }
                 }
                 lblOutput.setText("Room successfully created!");
-                //lblRoomNumberNot.setText("");
-                //lblRoomPriceNot.setText("");
+                txtRoomNumber.clear();
+                txtRoomPrice.clear();
+                lblRoomNumberNot.setText("");
+                lblRoomPriceNot.setText("");
             }
             else 
             {
@@ -1453,7 +1467,7 @@ public class MadisonHotelJavaFX extends Application
         Label lblBed = new Label("  New Bed Option: ");
         ComboBox bedCombo = new ComboBox();
         bedCombo.getItems().add("1x Queen Bed");
-        bedCombo.getItems().add("2x Queen Bed");
+        bedCombo.getItems().add("2x Queen Beds");
         bedCombo.getItems().add("1x King Bed");
         bedCombo.getSelectionModel().select(rooms.get(room).printBedOption());
         Label lblKitch = new Label("  New Kitchen Option: ");
@@ -1503,7 +1517,7 @@ public class MadisonHotelJavaFX extends Application
             {
                 bedChoice = 0;
             }
-            else if (bed.equalsIgnoreCase("2x Queen Bed"))
+            else if (bed.equalsIgnoreCase("2x Queen Beds"))
             {
                 bedChoice = 1;
             }
@@ -1851,6 +1865,48 @@ public class MadisonHotelJavaFX extends Application
         changeGuestNameStage.show();
     }
     
+    public void changeGuestName(Stage changeGuestNameStage, Employee emp)
+    {
+        // Controls
+        Label lblCurrentName1 = new Label("Current Name: ");
+        Label lblCurrentName2 = new Label(emp.getEmployeeName());
+        Label lblNewName = new Label("New Name: ");
+        TextField txtNewName = new TextField();
+        Button btnChangeName = new Button("Change Name");
+        btnChangeName.setOnAction(e ->
+        {
+            String name = txtNewName.getText();
+            if (name != null && !(name.equalsIgnoreCase("") 
+                    && !(name.equalsIgnoreCase(" "))))
+            {
+                emp.setEmployeeName(name);
+                changeGuestNameStage.close();
+                Stage employeeStage = new Stage();
+                employee(employeeStage, emp);                
+            }
+        });
+        
+        // Pane
+        GridPane changeNamePane = new GridPane();
+        changeNamePane.setAlignment(Pos.CENTER);
+        changeNamePane.setVgap(10);
+        changeNamePane.setHgap(10);
+        changeNamePane.add(lblCurrentName1, 0, 0);
+        changeNamePane.add(lblCurrentName2, 1, 0);
+        changeNamePane.add(lblNewName, 0, 1);
+        changeNamePane.add(txtNewName, 1, 1);
+        changeNamePane.add(btnChangeName, 1, 3);
+        
+        
+        // Scene
+        Scene changeNameScene = new Scene(changeNamePane, 500, 300);
+        
+        // Stage
+        changeGuestNameStage.setTitle("Change Employee Name");
+        changeGuestNameStage.setScene(changeNameScene);
+        changeGuestNameStage.show();
+    }
+    
     public void changeGuestPassword(Stage changeGuestPasswordStage, Guest guest)
     {
         Label lblError = new Label("");
@@ -1879,9 +1935,7 @@ public class MadisonHotelJavaFX extends Application
                        + "The new password cannot start with a number \n"
                        + "The new password must contain one number \n"
                        + "The new password must contain one capital letter");
-            }
-            
-
+            }            
         });
         
         // Pane
@@ -1936,8 +1990,6 @@ public class MadisonHotelJavaFX extends Application
                        + "The new password must contain one number \n"
                        + "The new password must contain one capital letter");
             }
-
-
         });
 
         // Pane
@@ -1956,11 +2008,46 @@ public class MadisonHotelJavaFX extends Application
         Scene changePasswordScene = new Scene(changePasswordPane, 500, 300);
 
          // Stage
-        changeGuestPasswordStage.setTitle("Change Guest Password");
+        changeGuestPasswordStage.setTitle("Change Employee Password");
         changeGuestPasswordStage.setScene(changePasswordScene);
         changeGuestPasswordStage.show();
     }
-    
+    public static int createPassword(String newP)
+    {
+        int count = 0;
+        if(Character.isDigit(newP.charAt(0)))
+        {
+            count = 1; 
+            return count;
+        }
+        for(int i = 0; i < newP.length(); i++)
+        {
+            if(Character.isUpperCase(newP.charAt(i)))
+            {
+                count = 0;
+                break;
+            } 
+            else{
+                count = 1;
+                return count;
+
+            }     
+        }
+        for(int i = 1; i < newP.length(); i++)
+        {
+            if(Character.isDigit(newP.charAt(i)))
+            {
+                count = 0;
+                return count;
+            }
+            else{
+                count = 1;
+               // return count;
+            }
+
+        }
+        return count;
+    }
     public void stop()
     {
         //this will run before any program ends
