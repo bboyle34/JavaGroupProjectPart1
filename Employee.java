@@ -37,6 +37,10 @@ public class Employee
             return false;
         }
     }
+    public int getEmployeeID()
+    {
+        return this.employeeID;
+    }
     
     //Method to get the employee's name.
     public String getEmployeeName()
@@ -122,7 +126,7 @@ public class Employee
     public String getPassword()
     {
         return this.password;
-    }    
+    }
     //Method to return a description of a specified employee object.
     public String describeEmployee()
     {
