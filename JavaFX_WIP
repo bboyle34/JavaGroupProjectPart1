@@ -157,7 +157,8 @@ public class MadisonHotelJavaFX extends Application
         for (int i = 0; i < rooms.size(); i++)
         {
             String booked = null;
-            if (!(rooms.get(i).isBooked()))
+            if (!(rooms.get(i).isBooked()) 
+                    && rooms.get(i).getRoomActivity().equalsIgnoreCase("Active"))
             {
                 booked = "[Available]";
                 lvFreeRoom.getItems().add("Room " 
@@ -342,7 +343,8 @@ public class MadisonHotelJavaFX extends Application
                     for (int i = 0; i < rooms.size(); i++)
                     {
                         String booked = null;
-                        if (!(rooms.get(i).isBooked()))
+                        if (!(rooms.get(i).isBooked()) 
+                                && rooms.get(i).getRoomActivity().equalsIgnoreCase("Active"))
                         {
                             booked = "[Available]";
                             lvFreeRoom.getItems().add("Room " 
@@ -1061,7 +1063,7 @@ public class MadisonHotelJavaFX extends Application
         roomServicePane.add(txtDescription, 4, 7);
         roomServicePane.add(lblDescMessage, 4, 8);
         roomServicePane.add(btnCreateService, 4, 10);
-        roomServicePane.add(lblMessage, 4, 11, 2, 1);
+        roomServicePane.add(lblMessage, 3, 18, 2, 1);
         roomServicePane.add(btnLogout12, 4, 13);
         
         GridPane createGuestPane = new GridPane();
@@ -1712,7 +1714,6 @@ public class MadisonHotelJavaFX extends Application
         editSelectedRoomPane.add(lblKitch, 1, 5);
         editSelectedRoomPane.add(kitchCombo,1,6);
         editSelectedRoomPane.add(lblBed,1,3);
-        editSelectedRoomPane.add(lblActivity,2,3);
         editSelectedRoomPane.add(bedCombo,1,4);
         editSelectedRoomPane.add(lblCoffee,1,7);
         editSelectedRoomPane.add(coffeeCombo,1,8);
@@ -1723,7 +1724,11 @@ public class MadisonHotelJavaFX extends Application
         editSelectedRoomPane.add(txtRoom,1,13);
         editSelectedRoomPane.add(lblRoomPrice,1,14);
         editSelectedRoomPane.add(txtRoomPrice,1,15);
-        editSelectedRoomPane.add(activityCombo,2,4);
+        if (!(rooms.get(room).isBooked()))
+        {
+            editSelectedRoomPane.add(lblActivity,2,3);
+            editSelectedRoomPane.add(activityCombo,2,4);
+        }
         editSelectedRoomPane.add(lvOutput, 8, 1,1,13);
         editSelectedRoomPane.add(txtConfirm, 1, 18);
         editSelectedRoomPane.add(btnApplyChanges, 1, 17);
@@ -2169,7 +2174,7 @@ public class MadisonHotelJavaFX extends Application
             String tableName = "VALUEGUEST";
             String sqlQuery = "INSERT INTO JAVAUSER." + tableName
                     + " (VALUECLUBID, NUMBEROFBOOKINGS, AMOUNTSPENTWITHHOTEL, "
-                    + "GUESTID, GUESTUSERNAME, GUESTNAME, GUESTPASSWORD) VALUES(";
+                    + "VALUEGUESTID, GUESTUSERNAME, GUESTNAME, GUESTPASSWORD) VALUES(";
             sqlQuery += valueGuests.get(i).getValueClubID() + ",";
             sqlQuery += valueGuests.get(i).getNumberOfBookings() + ",";
             sqlQuery += valueGuests.get(i).getAmountSpentWithHotel() + ",";
