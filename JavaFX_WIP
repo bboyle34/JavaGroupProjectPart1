@@ -1,6 +1,7 @@
 // WIP
 package GroupProject1;
-
+import java.sql.*;
+import oracle.jdbc.pool.*;
 import java.util.*;
 import javafx.application.Application;
 import javafx.event.*;
@@ -12,6 +13,9 @@ import javafx.stage.Stage;
 import javafx.collections.*;
 import javafx.scene.text.*;
 
+
+
+
 public class MadisonHotelJavaFX extends Application
 {
     static ArrayList<Employee> employees = new ArrayList<Employee>();
@@ -20,9 +24,14 @@ public class MadisonHotelJavaFX extends Application
     static ArrayList<Booking> bookings = new ArrayList<Booking>();
     static ArrayList<Room> rooms = new ArrayList<Room>();
     
+    Connection dbConn;
+    Statement commStmt;
+    ResultSet dbResults;
+    
     public void start(Stage loginStage) 
     {
         //read the database
+        
         // Controls
         Text txtTitle = new Text("Welcome to The Shitshow");
         txtTitle.setFont(Font.font(20.0));
@@ -2054,6 +2063,12 @@ public class MadisonHotelJavaFX extends Application
         //code in here is guaranteed to run before the program closes
         //cleanup method
         //update the database with all current objects
+        insertRoom();
+        insertEmployee();
+        insertRoomService();
+        insertValueGuest();
+        insertGuest();
+        //insertBooking();
     }
     public static void main(String args[])
     {
@@ -2090,5 +2105,139 @@ public class MadisonHotelJavaFX extends Application
     public static void print()
     {
         System.out.println(" ");
+    }
+    public void insertRoom()
+    {
+        for (int i = 0; i < rooms.size(); i++)
+        {
+            String tableName = "ROOM";
+            String sqlQuery = "INSERT INTO JAVAUSER." + tableName 
+                    + " (ROOMID, ROOMNUMBER, BEDOPTION, KITCHOPTION, COFFEEOPTION, "
+                    + "ACCESSIBLEOPTION, ROOMBOOKEDQUANTITY, "
+                    + "ROOMCOSTPERNIGHT, ROOMSTATUS) VALUES (";
+            sqlQuery += rooms.get(i).getRoomID() + ",";
+            sqlQuery += rooms.get(i).getRoomNumber() + ",";
+            sqlQuery += rooms.get(i).bedOption + ",";
+            sqlQuery += rooms.get(i).kitchenOption + ",";
+            sqlQuery += rooms.get(i).coffeeOption + ",";
+            sqlQuery += rooms.get(i).accessibleOption + ",";
+            sqlQuery += rooms.get(i).getRoomBookedQuantity() + ",";
+            sqlQuery += rooms.get(i).roomCostPerNight + ",";
+            //sqlQuery += rooms.get(i).isBooked() + ",";
+            sqlQuery += "\'" + rooms.get(i).getRoomActivity() + "\')";
+
+            sendDBCommand(sqlQuery);
+        }
+    }
+    public void insertEmployee()
+    {
+        for (int i = 0; i < employees.size(); i++)
+        {
+            String tableName = "EMPLOYEE";
+            String sqlQuery = "INSERT INTO JAVAUSER." + tableName
+                    + " (EMPLOYEEID, EMPLOYEEUSERNAME, EMPLOYEENAME, "
+                    + "EMPLOYEEPASSWORD) VALUES (";
+            sqlQuery += employees.get(i).getEmployeeID() + ",";
+            sqlQuery += "\'" + employees.get(i).getUsername() + "\',";
+            sqlQuery += "\'" + employees.get(i).getEmployeeName() + "\',";
+            sqlQuery += "\'" + employees.get(i).getPassword() + "\')";
+            
+            sendDBCommand(sqlQuery);
+        }
+    }
+    public void insertRoomService()
+    {
+        for (int i = 0; i < bookings.size(); i++)
+        {
+            for (int j = 0; j < bookings.get(i).roomServices.size(); j++)
+            {
+                String tableName = "ROOMSERVICE";
+                String sqlQuery = "INSERT INTO JAVAUSER." + tableName
+                        + " (ROOMSERVICEID, DESCRIPTION, PRICE) VALUES (";
+                sqlQuery += bookings.get(i).roomServices.get(j).ID + ",";
+                sqlQuery += "\'" + bookings.get(i).roomServices.get(j).description + "\',";
+                sqlQuery += bookings.get(i).roomServices.get(j).price + ")";
+                
+                sendDBCommand(sqlQuery);
+            }
+        }
+    }
+    public void insertValueGuest()
+    {
+        for (int i = 0; i < valueGuests.size(); i++)
+        {
+            String tableName = "VALUEGUEST";
+            String sqlQuery = "INSERT INTO JAVAUSER." + tableName
+                    + " (VALUECLUBID, NUMBEROFBOOKINGS, AMOUNTSPENTWITHHOTEL, "
+                    + "GUESTID, GUESTUSERNAME, GUESTNAME, GUESTPASSWORD) VALUES(";
+            sqlQuery += valueGuests.get(i).getValueClubID() + ",";
+            sqlQuery += valueGuests.get(i).getNumberOfBookings() + ",";
+            sqlQuery += valueGuests.get(i).getAmountSpentWithHotel() + ",";
+            sqlQuery += valueGuests.get(i).getGuestID() + ",";
+            sqlQuery += "\'" + valueGuests.get(i).getUsername() + "\',";
+            sqlQuery += "\'" + valueGuests.get(i).getGuestName() + "\',";
+            sqlQuery += "\'" + valueGuests.get(i).getPassword() + "\')";
+            
+            sendDBCommand(sqlQuery);
+        }
+    }
+    public void insertGuest()
+    {
+        for (int i = 0; i < guests.size(); i++)
+        {
+            String tableName = "GUEST";
+            String sqlQuery = "INSERT INTO JAVAUSER." + tableName
+                    + " (GUESTID, GUESTUSERNAME, GUESTNAME, GUESTPASSWORD) VALUES (";
+            sqlQuery += guests.get(i).getGuestID() + ",";
+            sqlQuery += "\'" + guests.get(i).getUsername() + "\',";
+            sqlQuery += "\'" + guests.get(i).getGuestName() + "\',";
+            sqlQuery += "\'" + guests.get(i).getPassword() + "\')";
+            
+            sendDBCommand(sqlQuery);
+        }
+    }
+//    public void insertBooking()
+//    {
+//        for (int i = 0; i < bookings.size(); i++)
+//        {
+//            String tableName = "BOOKING";
+//            String sqlQuery = "INSERT INTO JAVAUSER." + tableName
+//                    + " (BOOKEDROOM, BOOKINGGUEST, ROOMSERVICES, BOOKINGYEAR, "
+//                    + "CHECKINDAY, CHECKOUTDAY) VALUES (";
+//            sqlQuery += bookings.get(i).bookedRoom.getRoomID() + ",";
+//            sqlQuery += bookings.get(i).bookingGuest.getGuestID() + ",";
+//            for (int j = 0; j < bookings.get(i).roomServices.size(); j++)
+//            {
+//                sqlQuery += bookings.get(i).roomServices.get(j).ID + ",";
+//            }
+//            sqlQuery += bookings.get(i).bookingYear + ",";
+//            sqlQuery += bookings.get(i).checkInDay + ",";
+//            sqlQuery += bookings.get(i).checkOutDay + ")";
+//            
+//            sendDBCommand(sqlQuery);
+//        }
+//    }
+    public void sendDBCommand(String sqlQuery)
+    {
+        String URL = "jdbc:oracle:thin:@localhost:1521:XE";
+        String userID = "javauser"; 
+        String userPASS = "javapass"; 
+        OracleDataSource ds;
+
+        System.out.println(sqlQuery);
+        
+        try
+        {
+            ds = new OracleDataSource();
+            ds.setURL(URL);
+            dbConn = ds.getConnection(userID,userPASS);
+            commStmt = dbConn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            dbResults = commStmt.executeQuery(sqlQuery);
+            
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e.toString());
+        }
     }
 }
