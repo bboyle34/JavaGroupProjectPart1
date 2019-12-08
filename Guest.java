@@ -52,6 +52,15 @@ public class Guest
         return this.username;
     }
     
+    public int getGuestID()
+    {
+        return this.guestID;
+    }
+    public String getPassword()
+    {
+        return this.password;
+    }
+    
     //setter for guest name
     public void setGuestName(String guestName)
     {
@@ -135,10 +144,7 @@ public class Guest
         }
         return count;
     }
-     public String getPassword()
-    {
-        return this.password;
-    }       
+            
     //method which returns as a string a description of a guest
     public String describeGuest()
     {
