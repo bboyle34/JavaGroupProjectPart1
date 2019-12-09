@@ -10,6 +10,7 @@ import java.util.*;
 public class Booking 
 {
     // Data Fields
+    public int bookingID;
     public Room bookedRoom;
     public Guest bookingGuest;
     public int bookingYear;
@@ -18,11 +19,12 @@ public class Booking
     public ArrayList<RoomService> roomServices = new ArrayList<RoomService>();
     
     public static int nextID = 0;
-
+    public static int nextListID = 0;
     // Constructors
     public Booking(Guest bookingGuest, Room bookedRoom, int year, int checkIn, 
             int checkOut)
     {
+        this.bookingID = nextID++;
         this.bookedRoom = bookedRoom;
         this.bookingGuest = bookingGuest;
         this.bookingYear = year;
@@ -34,8 +36,9 @@ public class Booking
     // Methods
     public void addRoomService(RoomService r)
     {
-        this.roomServices.add(r);
+        this.roomServices.add(r);       
     }
+    
     //Returns a string with a description of a specific booking
     public String describeBooking()
     {
@@ -64,7 +67,7 @@ public class Booking
         String returnString = "";
         
         returnString += "Room #" + this.bookedRoom.roomNumber + " booked by: " + this.bookingGuest.getGuestName()
-                + " Check out: " + this.getDate(this.checkOutDay);
+                + "Check out: " + this.getDate(this.checkOutDay);
         return returnString;
     }
     
