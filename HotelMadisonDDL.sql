@@ -1,7 +1,6 @@
-DROP TABLE BOOKING;
-DROP TABLE VALUEGUEST;
-DROP TABLE GUEST;
 DROP TABLE ROOMSERVICE;
+DROP TABLE BOOKING;
+DROP TABLE GUEST;
 DROP TABLE EMPLOYEE;
 DROP TABLE ROOM;
 
@@ -13,7 +12,7 @@ CREATE TABLE ROOM (
 	coffeeOption Numeric(1),
 	accessibleOption Numeric(1),
 	roomBookedQuantity Numeric(3),
-	--roomBooked CHAR(1) check (roomBooked in ('N', 'Y')),
+	roomBooked Numeric(1),
 	roomCostPerNight Numeric(4),
 	roomStatus VARCHAR(20)	
 );
@@ -25,29 +24,12 @@ CREATE TABLE EMPLOYEE (
 	employeePassword VARCHAR(30)
 );
 
-CREATE TABLE ROOMSERVICE (
-	roomServiceID Numeric(3) primary key,
-	--roomServiceListID Numeric(3),
-	description VARCHAR(30),
-	price Numeric(4)
-);
-
 CREATE TABLE GUEST (
 	guestID Numeric(3) primary key,
 	guestUsername VARCHAR(30),
 	guestName VARCHAR(30),
-	guestPassword VARCHAR(30)
-);
-
-CREATE TABLE VALUEGUEST (
-	valueClubID Numeric(3) primary key,
-	numberOfBookings Numeric(3),
-	amountSpentWithHotel Numeric(5),
-    valueGuestID Numeric(3),
-	guestUsername VARCHAR(30),
-	guestName VARCHAR(30),
 	guestPassword VARCHAR(30),
-    Foreign Key (valueGuestID) references GUEST(guestID)
+	valueClubID Numeric(3)
 );
 
 CREATE TABLE BOOKING (
@@ -56,9 +38,15 @@ CREATE TABLE BOOKING (
 	          references ROOM(roomID) not null,			  
 	 bookingGuest Numeric(3)
               references GUEST(guestID) not null,
-     --roomServiceListID NUMERIC(3)
-              --references ROOMSERVICE(roomServiceListID) not null,
      bookingYear NUMERIC(4),
-     checkInDay NUMERIC(2),
-     checkOutDay NUMERIC(2)	 
+     checkInDay NUMERIC(4),
+     checkOutDay NUMERIC(4)	 
+);
+
+CREATE TABLE ROOMSERVICE (
+	roomServiceID Numeric(3) primary key,
+	serviceBookingID Numeric(3)
+		references BOOKING(bookingID) not null,
+	description VARCHAR(30),
+	price Numeric(4)
 );
