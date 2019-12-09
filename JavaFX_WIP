@@ -593,6 +593,7 @@ public class MadisonHotelJavaFX extends Application
         TextArea txtBookingReport = new TextArea();
         Button btnViewBooking = new Button("Booking Report ^");
         Button btnLogout2 = new Button("Logout ->");
+        Button btnAllReports = new Button("All booked rooms report ->");
         btnLogout2.setOnAction(e ->
         {
             employeeStage.close();
@@ -606,6 +607,24 @@ public class MadisonHotelJavaFX extends Application
                 int choice = lvBookings.getSelectionModel().getSelectedIndex();
                 txtBookingReport.setText(bookings.get(choice).describeBooking());
             }
+        });
+        
+        btnAllReports.setOnAction(e -> 
+        {
+            int count = 0;
+            txtBookingReport.clear();
+        for (int i=0; i<bookings.size(); i++) {
+            if (bookings.get(i).bookedRoom.isBooked()) {
+                if (count == 0) {
+                    txtBookingReport.appendText("All Booked Rooms:\n");
+                }
+                txtBookingReport.appendText(bookings.get(i).shortBookingDescription() + "\n");
+                count++;
+            }
+        }
+        if (count == 0) {
+            txtBookingReport.appendText("There are currently no booked rooms!");
+        }
         });
         
         // Check Out Tab
@@ -1011,6 +1030,7 @@ public class MadisonHotelJavaFX extends Application
         bookReportPane.add(txtBookingReport, 2, 1, 1, 15);
         bookReportPane.add(btnViewBooking, 1, 16);
         bookReportPane.add(btnLogout2, 2, 16);
+        bookReportPane.add(btnAllReports, 1, 17);
         
         GridPane checkOutPane = new GridPane();
         checkOutPane.setOnMouseEntered(e ->
