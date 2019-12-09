@@ -31,7 +31,7 @@ public class MadisonHotelJavaFX extends Application
     public void start(Stage loginStage) 
     {
         //read the database
-        
+        // Room r = new Room(0, 132, 1, 1, 1, 1, Active)
         // Controls
         Text txtTitle = new Text("Welcome to The Shitshow");
         txtTitle.setFont(Font.font(20.0));
@@ -43,7 +43,7 @@ public class MadisonHotelJavaFX extends Application
         ComboBox userCombo = new ComboBox();
         userCombo.getItems().add("Guest");
         userCombo.getItems().add("Employee");
-        userCombo.getItems().add("Value Guest");
+        //userCombo.getItems().add("Value Guest");
         userCombo.getSelectionModel().select(0);
         Button btnExit = new Button("Exit Program");
         Label lblError = new Label("");
@@ -90,25 +90,6 @@ public class MadisonHotelJavaFX extends Application
                     if (operator)
                     {
                         lblError.setText("Invalid Guest Username or Password");
-                    }
-                }
-                else if (choice.equalsIgnoreCase("Value Guest"))
-                {
-                    for (int i = 0; i < valueGuests.size(); i++)
-                    {
-                        if (valueGuests.get(i).checkCredentials(txtUsername.getText(), 
-                              userPass.getText()))
-                        {
-                            operator = false;
-                            loginStage.close();
-                            Stage valueGuestStage = new Stage();
-                            guest(valueGuestStage, valueGuests.get(i));
-                            break;
-                        }
-                    }
-                    if (operator)
-                    {
-                        lblError.setText("Invalid Value Guest Username or Password");
                     }
                 }
             }
@@ -613,7 +594,7 @@ public class MadisonHotelJavaFX extends Application
         {
             int count = 0;
             txtBookingReport.clear();
-        for (int i=0; i<bookings.size(); i++) {
+            for (int i=0; i<bookings.size(); i++) {
             if (bookings.get(i).bookedRoom.isBooked()) {
                 if (count == 0) {
                     txtBookingReport.appendText("All Booked Rooms:\n");
@@ -632,11 +613,19 @@ public class MadisonHotelJavaFX extends Application
         ListView lvGuests = new ListView();
         for (int i = 0; i < guests.size(); i++)
         {
-            lvGuests.getItems().add(guests.get(i).getGuestName() + " [Regular]");
-        }
-        for (int i = 0; i < valueGuests.size(); i++)
-        {
-            lvGuests.getItems().add(valueGuests.get(i).getGuestName() + " [Value]");
+            for (int j = 0; j < valueGuests.size(); j++)
+            {
+                if (guests.get(i).getGuestID() == valueGuests.get(j).getGuestID())
+                {
+                    lvGuests.getItems().add(guests.get(i).getGuestName() + " [Value]");
+                    break;
+                }
+                else
+                {
+                    lvGuests.getItems().add(guests.get(i).getGuestName() + " [Regular]");
+                    break;
+                }
+            }
         }
         Label lblSelectRoom = new Label("Select a Booked Room: ");
         ListView lvRooms = new ListView();
@@ -827,7 +816,7 @@ public class MadisonHotelJavaFX extends Application
                     {
                         if (bookings.get(i).bookedRoom.roomNumber == selectedRoomNumber) 
                         {
-                            bookings.get(i).roomServices.add(new RoomService(desc, serviceCharge));
+                            bookings.get(i).roomServices.add(new RoomService(desc, serviceCharge, bookings.get(i)));
                             lblMessage.setText("Successfully added room service to room " 
                                     + bookings.get(i).bookedRoom.roomNumber);
                             txtPrice.clear();
@@ -863,11 +852,19 @@ public class MadisonHotelJavaFX extends Application
         Label lblError1 = new Label("");
         for (int i = 0; i < guests.size(); i++)
         {
-            lvGuestList.getItems().add(guests.get(i).getGuestName() + " [Regular]");
-        }
-        for (int i = 0; i < valueGuests.size(); i++)
-        {
-            lvGuestList.getItems().add(valueGuests.get(i).getGuestName() + " [Value]");
+            for (int j = 0; j < valueGuests.size(); j++)
+            {
+                if (guests.get(i).getGuestID() == valueGuests.get(j).getGuestID())
+                {
+                    lvGuestList.getItems().add(guests.get(i).getGuestName() + " [Value]");
+                    break;
+                }
+                else
+                {
+                    lvGuestList.getItems().add(guests.get(i).getGuestName() + " [Regular]");
+                    break;
+                }
+            }
         }
         Button btnCreateGuest = new Button("Create Guest");
         Button btnLogout3 = new Button("Logout ->");
@@ -904,6 +901,7 @@ public class MadisonHotelJavaFX extends Application
                 ValueGuest v = new ValueGuest(txtGuestUsername.getText(), 
                         txtGuestPassword.getText(), txtGuestName.getText());
                 valueGuests.add(v);
+                guests.add(v);
                 lvGuestList.getItems().add(v.getGuestName() + " [Value]");
                 txtGuestName.clear();
                 txtGuestUsername.clear();
@@ -1039,11 +1037,19 @@ public class MadisonHotelJavaFX extends Application
             lvGuests.getItems().clear();
             for (int i = 0; i < guests.size(); i++)
             {
-                lvGuests.getItems().add(guests.get(i).getGuestName() + " [Regular]");
-            }
-            for (int i = 0; i < valueGuests.size(); i++)
-            {
-                lvGuests.getItems().add(valueGuests.get(i).getGuestName() + " [Value]");
+                for (int j = 0; j < valueGuests.size(); j++)
+                {
+                    if (guests.get(i).getGuestID() == valueGuests.get(j).getGuestID())
+                    {
+                        lvGuests.getItems().add(guests.get(i).getGuestName() + " [Value]");
+                        break;
+                    }
+                    else
+                    {
+                        lvGuests.getItems().add(guests.get(i).getGuestName() + " [Regular]");
+                        break;
+                    }
+                }
             }
         });
         checkOutPane.setAlignment(Pos.CENTER);
@@ -1804,62 +1810,7 @@ public class MadisonHotelJavaFX extends Application
         }
         return result;
     }
-    //Moved this functionality to Booking class - AT
-    /*
-    public String checkMonth(int dayInOrOut) {
-        //returns string with month name
-        String returnString = "";
-        
-        if (dayInOrOut >=0 && dayInOrOut <=31) {
-            returnString += "January";
-        } else if (dayInOrOut >31 && dayInOrOut <=59) {
-            returnString += "February";
-        } else if (dayInOrOut > 59 && dayInOrOut <=90) {
-            returnString += "March";
-        } else if (dayInOrOut > 90 && dayInOrOut <= 120) {
-            returnString += "April";
-        } else if (dayInOrOut > 120 && dayInOrOut <= 151) {
-            returnString += "May";
-        } else if (dayInOrOut > 151 && dayInOrOut <= 181) {
-            returnString += "June";
-        } else if (dayInOrOut > 181 && dayInOrOut <= 212) {
-            returnString += "July";
-        } else if (dayInOrOut > 212 && dayInOrOut <= 243) {
-            returnString += "August";
-        } else if (dayInOrOut > 243 && dayInOrOut <= 273) {
-            returnString += "September";
-        } else if (dayInOrOut > 273 && dayInOrOut <= 304) {
-            returnString += "October";
-        } else if (dayInOrOut > 304 && dayInOrOut <= 334) {
-            returnString += "November";
-        } else if (dayInOrOut > 334) {
-            returnString += "December";
-        }
-        
-        return returnString;
-    }
-    
-    public int checkDay(int day) {
-        String month = checkMonth(day);
-        //day-monthnum = day
-        int monthnum = 0;
-        switch(month) {
-            case("January"): monthnum = 0; break;
-            case("February"): monthnum = 31; break;
-            case("March"): monthnum = 59; break;
-            case("April"): monthnum = 90; break;
-            case("May"): monthnum = 120; break;
-            case("June"): monthnum = 151; break;
-            case("July"): monthnum = 181; break;
-            case("August"): monthnum = 212; break;
-            case("September"): monthnum = 243; break;
-            case("October"): monthnum = 273; break;
-            case("November"): monthnum = 304; break;
-            case("December"): monthnum = 334; break;
-        }
-        return (day - monthnum);
-    }
-    */
+
     public void changeGuestName(Stage changeGuestNameStage, Guest guest)
     {
         // Controls
@@ -1943,59 +1894,6 @@ public class MadisonHotelJavaFX extends Application
         changeGuestNameStage.setScene(changeNameScene);
         changeGuestNameStage.show();
     }
-    
-//    public void changeGuestPassword(Stage changeGuestPasswordStage, Guest guest)
-//    {
-//        Label lblError = new Label("");
-//        // Controls
-//        Label lblOldPassword = new Label("Enter your current password: ");
-//        TextField txtOldPassword = new TextField();
-//        Label lblNewPassword = new Label("New Password: ");
-//        TextField txtNewPassword = new TextField();
-//        Button btnChangePassword = new Button("Change Password");
-//        btnChangePassword.setOnAction(e ->
-//        {
-//            String oldPassword = txtOldPassword.getText();
-//            String newPassword = txtNewPassword.getText();
-//            
-//            if (guest.setPassword(oldPassword, newPassword) == 0)
-//            {
-//                guest.setPassword(oldPassword,newPassword);
-//                changeGuestPasswordStage.close();
-//                Stage guestStage = new Stage();
-//                guest(guestStage, guest);                
-//            }
-//           
-//            else if (guest.setPassword(oldPassword, newPassword) == 1)
-//            {
-//               lblError.setText("The new password must be different from the old password \n"
-//                       + "The new password cannot start with a number \n"
-//                       + "The new password must contain one number \n"
-//                       + "The new password must contain one capital letter");
-//            }            
-//        });
-//        
-//        // Pane
-//        GridPane changePasswordPane = new GridPane();
-//        changePasswordPane.setAlignment(Pos.CENTER);
-//        changePasswordPane.setVgap(10);
-//        changePasswordPane.setHgap(10);
-//        changePasswordPane.add(lblOldPassword, 0, 0);
-//        changePasswordPane.add(txtOldPassword, 1, 0);
-//        changePasswordPane.add(lblNewPassword, 0, 1);
-//        changePasswordPane.add(txtNewPassword, 1, 1);
-//        changePasswordPane.add(btnChangePassword, 1, 3);
-//        changePasswordPane.add(lblError, 0, 6, 2, 1);
-//        
-//        // Scene
-//        Scene changePasswordScene = new Scene(changePasswordPane, 500, 300);
-//        
-//         // Stage
-//        changeGuestPasswordStage.setTitle("Change Guest Password");
-//        changeGuestPasswordStage.setScene(changePasswordScene);
-//        changeGuestPasswordStage.show();
-//    
-//    }
       
     //THIS IS OVERLOADED AND IS USED FOR EMPLOYEES TO CHANGE PASSWORDS  
     public void changeGuestPassword(Stage changeGuestPasswordStage, Employee employee)
@@ -2087,16 +1985,11 @@ public class MadisonHotelJavaFX extends Application
     }
     public void stop()
     {
-        //this will run before any program ends
-        //code in here is guaranteed to run before the program closes
-        //cleanup method
-        //update the database with all current objects
         insertRoom();
         insertEmployee();
-        insertRoomService();
-        insertValueGuest();
         insertGuest();
-        //insertBooking();
+        insertBooking();
+        insertRoomService();
     }
     public static void main(String args[])
     {
@@ -2104,6 +1997,9 @@ public class MadisonHotelJavaFX extends Application
         employees.add(employee1);
         Guest guest1 = new Guest("Brendan", "pass", "Brendan Boyle");
         guests.add(guest1);
+        ValueGuest valueGuest1 = new ValueGuest("George", "pass", "George Moy");
+        valueGuests.add(valueGuest1);
+        guests.add(valueGuest1);
         Guest guest2 = new Guest("John", "pass", "Johnny Guo");
         guests.add(guest2);
         Room room1 = new Room(0, 0, 0, 0, 100, 200.0);
@@ -2112,8 +2008,6 @@ public class MadisonHotelJavaFX extends Application
         rooms.add(room2);
         Room room3 = new Room(2, 1, 0, 1, 302, 300.0);
         rooms.add(room3);
-        ValueGuest valueGuest1 = new ValueGuest("George", "pass", "George Moy");
-        valueGuests.add(valueGuest1);
         Room room4 = new Room(2, 0, 0, 0, 308, 150.0);
         rooms.add(room4);
         Room room5 = new Room(1, 1, 1, 1, 400, 250.0);
@@ -2122,8 +2016,8 @@ public class MadisonHotelJavaFX extends Application
         bookings.add(book1);
         Booking book2 = new Booking(guest1, room4, 2005, 1, 4);
         bookings.add(book2);
-        RoomService rm1 = new RoomService("beer", 1000.0);
-        RoomService rm2 = new RoomService("I bought all the food", 45);
+        RoomService rm1 = new RoomService("beer", 1000.0, book1);
+        RoomService rm2 = new RoomService("I bought all the food", 45, book1);
         book1.roomServices.add(rm1);
         book1.roomServices.add(rm2);
         
@@ -2138,11 +2032,20 @@ public class MadisonHotelJavaFX extends Application
     {
         for (int i = 0; i < rooms.size(); i++)
         {
+            int bookRoom = 0;
+            if (rooms.get(i).isBooked())
+            {
+                bookRoom = 1;
+            }
+            else
+            {
+                bookRoom = 0;
+            }
             String tableName = "ROOM";
             String sqlQuery = "INSERT INTO JAVAUSER." + tableName 
                     + " (ROOMID, ROOMNUMBER, BEDOPTION, KITCHOPTION, COFFEEOPTION, "
                     + "ACCESSIBLEOPTION, ROOMBOOKEDQUANTITY, "
-                    + "ROOMCOSTPERNIGHT, ROOMSTATUS) VALUES (";
+                    + "ROOMCOSTPERNIGHT, ROOMBOOKED, ROOMSTATUS) VALUES (";
             sqlQuery += rooms.get(i).getRoomID() + ",";
             sqlQuery += rooms.get(i).getRoomNumber() + ",";
             sqlQuery += rooms.get(i).bedOption + ",";
@@ -2151,11 +2054,42 @@ public class MadisonHotelJavaFX extends Application
             sqlQuery += rooms.get(i).accessibleOption + ",";
             sqlQuery += rooms.get(i).getRoomBookedQuantity() + ",";
             sqlQuery += rooms.get(i).roomCostPerNight + ",";
-            //sqlQuery += rooms.get(i).isBooked() + ",";
+            sqlQuery += bookRoom + ",";
             sqlQuery += "\'" + rooms.get(i).getRoomActivity() + "\')";
 
-            sendDBCommand(sqlQuery);
+            sendDBCommand(sqlQuery, tableName, i);
         }
+    }
+    public void updateRoom(int i)
+    {
+        int bookRoom = 0;
+        if (rooms.get(i).isBooked())
+        {
+            bookRoom = 1;
+        }
+        else
+        {
+            bookRoom = 0;
+        }
+        String tableName = "ROOM";
+        String sqlQuery = "UPDATE JAVAUSER." + tableName + " SET ROOMID=";
+        sqlQuery += rooms.get(i).getRoomID() + ",";
+        sqlQuery += "ROOMNUMBER=" + rooms.get(i).getRoomNumber() + ",";
+        sqlQuery += "BEDOPTION=" + rooms.get(i).bedOption + ",";
+        sqlQuery += "KITCHOPTION=" + rooms.get(i).kitchenOption + ",";
+        sqlQuery += "COFFEEOPTION=" + rooms.get(i).coffeeOption + ",";
+        sqlQuery += "ACCESSIBLEOPTION=" + rooms.get(i).accessibleOption + ",";
+        sqlQuery += "ROOMBOOKEDQUANTITY=" + rooms.get(i).getRoomBookedQuantity() + ",";
+        sqlQuery += "ROOMBOOKED=" + bookRoom + ",";
+        sqlQuery += "ROOMCOSTPERNIGHT=" + rooms.get(i).roomCostPerNight + ",";
+        sqlQuery += "ROOMSTATUS=\'" + rooms.get(i).getRoomActivity() + "\'";
+        sqlQuery += " WHERE ROOMID=" + i;
+
+        sendDBCommand(sqlQuery, tableName, i);
+    }
+    public void updateRoomList()
+    {
+        
     }
     public void insertEmployee()
     {
@@ -2170,8 +2104,24 @@ public class MadisonHotelJavaFX extends Application
             sqlQuery += "\'" + employees.get(i).getEmployeeName() + "\',";
             sqlQuery += "\'" + employees.get(i).getPassword() + "\')";
             
-            sendDBCommand(sqlQuery);
+            sendDBCommand(sqlQuery, tableName, i);
         }
+    }
+    public void updateEmployee(int i)
+    {
+        String tableName = "EMPLOYEE";
+        String sqlQuery = "UPDATE JAVAUSER." + tableName + " SET EMPLOYEEID=";
+        sqlQuery += employees.get(i).getEmployeeID() + ",";
+        sqlQuery += "EMPLOYEEUSERNAME=\'" + employees.get(i).getUsername() + "\',";
+        sqlQuery += "EMPLOYEENAME=\'" + employees.get(i).getEmployeeName() + "\',";
+        sqlQuery += "EMPLOYEEPASSWORD=\'" + employees.get(i).getPassword() + "\'";
+        sqlQuery += " WHERE EMPLOYEEID=" + i;
+
+        sendDBCommand(sqlQuery, tableName, i);
+    }
+    public void updateEmployeeList()
+    {
+        
     }
     public void insertRoomService()
     {
@@ -2181,33 +2131,32 @@ public class MadisonHotelJavaFX extends Application
             {
                 String tableName = "ROOMSERVICE";
                 String sqlQuery = "INSERT INTO JAVAUSER." + tableName
-                        + " (ROOMSERVICEID, DESCRIPTION, PRICE) VALUES (";
+                        + " (ROOMSERVICEID, SERVICEBOOKINGID, DESCRIPTION, PRICE) VALUES (";
                 sqlQuery += bookings.get(i).roomServices.get(j).ID + ",";
+                sqlQuery += bookings.get(i).roomServices.get(j).booking.bookingID + ",";
                 sqlQuery += "\'" + bookings.get(i).roomServices.get(j).description + "\',";
                 sqlQuery += bookings.get(i).roomServices.get(j).price + ")";
                 
-                sendDBCommand(sqlQuery);
+                sendDBCommand(sqlQuery, tableName, i, j);
             }
         }
     }
-    public void insertValueGuest()
+    public void updateRoomService(int i, int j)
     {
-        for (int i = 0; i < valueGuests.size(); i++)
-        {
-            String tableName = "VALUEGUEST";
-            String sqlQuery = "INSERT INTO JAVAUSER." + tableName
-                    + " (VALUECLUBID, NUMBEROFBOOKINGS, AMOUNTSPENTWITHHOTEL, "
-                    + "VALUEGUESTID, GUESTUSERNAME, GUESTNAME, GUESTPASSWORD) VALUES(";
-            sqlQuery += valueGuests.get(i).getValueClubID() + ",";
-            sqlQuery += valueGuests.get(i).getNumberOfBookings() + ",";
-            sqlQuery += valueGuests.get(i).getAmountSpentWithHotel() + ",";
-            sqlQuery += valueGuests.get(i).getGuestID() + ",";
-            sqlQuery += "\'" + valueGuests.get(i).getUsername() + "\',";
-            sqlQuery += "\'" + valueGuests.get(i).getGuestName() + "\',";
-            sqlQuery += "\'" + valueGuests.get(i).getPassword() + "\')";
-            
-            sendDBCommand(sqlQuery);
-        }
+        String tableName = "ROOMSERVICE";
+        String sqlQuery = "UPDATE JAVAUSER." + tableName + " SET ROOMSERVICEID="; 
+        sqlQuery += bookings.get(i).roomServices.get(j).ID + ",";
+        sqlQuery += " SERVICEBOOKINGID=" + bookings.get(i).roomServices.get(j).booking.bookingID + ",";
+        sqlQuery += "DESCRIPTION=\'" + bookings.get(i).roomServices.get(j).description + "\',";
+        sqlQuery += "PRICE=" + bookings.get(i).roomServices.get(j).price;
+        sqlQuery += " WHERE ROOMSERVICEID=" + j;
+
+
+        sendDBCommand(sqlQuery, tableName, i, j);
+    }
+    public void updateRoomServiceList()
+    {
+        
     }
     public void insertGuest()
     {
@@ -2215,44 +2164,100 @@ public class MadisonHotelJavaFX extends Application
         {
             String tableName = "GUEST";
             String sqlQuery = "INSERT INTO JAVAUSER." + tableName
-                    + " (GUESTID, GUESTUSERNAME, GUESTNAME, GUESTPASSWORD) VALUES (";
+                    + " (GUESTID, GUESTUSERNAME, GUESTNAME, GUESTPASSWORD, VALUECLUBID) VALUES (";
             sqlQuery += guests.get(i).getGuestID() + ",";
             sqlQuery += "\'" + guests.get(i).getUsername() + "\',";
             sqlQuery += "\'" + guests.get(i).getGuestName() + "\',";
-            sqlQuery += "\'" + guests.get(i).getPassword() + "\')";
+            sqlQuery += "\'" + guests.get(i).getPassword() + "\',";
+            boolean operator = true;
+            for (int j = 0; j < valueGuests.size(); j++)
+            {
+                if (guests.get(i).getGuestID() == valueGuests.get(j).getGuestID())
+                {
+                    sqlQuery += valueGuests.get(j).getValueClubID() + ")";
+                    operator = false;
+                }
+            }
+            if (operator)
+            {
+                sqlQuery += null + ")";
+            }
             
-            sendDBCommand(sqlQuery);
+            sendDBCommand(sqlQuery, tableName, i);
         }
     }
-//    public void insertBooking()
-//    {
-//        for (int i = 0; i < bookings.size(); i++)
-//        {
-//            String tableName = "BOOKING";
-//            String sqlQuery = "INSERT INTO JAVAUSER." + tableName
-//                    + " (BOOKEDROOM, BOOKINGGUEST, ROOMSERVICES, BOOKINGYEAR, "
-//                    + "CHECKINDAY, CHECKOUTDAY) VALUES (";
-//            sqlQuery += bookings.get(i).bookedRoom.getRoomID() + ",";
-//            sqlQuery += bookings.get(i).bookingGuest.getGuestID() + ",";
-//            for (int j = 0; j < bookings.get(i).roomServices.size(); j++)
-//            {
-//                sqlQuery += bookings.get(i).roomServices.get(j).ID + ",";
-//            }
-//            sqlQuery += bookings.get(i).bookingYear + ",";
-//            sqlQuery += bookings.get(i).checkInDay + ",";
-//            sqlQuery += bookings.get(i).checkOutDay + ")";
-//            
-//            sendDBCommand(sqlQuery);
-//        }
-//    }
-    public void sendDBCommand(String sqlQuery)
+    public void updateGuest(int i)
+    {
+        String tableName = "GUEST";
+        String sqlQuery = "UPDATE JAVAUSER." + tableName + " SET GUESTID=";
+        sqlQuery += guests.get(i).getGuestID() + ",";
+        sqlQuery += "GUESTUSERNAME=\'" + guests.get(i).getUsername() + "\',";
+        sqlQuery += "GUESTNAME=\'" + guests.get(i).getGuestName() + "\',";
+        sqlQuery += "GUESTPASSWORD=\'" + guests.get(i).getPassword() + "\',";
+        boolean operator = true;
+        for (int j = 0; j < valueGuests.size(); j++)
+        {
+            if (guests.get(i).getGuestID() == valueGuests.get(j).getGuestID())
+            {
+                sqlQuery += "VALUECLUBID=" + valueGuests.get(j).getValueClubID();
+                operator = false;
+            }
+        }
+        if (operator)
+        {
+            sqlQuery += "VALUECLUBID=" + null;
+        }
+        sqlQuery += " WHERE GUESTID=" + i;
+
+        sendDBCommand(sqlQuery, tableName, i);
+    }
+    public void updateGuestList()
+    {
+        
+    }
+    public void insertBooking()
+    {
+        for (int i = 0; i < bookings.size(); i++)
+        {
+            String tableName = "BOOKING";
+            String sqlQuery = "INSERT INTO JAVAUSER." + tableName
+                    + " (BOOKINGID, BOOKEDROOM, BOOKINGGUEST,"
+                    + " BOOKINGYEAR, CHECKINDAY, CHECKOUTDAY) VALUES (";
+            sqlQuery += bookings.get(i).bookingID + ",";
+            sqlQuery += bookings.get(i).bookedRoom.getRoomID() + ",";
+            sqlQuery += bookings.get(i).bookingGuest.getGuestID() + ",";
+            sqlQuery += bookings.get(i).bookingYear + ",";
+            sqlQuery += bookings.get(i).checkInDay + ",";
+            sqlQuery += bookings.get(i).checkOutDay + ")";
+            
+            sendDBCommand(sqlQuery, tableName, i);
+        }
+    }
+    public void updateBooking(int i)
+    {
+        String tableName = "BOOKING";
+        String sqlQuery = "UPDATE JAVAUSER." + tableName + " SET BOOKEDROOM=";
+        sqlQuery += bookings.get(i).bookedRoom.getRoomID() + ",";
+        sqlQuery += "BOOKINGGUEST=" + bookings.get(i).bookingGuest.getGuestID() + ",";
+        sqlQuery += "BOOKINGYEAR=" + bookings.get(i).bookingYear + ",";
+        sqlQuery += "CHECKINDAY=" + bookings.get(i).checkInDay + ",";
+        sqlQuery += "CHECKOUTDAY=" + bookings.get(i).checkOutDay;
+        sqlQuery += " WHERE BOOKINGID=" + i;
+
+        sendDBCommand(sqlQuery, tableName, i);
+    }
+    public void updateBookingList(int i)
+    {
+        
+    }
+    public void sendDBCommand(String sqlQuery, String tableName, int i)
     {
         String URL = "jdbc:oracle:thin:@localhost:1521:XE";
         String userID = "javauser"; 
         String userPASS = "javapass"; 
         OracleDataSource ds;
 
-        System.out.println(sqlQuery);
+        System.out.println("\n" + sqlQuery);
         
         try
         {
@@ -2266,6 +2271,68 @@ public class MadisonHotelJavaFX extends Application
         catch (SQLException e)
         {
             System.out.println(e.toString());
+            String error = (String) e.getMessage();
+            if (error.contains("unique constraint"))
+            {
+                switch(tableName)
+                {
+                    case ("ROOM"): 
+                        updateRoom(i);
+                        break;
+                    case ("GUEST"):
+                        updateGuest(i);
+                        break;
+                    case ("EMPLOYEE"):
+                        updateEmployee(i);
+                        break;
+                    case ("ROOMSERVICE"):
+                        break;
+                    case ("BOOKING"):
+                        updateBooking(i);
+                        break;
+                }
+            }
+        }
+    }
+    public void sendDBCommand(String sqlQuery, String tableName, int i, int j)
+    {
+        String URL = "jdbc:oracle:thin:@localhost:1521:XE";
+        String userID = "javauser"; 
+        String userPASS = "javapass"; 
+        OracleDataSource ds;
+
+        System.out.println("\n" + sqlQuery);
+        
+        try
+        {
+            ds = new OracleDataSource();
+            ds.setURL(URL);
+            dbConn = ds.getConnection(userID,userPASS);
+            commStmt = dbConn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            dbResults = commStmt.executeQuery(sqlQuery);
+            
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e.toString());
+            String error = (String) e.getMessage();
+            if (error.contains("unique constraint"))
+            {
+                switch(tableName)
+                {
+                    case ("ROOM"): 
+                        break;
+                    case ("GUEST"):
+                        break;
+                    case ("EMPLOYEE"):
+                        break;
+                    case ("ROOMSERVICE"):
+                        updateRoomService(i, j);
+                        break;
+                    case ("BOOKING"):
+                        break;
+                }
+            }
         }
     }
 }
