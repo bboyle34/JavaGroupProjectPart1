@@ -12,11 +12,16 @@ public class ValueGuest extends Guest
     private int valueClubID;
     private int numberOfBookings;
     private double amountSpentWithHotel;
+    
+    public static int nextID = 0;
 
     // Constructors
     public ValueGuest(String username, String password, String guestName)
     {
         super(username, password, guestName);
+        this.valueClubID = nextID++;
+        this.numberOfBookings = 0;
+        this.amountSpentWithHotel = 0.0;
     }
 
     // Methods
@@ -33,7 +38,7 @@ public class ValueGuest extends Guest
     }
     
     //getter for savings number
-    public int valueClubID()
+    public int getValueClubID()
     {
         return this.valueClubID;
     }
