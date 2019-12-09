@@ -64,7 +64,7 @@ public class Booking
         String returnString = "";
         
         returnString += "Room #" + this.bookedRoom.roomNumber + " booked by: " + this.bookingGuest.getGuestName()
-                + "Check out: " + this.getDate(this.checkOutDay);
+                + " Check out: " + this.getDate(this.checkOutDay);
         return returnString;
     }
     
