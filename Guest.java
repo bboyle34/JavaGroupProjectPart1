@@ -52,10 +52,13 @@ public class Guest
         return this.username;
     }
     
+    //getter for guestID
     public int getGuestID()
     {
         return this.guestID;
     }
+    
+    //getter for password
     public String getPassword()
     {
         return this.password;
@@ -103,6 +106,7 @@ public class Guest
 //    }
 //    
     
+    //modified set password method to accomodate new requirements
         public int setPassword(String oldP, String newP)
     {
      
