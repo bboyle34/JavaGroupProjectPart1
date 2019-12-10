@@ -14,7 +14,9 @@ import javafx.collections.*;
 import javafx.scene.text.*;
 
 
-
+//Description: An application which creates a UI for the madison hotel application, implementing all functionality from
+//part 1 of the project.
+//Authors: Andrew Taylor, Brendan Boyle, George Moya, Dylan Vetter, Mark Kilgore
 
 public class MadisonHotelJavaFX extends Application
 {
@@ -28,6 +30,7 @@ public class MadisonHotelJavaFX extends Application
     Statement commStmt;
     ResultSet dbResults;
     
+    //load up rooms from database
     public void refreshRoom()
     {   
         rooms.clear();
@@ -64,6 +67,8 @@ public class MadisonHotelJavaFX extends Application
         }
         
     }
+    
+    //load employees from database
     public void refreshEmployee()
     {
         employees.clear();   
@@ -87,6 +92,8 @@ public class MadisonHotelJavaFX extends Application
             System.out.println(sqle.toString());
         }
     }
+    
+    //load guests from database
     public void refreshGuest()
     {
         guests.clear();
@@ -120,6 +127,8 @@ public class MadisonHotelJavaFX extends Application
             System.out.println(sqle.toString());
         }        
     }
+    
+    //load bookings from database
     public void refreshBooking()
     {
         bookings.clear();
@@ -160,6 +169,8 @@ public class MadisonHotelJavaFX extends Application
             System.out.println(sqle.toString());
         }
     }
+    
+    //load room service objects from database
     public void refreshRoomService()
     {
         for (int i = 0; i < bookings.size(); i++)
@@ -193,6 +204,9 @@ public class MadisonHotelJavaFX extends Application
             }
         }
     }
+    
+    //start method which calls login with loginStage parameter and calls
+    //methods from above to load in database content
     public void start(Stage loginStage) 
     {
         //read the database
@@ -205,6 +219,8 @@ public class MadisonHotelJavaFX extends Application
         login(loginStage);
 
     }
+    
+    //method which handles login and displaying this stage
     public void login(Stage loginStage)
     {
         // Controls
@@ -297,6 +313,10 @@ public class MadisonHotelJavaFX extends Application
         loginStage.setScene(loginScene);
         loginStage.show();
     }
+    
+    //method which handles the guest menu and all of its sub menus.
+    //makes use of tab pane to display all different functionalities
+    //in their own tabs
     public void guest(Stage guestStage, Guest guest)
     {
         String guestName = guest.getGuestName();
@@ -732,6 +752,9 @@ public class MadisonHotelJavaFX extends Application
         guestStage.setScene(guestScene);
         guestStage.show();
     }
+    
+    //method which handles employee menu. uses tab pane to
+    //display all different functionalities
     public void employee(Stage employeeStage, Employee emp)
     {
         String employeeName = emp.getEmployeeName();
@@ -1384,6 +1407,9 @@ public class MadisonHotelJavaFX extends Application
         employeeStage.setScene(employeeScene);
         employeeStage.show();
     }
+    
+    //method used to create a room, called from within create/edit room tab
+    //on employee menu
     public void createRoom(Stage createRoomStage, Employee emp)
     {
         // Controls
@@ -1592,6 +1618,9 @@ public class MadisonHotelJavaFX extends Application
         createRoomStage.setScene(createRoomScene);
         createRoomStage.show();
     }
+    
+    //method used to display a window to select a room, called from
+    //employee menu in select/edit room tab
     public void selectRoom(Stage editRoomStage, Employee emp) 
     {
         //Controls
@@ -1673,6 +1702,8 @@ public class MadisonHotelJavaFX extends Application
         editRoomStage.show();
     }
     
+    //method to edit selected room from select room method above, room to be
+    //edited is sent in as an int to specify its location in the arraylist
     public void editRoom(Stage editSelectedRoomStage, Employee emp, int room) {
         //Controls
         //combobox.getSelectionModel().select(int) --> default value
@@ -1948,6 +1979,8 @@ public class MadisonHotelJavaFX extends Application
         
     }
     
+    //method to check if a room number sent in as a parameter
+    //is valid
     public boolean validRoomNumber(String input) 
     {
         boolean result = false;
@@ -1966,6 +1999,8 @@ public class MadisonHotelJavaFX extends Application
         return result;
     }
     
+    //method to check if room price sent in as a parameter
+    //is valid
     public boolean validRoomPrice(String input) 
     {
         boolean result = false;
@@ -1984,7 +2019,8 @@ public class MadisonHotelJavaFX extends Application
         }
         return result;
     }
-
+    
+    //method used to change guest name
     public void changeGuestName(Stage changeGuestNameStage, Guest guest)
     {
         // Controls
@@ -2027,6 +2063,7 @@ public class MadisonHotelJavaFX extends Application
         changeGuestNameStage.show();
     }
     
+    //method used to change employee name
     public void changeGuestName(Stage changeGuestNameStage, Employee emp)
     {
         // Controls
@@ -2069,7 +2106,7 @@ public class MadisonHotelJavaFX extends Application
         changeGuestNameStage.show();
     }
       
-    //THIS IS OVERLOADED AND IS USED FOR EMPLOYEES TO CHANGE PASSWORDS  
+    //overloaded method used for employees to change passwords
     public void changeGuestPassword(Stage changeGuestPasswordStage, Employee employee)
     {
          Label lblError = new Label("");
@@ -2121,6 +2158,8 @@ public class MadisonHotelJavaFX extends Application
         changeGuestPasswordStage.setScene(changePasswordScene);
         changeGuestPasswordStage.show();
     }
+    
+    //method used to create password
     public static int createPassword(String newP)
     {
         int count = 0;
@@ -2157,6 +2196,8 @@ public class MadisonHotelJavaFX extends Application
         }
         return count;
     }
+    
+    //called as script shuts down, inserts values into DB
     public void stop()
     {
         insertRoom();
@@ -2165,16 +2206,20 @@ public class MadisonHotelJavaFX extends Application
         insertBooking();
         insertRoomService();
     }
+    
+    //application's main method which launches the app
     public static void main(String args[])
     {                
         Application.launch(args);
     }
+    
+    //method that prints a blank line
     public static void print()
     {
         System.out.println(" ");
     }
     
-    // ROOM
+    //method used to insert room into DB
     public void insertRoom()
     {
         for (int i = 0; i < rooms.size(); i++)
@@ -2207,6 +2252,8 @@ public class MadisonHotelJavaFX extends Application
             sendDBCommand(sqlQuery, tableName, i);
         }
     }
+    
+    //method used to update room in DB
     public void updateRoom(int i)
     {
         int bookRoom = 0;
@@ -2235,7 +2282,7 @@ public class MadisonHotelJavaFX extends Application
         sendDBCommand(sqlQuery, tableName, i);
     }
     
-    // EMPLOYEE
+    //method used to insert employees into DB
     public void insertEmployee()
     {
         for (int i = 0; i < employees.size(); i++)
@@ -2252,6 +2299,8 @@ public class MadisonHotelJavaFX extends Application
             sendDBCommand(sqlQuery, tableName, i);
         }
     }
+    
+    //method used to update employee in DB
     public void updateEmployee(int i)
     {
         String tableName = "EMPLOYEE";
@@ -2265,7 +2314,7 @@ public class MadisonHotelJavaFX extends Application
         sendDBCommand(sqlQuery, tableName, i);
     }
 
-    // ROOMSERVICE
+    //method used to insert room service into DB
     public void insertRoomService()
     {
         for (int i = 0; i < bookings.size(); i++)
@@ -2284,6 +2333,8 @@ public class MadisonHotelJavaFX extends Application
             }
         }
     }
+    
+    //method used to update room service in DB
     public void updateRoomService(int i, int j)
     {
         String tableName = "ROOMSERVICE";
@@ -2298,7 +2349,7 @@ public class MadisonHotelJavaFX extends Application
         sendDBCommand(sqlQuery, tableName, i, j);
     }
 
-    // GUEST
+    //method used to insert guest into DB
     public void insertGuest()
     {
         for (int i = 0; i < guests.size(); i++)
@@ -2327,6 +2378,8 @@ public class MadisonHotelJavaFX extends Application
             sendDBCommand(sqlQuery, tableName, i);
         }
     }
+    
+    //method used to update guest in DB
     public void updateGuest(int i)
     {
         String tableName = "GUEST";
@@ -2353,7 +2406,7 @@ public class MadisonHotelJavaFX extends Application
         sendDBCommand(sqlQuery, tableName, i);
     }
 
-    // BOOKING
+    //method used to insert booking into DB
     public void insertBooking()
     {
         for (int i = 0; i < bookings.size(); i++)
@@ -2372,6 +2425,8 @@ public class MadisonHotelJavaFX extends Application
             sendDBCommand(sqlQuery, tableName, i);
         }
     }
+    
+    //method used to update booking in DB
     public void updateBooking(int i)
     {
         String tableName = "BOOKING";
@@ -2388,7 +2443,7 @@ public class MadisonHotelJavaFX extends Application
     }
 
     
-    //DBCOMMANDS
+    //method used to send sql command to DB
     public void sendDBCommand(String sqlQuery, String tableName, int i)
     {
         String URL = "jdbc:oracle:thin:@localhost:1521:XE";
@@ -2433,6 +2488,8 @@ public class MadisonHotelJavaFX extends Application
             }
         }
     }
+    
+    //overloaded senddbcommand with extra parameters for room service
     public void sendDBCommand(String sqlQuery, String tableName, int i, int j)
     {
         String URL = "jdbc:oracle:thin:@localhost:1521:XE";
@@ -2474,6 +2531,8 @@ public class MadisonHotelJavaFX extends Application
             }
         }
     }
+    
+    //sends sql command to db
     public void sendDBCommand(String sqlQuery)
     {
         String URL = "jdbc:oracle:thin:@localhost:1521:XE";
