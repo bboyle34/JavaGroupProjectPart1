@@ -37,6 +37,8 @@ public class Employee
             return false;
         }
     }
+    
+    //getter for employeeID
     public int getEmployeeID()
     {
         return this.employeeID;
@@ -82,7 +84,8 @@ public class Employee
 //        }
 //    }
     
-          public int setPassword(String oldP, String newP)
+    //modified set password method to account for new requirements      
+    public int setPassword(String oldP, String newP)
     {
      
         int count = 0;
@@ -123,6 +126,8 @@ public class Employee
         }
         return count;
     }
+    
+    //getter for password
     public String getPassword()
     {
         return this.password;
