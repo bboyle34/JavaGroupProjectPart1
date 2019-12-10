@@ -79,10 +79,14 @@ public class Room
             return this.roomBooked;
         }
     }
+    
+    //setter which sets room booked as true or false
     public void setRoomBook(boolean set)
     {
         this.roomBooked = set;
     }
+    
+    //setter for room booked quantity
     public void setRoomBookedQuantity(int count)
     {
         this.roomBookedQuantity = count;
@@ -99,6 +103,7 @@ public class Room
     {
         return this.roomBookedQuantity;
     }
+    
     //getter for room ID
     public int getRoomID()
     {
