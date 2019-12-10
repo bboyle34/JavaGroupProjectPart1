@@ -28,10 +28,185 @@ public class MadisonHotelJavaFX extends Application
     Statement commStmt;
     ResultSet dbResults;
     
+    public void refreshRoom()
+    {   
+        rooms.clear();
+        String tableName = "ROOM";
+        String sqlQuery  = "SELECT * FROM JAVAUSER." + tableName;
+        sendDBCommand(sqlQuery);
+        
+        try
+        {
+            while (dbResults.next())
+            {
+                int roomid = Integer.parseInt(dbResults.getString(1));
+                int bedOption = Integer.parseInt(dbResults.getString(3));
+                int kitchOption = Integer.parseInt(dbResults.getString(4));
+                int coffeeOption = Integer.parseInt(dbResults.getString(5));
+                int accessibleOption = Integer.parseInt(dbResults.getString(6));
+                int roomBookQuantity = Integer.parseInt(dbResults.getString(7));
+                int roomBooked = Integer.parseInt(dbResults.getString(8));
+                int roomNumber = Integer.parseInt(dbResults.getString(2));
+                int roomCostPerNight = Integer.parseInt(dbResults.getString(9));
+                String roomActivity = dbResults.getString(10);
+                rooms.add(new Room(bedOption, kitchOption, coffeeOption, accessibleOption, roomNumber, roomCostPerNight));
+                rooms.get(roomid).setRoomActivity(roomActivity);
+                rooms.get(roomid).setRoomBookedQuantity(roomBookQuantity);
+                if (roomBooked == 1)
+                {
+                    rooms.get(roomid).setRoomBook(true);
+                }
+            }
+        }
+        catch (SQLException sqle)
+        {
+            System.out.println(sqle.toString());
+        }
+        
+    }
+    public void refreshEmployee()
+    {
+        employees.clear();   
+        String tableName = "EMPLOYEE";
+        String sqlQuery = "SELECT * FROM JAVAUSER." + tableName;
+        sendDBCommand(sqlQuery);
+        
+        try 
+        {
+            while (dbResults.next())
+            {
+                String employeeUserName = (dbResults.getString(2));
+                String employeeName = (dbResults.getString(3));                
+                String employeePassword = (dbResults.getString(4));
+                employees.add(new Employee(employeeUserName, employeePassword, employeeName));
+                
+            }
+        } 
+        catch (SQLException sqle)
+        {
+            System.out.println(sqle.toString());
+        }
+    }
+    public void refreshGuest()
+    {
+        guests.clear();
+        String tableName = "GUEST";
+        String sqlQuery = ("SELECT * FROM JAVAUSER." + tableName);
+        sendDBCommand(sqlQuery);
+        try 
+        {
+            while (dbResults.next())
+            {
+                String guestUsername = (dbResults.getString(2));
+                String guestName = (dbResults.getString(3));
+                String guestPassword = (dbResults.getString(4));
+                try
+                {
+                    if (!(dbResults.getString(5).isEmpty()))
+                    {
+                        ValueGuest v = new ValueGuest(guestUsername, guestPassword, guestName);
+                        valueGuests.add(v);
+                        guests.add(v);
+                    } 
+                }
+                catch (Exception f)
+                {
+                    guests.add(new Guest(guestUsername, guestPassword, guestName));
+                }
+            }
+        } 
+        catch (SQLException sqle)
+        {
+            System.out.println(sqle.toString());
+        }        
+    }
+    public void refreshBooking()
+    {
+        bookings.clear();
+        String tableName = "BOOKING";
+        String sqlQuery = ("SELECT * FROM JAVAUSER." + tableName);
+        sendDBCommand(sqlQuery);
+        try 
+        {
+            while (dbResults.next())
+            {
+                int roomID = Integer.parseInt(dbResults.getString(2));
+                int room = 0;
+                for (int i = 0; i < rooms.size(); i++)
+                {
+                    if (rooms.get(i).getRoomID() == roomID)
+                    {
+                        room = i;
+                    }
+                }
+                int guestID = Integer.parseInt(dbResults.getString(3));
+                int guest = 0;
+                for (int i = 0; i < guests.size(); i++)
+                {
+                    if (guests.get(i).getGuestID() == guestID)
+                    {
+                        guest = i;
+                    }
+                }
+                int BookingYear = Integer.parseInt(dbResults.getString(4));
+                int CheckInDay = Integer.parseInt(dbResults.getString(5));
+                int CheckOutDay = Integer.parseInt(dbResults.getString(6));
+                bookings.add(new Booking(guests.get(guest), rooms.get(room), BookingYear, CheckInDay, CheckOutDay));
+            }
+            
+        } 
+        catch (SQLException sqle)
+        {
+            System.out.println(sqle.toString());
+        }
+    }
+    public void refreshRoomService()
+    {
+        for (int i = 0; i < bookings.size(); i++)
+        {
+            bookings.get(i).roomServices.clear();
+            String tableName = "ROOMSERVICE";
+            String sqlQuery = ("SELECT * FROM JAVAUSER." + tableName);
+            sendDBCommand(sqlQuery);
+            
+            try
+            {
+                while (dbResults.next())
+                {
+                    int bookingServiceID = Integer.parseInt(dbResults.getString(2));
+                    String description = (dbResults.getString(3));
+                    int price = Integer.parseInt(dbResults.getString(4));
+                    if (bookingServiceID == bookings.get(i).bookingID)
+                    {
+                        RoomService r = new RoomService(description, price, bookings.get(i));
+                        bookings.get(i).addRoomService(r);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            catch (SQLException sqle)
+            {
+            System.out.println(sqle.toString());
+            }
+        }
+    }
     public void start(Stage loginStage) 
     {
         //read the database
-        // Room r = new Room(0, 132, 1, 1, 1, 1, Active)
+        refreshRoom();
+        refreshEmployee();
+        refreshGuest();
+        refreshBooking();
+        refreshRoomService();        
+        
+        login(loginStage);
+
+    }
+    public void login(Stage loginStage)
+    {
         // Controls
         Text txtTitle = new Text("Welcome to The Shitshow");
         txtTitle.setFont(Font.font(20.0));
@@ -120,9 +295,7 @@ public class MadisonHotelJavaFX extends Application
         // Stage
         loginStage.setTitle("Madison Hotel - Login");
         loginStage.setScene(loginScene);
-        loginStage.show();     
-        
-
+        loginStage.show();
     }
     public void guest(Stage guestStage, Guest guest)
     {
@@ -199,7 +372,7 @@ public class MadisonHotelJavaFX extends Application
         {
             guestStage.close();
             Stage loginStage = new Stage();
-            start(loginStage);
+            login(loginStage);
         });
         btnBookRoom.setOnAction(e ->
         {
@@ -356,7 +529,7 @@ public class MadisonHotelJavaFX extends Application
         {
             guestStage.hide();
             Stage loginStage = new Stage();
-            start(loginStage);
+            login(loginStage);
         });
         btnRoomReport.setOnAction(e ->
         {
@@ -395,7 +568,7 @@ public class MadisonHotelJavaFX extends Application
         {
             guestStage.hide();
             Stage loginStage = new Stage();
-            start(loginStage);
+            login(loginStage);
         });
         btnChangeGuestName.setOnAction(e ->
         {
@@ -442,7 +615,7 @@ public class MadisonHotelJavaFX extends Application
         {
             guestStage.hide();
             Stage loginStage = new Stage();
-            start(loginStage);
+            login(loginStage);
         });
         
         // Pane
@@ -579,7 +752,7 @@ public class MadisonHotelJavaFX extends Application
         {
             employeeStage.close();
             Stage loginStage = new Stage();
-            start(loginStage);
+            login(loginStage);
         });
         btnViewBooking.setOnAction(e ->
         {
@@ -687,7 +860,7 @@ public class MadisonHotelJavaFX extends Application
         {
             employeeStage.hide();
             Stage loginStage = new Stage();
-            start(loginStage);
+            login(loginStage);
         });
         btnCheckOut.setOnAction(e ->
         {
@@ -816,7 +989,8 @@ public class MadisonHotelJavaFX extends Application
                     {
                         if (bookings.get(i).bookedRoom.roomNumber == selectedRoomNumber) 
                         {
-                            bookings.get(i).roomServices.add(new RoomService(desc, serviceCharge, bookings.get(i)));
+                            //bookings.get(i).roomServices.add(new RoomService(desc, serviceCharge, bookings.get(i)));
+                            bookings.get(i).addRoomService(new RoomService(desc, serviceCharge, bookings.get(i)));
                             lblMessage.setText("Successfully added room service to room " 
                                     + bookings.get(i).bookedRoom.roomNumber);
                             txtPrice.clear();
@@ -832,7 +1006,7 @@ public class MadisonHotelJavaFX extends Application
         {
             employeeStage.close();
             Stage loginStage = new Stage();
-            start(loginStage);
+            login(loginStage);
         });
         
         // Create Guest Tab
@@ -872,7 +1046,7 @@ public class MadisonHotelJavaFX extends Application
         {
             employeeStage.close();
             Stage loginStage = new Stage();
-            start(loginStage);
+            login(loginStage);
         });
         btnCreateGuest.setOnAction(e ->
         {
@@ -937,7 +1111,7 @@ public class MadisonHotelJavaFX extends Application
         {
             employeeStage.close();
             Stage loginStage = new Stage();
-            start(loginStage);
+            login(loginStage);
         });
         btnCreateEmployee.setOnAction(e ->
         {
@@ -988,7 +1162,7 @@ public class MadisonHotelJavaFX extends Application
         {
             employeeStage.close();
             Stage loginStage = new Stage();
-            start(loginStage);
+            login(loginStage);
         });
         btnChangeEmpName.setOnAction(e ->
         {
@@ -1144,7 +1318,7 @@ public class MadisonHotelJavaFX extends Application
         {
             employeeStage.close();
             Stage loginStage = new Stage();
-            start(loginStage);
+            login(loginStage);
         });
         btnCreateRoom.setOnAction(e ->
         {
@@ -1992,42 +2166,15 @@ public class MadisonHotelJavaFX extends Application
         insertRoomService();
     }
     public static void main(String args[])
-    {
-        Employee employee1 = new Employee("Adam", "pass", "Adam Hitchings");
-        employees.add(employee1);
-        Guest guest1 = new Guest("Brendan", "pass", "Brendan Boyle");
-        guests.add(guest1);
-        ValueGuest valueGuest1 = new ValueGuest("George", "pass", "George Moy");
-        valueGuests.add(valueGuest1);
-        guests.add(valueGuest1);
-        Guest guest2 = new Guest("John", "pass", "Johnny Guo");
-        guests.add(guest2);
-        Room room1 = new Room(0, 0, 0, 0, 100, 200.0);
-        rooms.add(room1);
-        Room room2 = new Room(1, 1, 1, 1, 201, 200.0);
-        rooms.add(room2);
-        Room room3 = new Room(2, 1, 0, 1, 302, 300.0);
-        rooms.add(room3);
-        Room room4 = new Room(2, 0, 0, 0, 308, 150.0);
-        rooms.add(room4);
-        Room room5 = new Room(1, 1, 1, 1, 400, 250.0);
-        rooms.add(room5);
-        Booking book1 = new Booking(valueGuest1, room3, 2005, 1, 4);
-        bookings.add(book1);
-        Booking book2 = new Booking(guest1, room4, 2005, 1, 4);
-        bookings.add(book2);
-        RoomService rm1 = new RoomService("beer", 1000.0, book1);
-        RoomService rm2 = new RoomService("I bought all the food", 45, book1);
-        book1.roomServices.add(rm1);
-        book1.roomServices.add(rm2);
-        
-        
+    {                
         Application.launch(args);
     }
     public static void print()
     {
         System.out.println(" ");
     }
+    
+    // ROOM
     public void insertRoom()
     {
         for (int i = 0; i < rooms.size(); i++)
@@ -2087,10 +2234,8 @@ public class MadisonHotelJavaFX extends Application
 
         sendDBCommand(sqlQuery, tableName, i);
     }
-    public void updateRoomList()
-    {
-        
-    }
+    
+    // EMPLOYEE
     public void insertEmployee()
     {
         for (int i = 0; i < employees.size(); i++)
@@ -2119,10 +2264,8 @@ public class MadisonHotelJavaFX extends Application
 
         sendDBCommand(sqlQuery, tableName, i);
     }
-    public void updateEmployeeList()
-    {
-        
-    }
+
+    // ROOMSERVICE
     public void insertRoomService()
     {
         for (int i = 0; i < bookings.size(); i++)
@@ -2154,10 +2297,8 @@ public class MadisonHotelJavaFX extends Application
 
         sendDBCommand(sqlQuery, tableName, i, j);
     }
-    public void updateRoomServiceList()
-    {
-        
-    }
+
+    // GUEST
     public void insertGuest()
     {
         for (int i = 0; i < guests.size(); i++)
@@ -2211,10 +2352,8 @@ public class MadisonHotelJavaFX extends Application
 
         sendDBCommand(sqlQuery, tableName, i);
     }
-    public void updateGuestList()
-    {
-        
-    }
+
+    // BOOKING
     public void insertBooking()
     {
         for (int i = 0; i < bookings.size(); i++)
@@ -2236,8 +2375,9 @@ public class MadisonHotelJavaFX extends Application
     public void updateBooking(int i)
     {
         String tableName = "BOOKING";
-        String sqlQuery = "UPDATE JAVAUSER." + tableName + " SET BOOKEDROOM=";
-        sqlQuery += bookings.get(i).bookedRoom.getRoomID() + ",";
+        String sqlQuery = "UPDATE JAVAUSER." + tableName + " SET BOOKINGID=";
+        sqlQuery += bookings.get(i).bookingID + ",";
+        sqlQuery += "BOOKEDROOM=" + bookings.get(i).bookedRoom.getRoomID() + ",";
         sqlQuery += "BOOKINGGUEST=" + bookings.get(i).bookingGuest.getGuestID() + ",";
         sqlQuery += "BOOKINGYEAR=" + bookings.get(i).bookingYear + ",";
         sqlQuery += "CHECKINDAY=" + bookings.get(i).checkInDay + ",";
@@ -2246,10 +2386,9 @@ public class MadisonHotelJavaFX extends Application
 
         sendDBCommand(sqlQuery, tableName, i);
     }
-    public void updateBookingList(int i)
-    {
-        
-    }
+
+    
+    //DBCOMMANDS
     public void sendDBCommand(String sqlQuery, String tableName, int i)
     {
         String URL = "jdbc:oracle:thin:@localhost:1521:XE";
@@ -2333,6 +2472,29 @@ public class MadisonHotelJavaFX extends Application
                         break;
                 }
             }
+        }
+    }
+    public void sendDBCommand(String sqlQuery)
+    {
+        String URL = "jdbc:oracle:thin:@localhost:1521:XE";
+        String userID = "javauser"; 
+        String userPASS = "javapass"; 
+        OracleDataSource ds;
+
+        System.out.println("\n" + sqlQuery);
+        
+        try
+        {
+            ds = new OracleDataSource();
+            ds.setURL(URL);
+            dbConn = ds.getConnection(userID,userPASS);
+            commStmt = dbConn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            dbResults = commStmt.executeQuery(sqlQuery);
+            
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e.toString());
         }
     }
 }
