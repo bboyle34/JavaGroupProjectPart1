@@ -34,6 +34,8 @@ public class Booking
     }
 
     // Methods
+    
+    //adds room service to room service arraylist
     public void addRoomService(RoomService r)
     {
         this.roomServices.add(r);       
@@ -71,6 +73,7 @@ public class Booking
         return returnString;
     }
     
+    //checks the month of a given day sent in as a parameter
     public String checkMonth(int dayInOrOut) {
         //returns string with month name
         String returnString = "";
@@ -104,6 +107,8 @@ public class Booking
         return returnString;
     }
     
+    //checks what day of the month a specific day is that
+    //is sent in as a parameter
     public int checkDay(int day) {
         String month = checkMonth(day);
         //day-monthnum = day
@@ -125,6 +130,8 @@ public class Booking
         return (day - monthnum);
     }
     
+    //returns as a string the date from a given day sent
+    //in as a parameter
     public String getDate(int day) {
         String returnString = "";
         
@@ -139,6 +146,8 @@ public class Booking
         return returnString;
     }
     
+    //method which checks whether or not their checkout date is in the next year 
+    //(e.g. a hotel guest over near years)
     public boolean checkOutNextYear(int dayin, int dayOut) {
         boolean a = false;
         if (checkMonth(dayin).equals("December") && (!(checkMonth(dayOut).equals("December")))) {
@@ -147,6 +156,7 @@ public class Booking
         return a;
     }
     
+    //returns as an int total number of days the guest has stayed in the hotel
     public int getDaysStayed() {
         int daysstayed = 0;
         if (checkMonth(this.checkInDay).equals("December") && (!(checkMonth(this.checkOutDay).equals("December")))) {
