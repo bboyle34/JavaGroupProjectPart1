@@ -71,40 +71,7 @@ public class Guest
     }
     
     //setter for guest password, requires old and new
-    //password as parameters
-//   public int setPassword(String oldP, String newP)
-//    {
-//        boolean operator = true;
-//        if (newP.substring(0, 1).matches("[0-9]"))
-//        {
-//            operator = false;
-//        }
-//        int count = 1;
-//        boolean b = false;
-//        for (int i = 0; i < newP.length(); i++)
-//        {
-//            if (newP.substring(i).matches("[^A-Za-z0-9]"))
-//            {
-//                b = true;
-//            }
-//            count++;
-//        }
-//        Pattern p = Pattern.compile("[^A-Za-z0-9]");
-//        Matcher m = p.matcher(newP);
-//        b = m.find();
-//        if (this.password.equalsIgnoreCase(oldP) && b && operator)
-//        {
-//            System.out.println("it worked");
-//            this.password = newP;
-//            return 0;
-//        }
-//        
-//        else
-//        {
-//            return 1;
-//        }
-//    }
-//    
+  
     
     //modified set password method to accomodate new requirements
         public int setPassword(String oldP, String newP)
