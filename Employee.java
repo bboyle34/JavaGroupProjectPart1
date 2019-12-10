@@ -63,27 +63,7 @@ public class Employee
     }
     
     //Method to set the employee's password.
-//    public int setPassword(String oldP, String newP)
-//    {
-//        boolean operator = true;
-//        if (newP.substring(0, 1).matches("[0-9]"))
-//        {
-//            operator = false;
-//        }
-//        Pattern p = Pattern.compile("[^A-Za-z0-9]");
-//        Matcher m = p.matcher(newP);
-//        boolean b = m.find();
-//        if (this.password.equalsIgnoreCase(oldP) || !b || !operator)
-//        {
-//            this.password = newP;
-//            return 0;
-//        }
-//       else
-//        {
-//            return 1;
-//        }
-//    }
-    
+
     //modified set password method to account for new requirements      
     public int setPassword(String oldP, String newP)
     {
