@@ -79,6 +79,14 @@ public class Room
             return this.roomBooked;
         }
     }
+    public void setRoomBook(boolean set)
+    {
+        this.roomBooked = set;
+    }
+    public void setRoomBookedQuantity(int count)
+    {
+        this.roomBookedQuantity = count;
+    }
     
     //unbooks room/sets room to unbooked
     public void freeThisRoom()
@@ -134,7 +142,7 @@ public class Room
                 + "Coffee machine is: " + this.printCoffeeOption() + "\n"
                 + "Accessibility option is: " + this.printAccessOption() + "\n"
                 + "Room booked status: " + this.printRoomBooked() + "\n"
-                + "Room cost per night is: $" + this.roomCostPerNight + "\n"); 
+                + "Room cost per night is: " + this.roomCostPerNight + "\n"); 
           answer += this.roomAnalytics();
         return answer;
     }
