@@ -224,7 +224,7 @@ public class MadisonHotelJavaFX extends Application
     public void login(Stage loginStage)
     {
         // Controls
-        Text txtTitle = new Text("Welcome to The Shitshow");
+        Text txtTitle = new Text("Welcome to Hotel Madison");
         txtTitle.setFont(Font.font(20.0));
         Label lblUsername = new Label("Username: ");
         Label lblPassword = new Label("Password: ");
