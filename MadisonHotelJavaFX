@@ -961,6 +961,7 @@ public class MadisonHotelJavaFX extends Application
         ListView lvBookedRooms = new ListView();
         lvGuests2.setOnMousePressed(e -> 
         {
+            lvBookedRooms.getItems().clear();
             int guestChoice = lvGuests2.getSelectionModel().getSelectedIndex();
             for (int i = 0; i < bookings.size(); i ++) 
             {
